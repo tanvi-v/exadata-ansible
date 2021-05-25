@@ -1,45 +1,54 @@
+
+# Check for required variables.
+  
+- name: Check compartment_id variable.
+  debug:
+    msg: "compartment_id is not defined. Please pass in compartment OCID."
+  when: compartment_id is not defined
+
 - block: 
   - debug:
-      msg: "VCN values not defined. Please run vcn_subnets.yml"
+      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
   when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
-  
-- block: 
-  
-  - name: Create internet gateway
-    oci_network_internet_gateway:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ internet_gateway_name }}"
-      is_enabled: true
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      internet_gateway_id: "{{ result.internet_gateway.id }}"
 
-  - name: Add internet gateway route to default route table
-    oci_network_route_table:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      id: "{{ default_route_table_id }}"
-      route_rules:
-      - destination_type: CIDR_BLOCK
-        destination: "0.0.0.0/0"
-        network_entity_id: "{{ internet_gateway_id }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
+- meta: end_host
+  when: compartment_id is not defined or vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
-  - name: Add ingress rule to default security_list
-    oci_network_security_list:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      id: "{{ default_security_list_id }}"
-      ingress_security_rules:
-      - protocol: "6"
-        source: "0.0.0.0/0"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  
-  when: vcn_id is defined and default_route_table_id is defined and default_security_list_id is defined
+# Create Networking for Public Subnet
+
+- name: Create internet gateway
+  oci_network_internet_gateway:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ internet_gateway_name }}"
+    is_enabled: true
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    internet_gateway_id: "{{ result.internet_gateway.id }}"
+
+- name: Add internet gateway route to default route table
+  oci_network_route_table:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    id: "{{ default_route_table_id }}"
+    route_rules:
+    - destination_type: CIDR_BLOCK
+      destination: "0.0.0.0/0"
+      network_entity_id: "{{ internet_gateway_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+
+- name: Add ingress rule to default security_list
+  oci_network_security_list:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    id: "{{ default_security_list_id }}"
+    ingress_security_rules:
+    - protocol: "6"
+      source: "0.0.0.0/0"
+  register: result
+- debug:
+    msg: "{{ result }}"

@@ -1,3 +1,4 @@
+
 - name: Delete vcn
   oci_network_vcn:
     vcn_id: "ocid1.vcn.oc1.iad.amaaaaaantxkdlyaq724o47kuhuvrpnskb3wyfdlwsuzqpp5pnhsqlkcamtq"

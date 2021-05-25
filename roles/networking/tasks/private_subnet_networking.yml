@@ -1,97 +1,105 @@
 
+# Check for required variables.
+  
+- name: Check compartment_id variable.
+  debug:
+    msg: "compartment_id is not defined. Please pass in compartment OCID."
+  when: compartment_id is not defined
+
 - block: 
   - debug:
-      msg: "VCN values not defined."
+      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn and private subnet OCIDs."
   when: vcn_id is not defined or private_subnet_id is not defined
 
-- block: 
+- meta: end_host
+  when: compartment_id is not defined or vcn_id is not defined or private_subnet_id is not defined
 
-  - name: Create nat_gateway
-    oci_network_nat_gateway:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ nat_gateway_name }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      nat_gateway_id: "{{ result.nat_gateway.id }}"
+# Create Networking for Private Subnet
 
-  - name: List Oracle services
-    oci_network_service_facts:
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      oci_iad_object_storage_id: "{{ result.services[0].id }}"
-      all_iad_services_id: "{{ result.services[1].id }}"
-    
-  - name: Create service_gateway
-    oci_network_service_gateway:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ service_gateway_name }}"
-      services:
-      - service_id: "{{ all_iad_services_id }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      service_gateway_id: "{{ result.service_gateway.id }}"
-      
-  - name: Create custom route_table
-    oci_network_route_table:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ private_rt_name }}"
-      route_rules:
-      - destination_type: CIDR_BLOCK
-        destination: "0.0.0.0/0"
-        network_entity_id: "{{ nat_gateway_id }}"
-      - destination_type: SERVICE_CIDR_BLOCK
-        destination: "all-iad-services-in-oracle-services-network"
-        network_entity_id: "{{ service_gateway_id }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      private_rt_id: "{{ result.route_table.id }}"
-      
-  - name: Create custom security_list
-    oci_network_security_list:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ private_sl_name }}"
-      ingress_security_rules:
-      - protocol: "6"
-        source: "{{ vcn_cidr_block }}"
-        tcp_options:
-          destination_port_range:
-            min: "22"
-            max: "22"
-      - protocol: "1"
-        source: "0.0.0.0/0"
-        icmp_options:
-          type: "3"
-          code: "4"
-      - protocol: "1"
-        source: "{{ vcn_cidr_block }}"
-        icmp_options:
-          type: "3"
-      egress_security_rules:
-      - protocol: "all"
-        destination: "0.0.0.0/0"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      private_sl_id: "{{ result.security_list.id }}"
+- name: Create nat_gateway
+  oci_network_nat_gateway:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ nat_gateway_name }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    nat_gateway_id: "{{ result.nat_gateway.id }}"
 
-  - name: Update private subnet to use custom route table and security list
-    oci_network_subnet:
-      subnet_id: "{{ private_subnet_id }}"
-      route_table_id: "{{ private_rt_id }}"
-      security_list_ids: 
-      - "{{ private_sl_id }}"
+- name: List Oracle services
+  oci_network_service_facts:
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    oci_iad_object_storage_id: "{{ result.services[0].id }}"
+    all_iad_services_id: "{{ result.services[1].id }}"
   
-  when: vcn_id is defined and private_subnet_id is defined
+- name: Create service_gateway
+  oci_network_service_gateway:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ service_gateway_name }}"
+    services:
+    - service_id: "{{ all_iad_services_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    service_gateway_id: "{{ result.service_gateway.id }}"
+    
+- name: Create custom route_table
+  oci_network_route_table:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ private_rt_name }}"
+    route_rules:
+    - destination_type: CIDR_BLOCK
+      destination: "0.0.0.0/0"
+      network_entity_id: "{{ nat_gateway_id }}"
+    - destination_type: SERVICE_CIDR_BLOCK
+      destination: "all-iad-services-in-oracle-services-network"
+      network_entity_id: "{{ service_gateway_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    private_rt_id: "{{ result.route_table.id }}"
+    
+- name: Create custom security_list
+  oci_network_security_list:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ private_sl_name }}"
+    ingress_security_rules:
+    - protocol: "6"
+      source: "{{ vcn_cidr_block }}"
+      tcp_options:
+        destination_port_range:
+          min: "22"
+          max: "22"
+    - protocol: "1"
+      source: "0.0.0.0/0"
+      icmp_options:
+        type: "3"
+        code: "4"
+    - protocol: "1"
+      source: "{{ vcn_cidr_block }}"
+      icmp_options:
+        type: "3"
+    egress_security_rules:
+    - protocol: "all"
+      destination: "0.0.0.0/0"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    private_sl_id: "{{ result.security_list.id }}"
+
+- name: Update private subnet to use custom route table and security list
+  oci_network_subnet:
+    subnet_id: "{{ private_subnet_id }}"
+    route_table_id: "{{ private_rt_id }}"
+    security_list_ids: 
+    - "{{ private_sl_id }}"

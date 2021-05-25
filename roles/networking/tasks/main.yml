@@ -7,6 +7,3 @@
 
 - name: Add Networking for Private Subnet
   include_tasks: private_subnet_networking.yml
-
-# - name: Delete VCN
-#   include_tasks: delete_vcn.yml

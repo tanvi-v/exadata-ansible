@@ -1,16 +1,16 @@
 
 # vcn vars
-vcn_name: "ansible2"
-vcn_cidr_block: "10.2.0.0/16"
+vcn_name: "ansible1"
+vcn_cidr_block: "10.1.0.0/16"
 vcn_dns_label: "ansible2"
 
 # public subnet vars (to host ExaCS VM Cluster)
-public_subnet_cidr_block: "10.2.0.0/24"
+public_subnet_cidr_block: "10.1.0.0/24"
 public_subnet_name: "publicSubnetExa"
 public_subnet_dns_label: "publicSubnetExa"
 
 # private subnet vars (for ExaCS back-up)
-private_subnet_cidr_block: "10.2.1.0/24"
+private_subnet_cidr_block: "10.1.1.0/24"
 private_subnet_name: "privateSubnetExa"
 private_subnet_dns_label: "privatesubexa"
 
