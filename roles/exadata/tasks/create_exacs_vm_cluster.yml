@@ -1,9 +1,10 @@
+
 - name: Create cloud_vm_cluster
   oci_database_cloud_vm_cluster:
     compartment_id: "{{ compartment_id }}"
     subnet_id: "{{ vm_cluster_subnet_id }}"
     backup_subnet_id: "{{ backup_subnet_id }}"
-    cloud_exadata_infrastructure_id: "{{ cloud_exadata_infrastructure_id }}"
+    cloud_exadata_infrastructure_id: "{{ exadata_infrastructure_id }}"
     cpu_core_count: "{{ vm_cluster_cpu_count }}"
     display_name: "{{ vm_cluster_display_name }}"
     hostname: "{{ vm_cluster_hostname }}"
@@ -14,4 +15,9 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    exacs_vm_cluster_id: "{{ result.cloud_vm_cluster.id }}"
+    vm_cluster_id: "{{ result.cloud_vm_cluster.id }}"
+
+- block: 
+  - debug:
+      msg: "exadata_infrastructure_id not defined. Please run create_exacs.yml and pass in ExaCS OCID."
+  when: exadata_infrastructure_id is not defined

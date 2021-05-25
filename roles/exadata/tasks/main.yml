@@ -1,27 +1,25 @@
 
-- name: Set-Up Exadata Infrastructure
+# Set-Up Exadata Infrastructure
 
-- block:
-  when: exadata_type == "exacc"
-
-  - name: Create ExaCC Infrastructure
-    include_tasks: create_exacc.yml
-
-  - name: Create ExaCC VM Cluster
-    include_tasks: create_vm_cluster.yml
-
-- block:
-  when: exadata_type == "exacs"
-
-  - name: Create ExaCS Infrastructure
-    include_tasks: create_exacs.yml
-
-  - name: Create ExaCC VM Cluster
-    include_tasks: create_cloud_vm_cluster.yml
-
-- block:
+- debug:
+    msg: "Define variable exadata_type to be exacc or exacs."
   when: exadata_type is not defined or (exadata_type != "exacs" and exadata_type != "exacs")
 
-  - debug:
-      msg: "Define variable exadata_type to be exacc or exacs."
+- meta: end_host
+  when: exadata_type is not defined or (exadata_type != "exacs" and exadata_type != "exacs")
+
+- block:
+  - name: Create ExaCC Infrastructure
+    include_tasks: create_exacc_infra.yml
+  - name: Create ExaCC VM Cluster
+    include_tasks: create_exacc_vm_cluster.yml
+  when: exadata_type == "exacc"
+
+- block:
+  - name: Create ExaCS Infrastructure
+    include_tasks: create_exacs_infra.yml
+  - name: Create ExaCC VM Cluster
+    include_tasks: create_exacs_vm_cluster.yml
+  when: exadata_type == "exacs"
+  
     

@@ -1,9 +1,12 @@
 
-- name: Create new database backup
-oci_database_backup:
-  region: "us-phoenix-1"
-  database_id: "{{ database_id }}"
-  display_name: "{{ backup_name }}"
-register: result
-- debug:
-  msg: "{{ result }}"
+- name: Enable automatic backups
+  include_tasks: db_enable_automatic_backup.yml
+  vars:
+    database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+
+- name: Create database backup
+  include_tasks: db_enable_automatic_backup.yml
+  vars:
+    database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+    backup_name: "Monthly Backup Test"
+  

@@ -1,5 +1,10 @@
 
 - name: Delete vcn
   oci_network_vcn:
-    vcn_id: "ocid1.vcn.oc1.iad.amaaaaaantxkdlyaq724o47kuhuvrpnskb3wyfdlwsuzqpp5pnhsqlkcamtq"
+    vcn_id: "{{ vcn_id }}"
     state: absent
+  when: vcn_id is defined
+
+- debug:
+    msg: "vcn_id is not defined. Please pass in vcn OCID."
+  when: vcn_id is not defined 

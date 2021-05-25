@@ -1,18 +1,13 @@
 
 # Check for required variables.
   
-- name: Check compartment_id variable.
+- name: Check VCN variables.
   debug:
-    msg: "compartment_id is not defined. Please pass in compartment OCID."
-  when: compartment_id is not defined
-
-- block: 
-  - debug:
       msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn and private subnet OCIDs."
   when: vcn_id is not defined or private_subnet_id is not defined
 
 - meta: end_host
-  when: compartment_id is not defined or vcn_id is not defined or private_subnet_id is not defined
+  when: vcn_id is defined and private_subnet_id is defined
 
 # Create Networking for Private Subnet
 

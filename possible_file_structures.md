@@ -60,4 +60,8 @@ Role
     - Create DB
     - Enable Automatic Backup
     - Create new Backup
+    - Upgrade ExaInfra
+    - Upgrade DB
 
+Design Choices
+- 

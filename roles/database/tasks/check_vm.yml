@@ -1,3 +1,4 @@
+
 - block:
   - name: Check cloud_vm_cluster
     oci_database_cloud_vm_cluster:

@@ -1,0 +1,30 @@
+
+- name: Create database
+  oci_database_database:
+    region: "us-phoenix-1"
+    compartment_id: "{{ compartment_id }}"
+    source: "NONE"
+    db_home_id: "{{ db_home_id }}"
+    database:
+      admin_password: "{{ db_admin_password }}"
+      db_name: "{{ db_name }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    database_id: "{{ result.database.id }}"
+
+# - name: Create database
+#   oci_database_database:
+#     region: "us-phoenix-1"
+#     compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma"
+#     source: "NONE"
+#     db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsn4z6kk4a62b77ucvzh6bo3t5iygp7wpmhrtvkghcf2j6twebpkyq"
+#     database:
+#       admin_password: "Welcome123##"
+#       db_name: "TanviDB"
+#   register: result
+# - debug:
+#     msg: "{{ result }}"
+# - set_fact:
+#     database_id: "{{ result.database.id }}"

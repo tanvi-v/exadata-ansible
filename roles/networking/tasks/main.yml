@@ -1,3 +1,12 @@
+# Check for required variables
+  
+- name: Check compartment_id variable
+  debug:
+    msg: "compartment_id is not defined. Please pass in compartment OCID."
+  when: compartment_id is not defined
+
+- meta: end_host
+  when: compartment_id is not defined
 
 - name: Create VCN and Subnets for Exadata
   include_tasks: vcn_subnets.yml

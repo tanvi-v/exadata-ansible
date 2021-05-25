@@ -1,5 +1,5 @@
 
-# Check for required variables.
+# Check for required variables
   
 - name: Check compartment_id variable
   debug:

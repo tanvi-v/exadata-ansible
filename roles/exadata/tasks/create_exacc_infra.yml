@@ -1,3 +1,4 @@
+
 - name: Create exadata_infrastructure
   oci_database_exadata_infrastructure:
     compartment_id: "{{ compartment_id }}"
@@ -17,4 +18,4 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    exacc_infrastructure_id: "{{ result.exadata_infrastructure.id }}"
+    exadata_infrastructure_id: "{{ result.exadata_infrastructure.id }}"

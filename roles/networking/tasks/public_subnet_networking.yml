@@ -1,10 +1,5 @@
 
 # Check for required variables.
-  
-- name: Check compartment_id variable.
-  debug:
-    msg: "compartment_id is not defined. Please pass in compartment OCID."
-  when: compartment_id is not defined
 
 - block: 
   - debug:
@@ -12,7 +7,7 @@
   when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
 - meta: end_host
-  when: compartment_id is not defined or vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
+  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
 # Create Networking for Public Subnet
 

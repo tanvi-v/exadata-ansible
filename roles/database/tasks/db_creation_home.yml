@@ -1,0 +1,16 @@
+
+- block:
+  - name: Create db home
+    oci_database_db_home:
+      region: "us-phoenix-1"
+      compartment_id: "{{ compartment_id }}"
+      source: "VM_CLUSTER_NEW"
+      vm_cluster_id: "{{ vm_cluster_id }}"
+      display_name: "{{ db_home_name }}"
+      db_version: "{{ db_version }}"
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  - set_fact:
+      db_home_id: "{{ result.db_home.id }}"
+  when: exadata_type == "exacs"

@@ -1,8 +1,9 @@
+
 - name: Create vm_cluster
   oci_database_vm_cluster:
     display_name: "{{ vm_cluster_name }}"
     compartment_id: "{{ compartment_id }}"
-    exadata_infrastructure_id: "{{ exacc_infrastructure_id }}"
+    exadata_infrastructure_id: "{{ exadata_infrastructure_id }}"
     vm_cluster_network_id: "{{ vm_cluster_network_id }}"
     cpu_core_count: "{{ cpu_core_count }}"
     memory_size_in_gbs: "{{ memory_size_in_gbs }}"
@@ -15,8 +16,13 @@
     time_zone: "{{ time_zone }}"
     gi_version: "{{ gi_version }}"
   register: result
-  when: exacc_infrastructure_id is defined
+  when: exadata_infrastructure_id is defined
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    exacc_vm_cluster_id: "{{ result.vm_cluster.id }}"
+    vm_cluster_id: "{{ result.vm_cluster.id }}"
+
+- block: 
+  - debug:
+      msg: "exadata_infrastructure_id not defined. Please run create_exacc.yml and pass in ExaCC OCID."
+  when: exadata_infrastructure_id is not defined
