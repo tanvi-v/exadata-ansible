@@ -1,0 +1,12 @@
+
+- name: Enable automatic database backups to Object Storage
+  oci_database_database:
+    region: "us-phoenix-1"
+    database_id: "{{ database_id }}"
+    db_backup_config:
+      auto_backup_enabled: true
+      auto_backup_window: "{{ auto_backup_window }}"
+      recovery_window_in_days: "{{ recovery_window_in_days }}"
+  register: result
+- debug:
+    msg: "{{ result }}"

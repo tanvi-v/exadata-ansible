@@ -1,0 +1,9 @@
+
+- name: Create new database backup
+oci_database_backup:
+  region: "us-phoenix-1"
+  database_id: "{{ database_id }}"
+  display_name: "{{ backup_name }}"
+register: result
+- debug:
+  msg: "{{ result }}"

@@ -1,0 +1,18 @@
+- name: Create database
+  oci_database_database:
+    region: "us-phoenix-1"
+    compartment_id: "{{ compartment_id }}"
+    source: "NONE"
+    db_home_id: "{{ db_home_id }}"
+    database:
+      admin_password: "{{ db_admin_password }}"
+      db_name: "{{ db_name }}"
+      # db_backup_config:
+      #   auto_backup_enabled: true
+      #   auto_backup_window: "{{ auto_backup_window }}"
+      #   recovery_window_in_days: "{{ recovery_window_in_days }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    database_id: "{{ result.database.id }}"

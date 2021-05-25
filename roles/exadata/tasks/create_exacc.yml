@@ -1,0 +1,20 @@
+- name: Create exadata_infrastructure
+  oci_database_exadata_infrastructure:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ exacc_name }}"
+    shape: "{{ exacc_shape }}"
+    time_zone: "{{ time_zone }}"
+    cloud_control_plane_server1: "{{ cloud_control_plane_server1 }}"
+    cloud_control_plane_server2: "{{ cloud_control_plane_server2 }}"
+    netmask: "{{ netmask }}"
+    gateway: "{{ gateway }}"
+    admin_network_cidr: "{{ admin_network_cidr }}"
+    infini_band_network_cidr: "{{ infini_band_network_cidr }}"
+    corporate_proxy: "{{ corporate_proxy }}"
+    dns_server: "{{ dns_server }}"
+    ntp_server: "{{ ntp_server }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    exacc_infrastructure_id: "{{ result.exadata_infrastructure.id }}"

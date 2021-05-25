@@ -1,0 +1,12 @@
+
+- name: Create VCN and Subnets for Exadata
+  include_tasks: vcn_subnets.yml
+
+- name: Add Networking for Public Subnet
+  include_tasks: public_subnet_networking.yml
+
+- name: Add Networking for Private Subnet
+  include_tasks: private_subnet_networking.yml
+
+# - name: Delete VCN
+#   include_tasks: delete_vcn.yml

@@ -1,0 +1,47 @@
+# Pre-requisties
+
+# VCN
+- name: Create VCN
+  oci_network_vcn:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ vcn_name }}"
+    cidr_block: "{{ vcn_cidr_block }}"
+    dns_label: "{{ vcn_dns_label }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    vcn_id: "{{ result.vcn.id }}"
+    default_route_table_id: "{{ result.vcn.default_route_table_id }}"
+    default_security_list_id: "{{ result.vcn.default_security_list_id }}"
+  
+# Public Subnet 
+- name: Create public subnet with default values for route table, security list, & DHCP options
+  oci_network_subnet:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    cidr_block: "{{ public_subnet_cidr_block }}"
+    display_name: "{{ public_subnet_name }}"
+    prohibit_public_ip_on_vnic: "false"
+    dns_label: "{{ public_subnet_dns_label }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    public_subnet_id: "{{ result.subnet.id }}"
+
+# Private Subnet Set-Up
+- name: Create private subnet with default values for route table, security list, & DHCP options
+  oci_network_subnet:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    cidr_block: "{{ private_subnet_cidr_block }}"
+    display_name: "{{ private_subnet_name }}"
+    prohibit_public_ip_on_vnic: "true"
+    dns_label: "{{ private_subnet_dns_label }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    private_subnet_id: "{{ result.subnet.id }}"
+

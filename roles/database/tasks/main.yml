@@ -1,0 +1,26 @@
+
+- name: Check VM Cluster
+  include_tasks: check_vm.yml
+
+- block:
+  when: vm_cluster_lifecycle_state == "AVAILABLE"
+
+  - name: Create DB Home
+    include_tasks: db_home_creation.yml
+    
+  - name: Create Database
+    include_tasks: create_vm_cluster.yml
+    vars:
+      db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsr36exq3wx57swkf3nyjbjarf6fod6q2nonoyviod4etgdlisdhbq"
+
+  - name: Enable automatic backups
+    include_tasks: db_enable_automatic_backup.yml
+    vars:
+      database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+
+  - name: Create database backup
+    include_tasks: db_enable_automatic_backup.yml
+    vars:
+      database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+      backup_name: "Monthly Backup Test"
+    
