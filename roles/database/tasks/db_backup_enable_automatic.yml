@@ -1,7 +1,7 @@
 
 - name: Enable automatic database backups to Object Storage
   oci_database_database:
-    region: "us-phoenix-1"
+    region: "{{ region }}"
     database_id: "{{ database_id }}"
     db_backup_config:
       auto_backup_enabled: true

@@ -11,7 +11,7 @@
     ssh_public_keys: "{{ ssh_public_keys }}"
     gi_version: "{{ gi_version }}"
   register: result
-  when: cloud_exadata_infrastructure_id is defined
+  when: exadata_infrastructure_id is defined
 - debug:
     msg: "{{ result }}"
 - set_fact:

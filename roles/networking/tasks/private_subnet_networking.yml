@@ -1,13 +1,12 @@
 
 # Check for required variables.
   
-- name: Check VCN variables.
-  debug:
+- block:
+  - name: Check VCN variables.
+    debug:
       msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn and private subnet OCIDs."
+  - meta: end_host
   when: vcn_id is not defined or private_subnet_id is not defined
-
-- meta: end_host
-  when: vcn_id is defined and private_subnet_id is defined
 
 # Create Networking for Private Subnet
 

@@ -2,7 +2,7 @@
 - block:
   - name: Create db home
     oci_database_db_home:
-      region: "us-phoenix-1"
+      region: "{{ region }}"
       compartment_id: "{{ compartment_id }}"
       source: "VM_CLUSTER_NEW"
       vm_cluster_id: "{{ vm_cluster_id }}"

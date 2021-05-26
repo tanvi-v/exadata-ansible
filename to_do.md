@@ -1,6 +1,7 @@
 
 Code
 - DB Operations: ExaCC Backups / Backup Destinations
+- Resource teardown
 - Final Organization
     - Do we want to further split up DB role based on creation vs. operation?
 - Variables

@@ -2,11 +2,10 @@
 # Check for required variables.
 
 - block: 
-  - debug:
+  - name: "Check VCN variables."
+    debug:
       msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
-  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
-
-- meta: end_host
+  - meta: end_host
   when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
 # Create Networking for Public Subnet

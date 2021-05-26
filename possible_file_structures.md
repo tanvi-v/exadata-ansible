@@ -63,5 +63,3 @@ Role
     - Upgrade ExaInfra
     - Upgrade DB
 
-Design Choices
-- 

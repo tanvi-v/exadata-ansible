@@ -1,0 +1,20 @@
+
+- name: ExaCC Set-Up
+  hosts: localhost
+  vars:
+      exadata_type: exacc
+  
+  tasks:
+    
+    - name: Validate Networking for ExaCC
+      debug:
+        msg: "TO DO!"
+
+    - name: Create Exadata Infrastructure for ExaCC
+      include_role:
+        name: exadata
+    
+    - name: Create Database for ExaCC
+      include_role:
+        name: database   
+      
