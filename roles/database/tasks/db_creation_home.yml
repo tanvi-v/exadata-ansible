@@ -13,4 +13,3 @@
       msg: "{{ result }}"
   - set_fact:
       db_home_id: "{{ result.db_home.id }}"
-  when: exadata_type == "exacs"

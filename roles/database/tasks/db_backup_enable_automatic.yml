@@ -1,4 +1,5 @@
 
+
 - name: Enable automatic database backups to Object Storage
   oci_database_database:
     region: "{{ region }}"

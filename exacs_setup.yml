@@ -13,15 +13,14 @@
       vars:
         compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
 
-    # - name: Create Exadata Infrastructure for ExaCS
-    #   include_role:
-    #     name: exadata
+    - name: Create Exadata Infrastructure for ExaCS
+      include_role:
+        name: exadata
     
     - name: Create Database for ExaCS
       include_role:
         name: database
       vars:
         vm_cluster_id: "ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a" 
-        compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma"
-        region: "us-phoenix-1"   
+        compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
       

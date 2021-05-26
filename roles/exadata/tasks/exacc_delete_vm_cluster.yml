@@ -1,0 +1,7 @@
+- name: Delete vm_cluster
+  oci_database_vm_cluster:
+    vm_cluster_id: "{{ vm_cluster_id }}"
+    state: absent
+  register: result
+- debug:
+    msg: "{{ result }}"

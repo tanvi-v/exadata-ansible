@@ -1,0 +1,9 @@
+
+- name: Terminate Database
+  oci_database_database:
+    region: "{{ region }}"
+    database_id: "{{ database_id }}"
+    state: absent
+  register: result
+- debug:
+    msg: "{{ result }}"

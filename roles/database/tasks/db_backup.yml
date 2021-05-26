@@ -1,12 +1,12 @@
 
 - name: Enable automatic backups
   include_tasks: db_enable_automatic_backup.yml
-  vars:
-    database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+  # vars:
+  #   database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
 
 - name: Create database backup
-  include_tasks: db_enable_automatic_backup.yml
-  vars:
-    database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
-    backup_name: "Monthly Backup Test"
+  include_tasks: db_backup_new.yml
+  # vars:
+  #   database_id: "ocid1.database.oc1.phx.abyhqljsd5frbllrldvp7xksmijvtuq4x2zog6b6l4xw4g4h2pkyhokne2pa"
+  #   backup_name: "Monthly Backup Test"
   

@@ -1,0 +1,8 @@
+
+- name: Create cloud_vm_cluster
+  oci_database_cloud_vm_cluster:
+    cloud_vm_cluster_id: "{{ vm_cluster_id }}"
+    state: absent
+  register: result
+- debug:
+    msg: "{{ result }}"
