@@ -1,0 +1,31 @@
+
+
+- name: DB Teardown For Testing
+  hosts: localhost
+  
+  vars:
+      exadata_type: exacs
+  
+  tasks:
+    
+    - name: Delete DBs
+      include_role:
+        name: database_creation
+        tasks_from: db_delete_database.yml
+      vars:
+        database_id: "{{ item }}" 
+      loop:
+        # - "ocid1.database.oc1.phx.abyhqljsooz43xwjnprtunfhgcczywvs3eb3n5hscedgtswpqjtusyyqaiaa"
+        - "ocid1.database.oc1.phx.abyhqljsi7modasx47xr6wx5ywbgbn6u75wv5whka7352nf2nkekvkzh3j4a"
+
+    - name: Delete DB Homes
+      include_role:
+        name: database_home_creation
+        tasks_from: db_delete_home.yml
+      vars:
+        db_home_id: "{{ item }}" 
+      loop:
+        - "ocid1.dbhome.oc1.phx.abyhqljsf3ixcs6ywjqcumjte2neqmeh4apba6k3daxm5skhm5v2oo6332fq"
+        - "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
+
+    

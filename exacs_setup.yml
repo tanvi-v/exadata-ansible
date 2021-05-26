@@ -7,19 +7,19 @@
   
   tasks:
     
-    - name: Create Networking for ExaCS
-      include_role:
-        name: networking
-      vars:
-        compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
+    # - name: Create Networking for ExaCS
+    #   include_role:
+    #     name: networking
+    #   vars:
+    #     compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
 
-    - name: Create Exadata Infrastructure for ExaCS
-      include_role:
-        name: exadata_infra
+    # - name: Create Exadata Infrastructure for ExaCS
+    #   include_role:
+    #     name: exadata_infra
     
-    - name: Create VM Cluster for ExaCS
-      include_role:
-        name: exadata_vm_cluster
+    # - name: Create VM Cluster for ExaCS
+    #   include_role:
+    #     name: exadata_vm_cluster
     
     - name: Create Database Home for ExaCS
       include_role:
