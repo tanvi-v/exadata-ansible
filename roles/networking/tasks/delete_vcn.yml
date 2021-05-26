@@ -3,6 +3,8 @@
     msg: "vcn_id is not defined. Please pass in vcn OCID."
   when: vcn_id is not defined 
 
+# USE OCI CLI
+
 - name: Delete vcn
   oci_network_vcn:
     vcn_id: "{{ vcn_id }}"

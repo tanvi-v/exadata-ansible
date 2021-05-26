@@ -2,7 +2,7 @@
 Code
 - DB Operations: ExaCC Backups / Backup Destinations
 - Resource teardown
-    - Networking Tear down (best way to pull all the components)
+    - Networking Tear down (best way to pull all the components) --> Use OCI CLI call?
     - Calling the individual tasks in an intelligent way
 - Variables
     - make variable values easier, check with customer naming conventions
@@ -24,8 +24,8 @@ Error Handling
 Increase timeouts?
 
 Testing
-- ExaCS creation
-- ExaCC creation
+- ExaCS creation/termination
+- ExaCC creation/termination
 - ExaCC backups
 - Code Organization / calling items individually 
 

@@ -1,0 +1,4 @@
+
+# new database vars
+db_name: "ansibDB"
+db_admin_password: "welcomeDB12##"

@@ -1,0 +1,7 @@
+
+- name: Enable automatic backups
+  include_tasks: db_enable_automatic_backup.yml
+
+- name: Create database backup
+  include_tasks: db_backup_new.yml
+  

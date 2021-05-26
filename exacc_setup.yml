@@ -10,6 +10,10 @@
       debug:
         msg: "TO DO!"
 
+    # What other steps for ExaCC set-up? 
+
+    # VM Cluster Network?
+
     - name: Create Exadata Infrastructure for ExaCC
       include_role:
         name: exadata

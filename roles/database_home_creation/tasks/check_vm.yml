@@ -2,7 +2,7 @@
 - block:
   - name: Check cloud_vm_cluster
     oci_database_cloud_vm_cluster:
-      region: "{{ region }}"
+      region: "us-phoenix-1"
       cloud_vm_cluster_id: "{{ vm_cluster_id }}"
     register: result
   - set_fact:
@@ -12,7 +12,7 @@
 - block:
   - name: Check vm_cluster
     oci_database_vm_cluster:
-      region: "{{ region }}"
+      region: "us-phoenix-1"
       vm_cluster_id: "{{ vm_cluster_id }}"
     register: result
   - set_fact:

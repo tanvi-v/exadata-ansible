@@ -7,20 +7,32 @@
   
   tasks:
     
-    - name: Create Networking for ExaCS
-      include_role:
-        name: networking
-      vars:
-        compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
+    # - name: Create Networking for ExaCS
+    #   include_role:
+    #     name: networking
+    #   vars:
+    #     compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
 
-    - name: Create Exadata Infrastructure for ExaCS
-      include_role:
-        name: exadata
+    # - name: Create Exadata Infrastructure for ExaCS
+    #   include_role:
+    #     name: exadata_infra
     
-    - name: Create Database for ExaCS
+    # - name: Create VM Cluster for ExaCS
+    #   include_role:
+    #     name: exadata_vm_cluster
+    
+    - name: Create Database Home for ExaCS
       include_role:
-        name: database
+        name: database_home_creation
       vars:
         vm_cluster_id: "ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a" 
         compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
+    
+    - name: Create Database for ExaCS
+      include_role:
+        name: database_creation
+      vars:
+        vm_cluster_id: "ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a" 
+        compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
+        # db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
       

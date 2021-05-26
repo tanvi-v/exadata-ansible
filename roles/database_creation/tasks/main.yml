@@ -1,6 +1,5 @@
 
-- name: Create DB Home
-  include_tasks: db_creation_home.yml
-  
 - name: Create Database
   include_tasks: db_creation_database.yml
+    
+    

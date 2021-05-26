@@ -1,0 +1,10 @@
+
+
+- name: Check VM Cluster Lifecycle State
+  include_tasks: check_vm.yml
+
+- name: Create DB Home 
+  include_tasks: db_creation_home.yml
+  when: vm_cluster_lifecycle_state == "AVAILABLE"
+    
+    
