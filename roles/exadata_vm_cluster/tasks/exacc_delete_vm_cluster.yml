@@ -1,7 +1,7 @@
 
 # Delete ExaCC VM Cluster
 
-- name: Delete vm_cluster
+- name: Delete vm cluster
   oci_database_vm_cluster:
     vm_cluster_id: "{{ vm_cluster_id }}"
     state: absent

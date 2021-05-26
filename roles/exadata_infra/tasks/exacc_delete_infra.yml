@@ -1,5 +1,5 @@
 
-- name: Delete exadata_infrastructure
+- name: Delete exadata infrastructure
   oci_database_exadata_infrastructure:
     exadata_infrastructure_id: "{{ exadata_infrastructure_id }}"
     state: absent

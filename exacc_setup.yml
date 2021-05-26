@@ -12,9 +12,9 @@
 
     # What other steps for ExaCC set-up? VM Cluster Network?
 
-     - name: Create VM Cluster for ExaCC
-      include_role:
-        name: exadata_vm_cluster
+    - name: Create VM Cluster for ExaCC
+    include_role:
+      name: exadata_vm_cluster
     
     - name: Create Database Home for ExaCC
       include_role:

@@ -1,5 +1,9 @@
 
+- name: Check VM Cluster Lifecycle State
+  include_tasks: check_vm.yml
+
 - name: Create Database
   include_tasks: db_creation_database.yml
+  when: vm_cluster_lifecycle_state == "AVAILABLE"
     
     

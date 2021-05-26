@@ -1,5 +1,5 @@
 
-- name: Create cloud_exadata_infrastructure
+- name: Create cloud exadata infrastructure
   oci_database_cloud_exadata_infrastructure:
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ exacs_name }}"

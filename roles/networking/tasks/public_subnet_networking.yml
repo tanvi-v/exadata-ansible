@@ -35,7 +35,7 @@
 - debug:
     msg: "{{ result }}"
 
-- name: Add ingress rule to default security_list
+- name: Add ingress rule to default security list
   oci_network_security_list:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"

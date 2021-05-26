@@ -11,15 +11,11 @@
 - block:
   - name: Create ExaCC Infrastructure
     include_tasks: exacc_create_infra.yml
-  - name: Create ExaCC VM Cluster
-    include_tasks: exacc_create_vm_cluster.yml
   when: exadata_type == "exacc"
 
 - block:
   - name: Create ExaCS Infrastructure
     include_tasks: exacs_create_infra.yml
-  - name: Create ExaCC VM Cluster
-    include_tasks: exacs_create_vm_cluster.yml
   when: exadata_type == "exacs"
   
     
