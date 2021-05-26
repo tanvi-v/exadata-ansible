@@ -1,6 +1,7 @@
+# Create ExaCS VM Cluster
 
 - block:
-  - name: Create cloud_vm_cluster
+  - name: Create cloud vm cluster
     oci_database_cloud_vm_cluster:
       compartment_id: "{{ compartment_id }}"
       subnet_id: "{{ vm_cluster_subnet_id }}"

@@ -1,13 +1,13 @@
 
-- debug:
-    msg: "vcn_id is not defined. Please pass in vcn OCID."
-  when: vcn_id is not defined 
+# Use OCI CLI to pull VCN components
 
-# USE OCI CLI
-
-- name: Delete vcn
+- name: Delete VCN
   oci_network_vcn:
     vcn_id: "{{ vcn_id }}"
     state: absent
   when: vcn_id is defined
+
+- debug:
+    msg: "vcn_id is not defined. Please pass in vcn OCID."
+  when: vcn_id is not defined 
 

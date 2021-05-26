@@ -10,7 +10,7 @@
 
 # Create Networking for Private Subnet
 
-- name: Create nat_gateway
+- name: Create nat gateway
   oci_network_nat_gateway:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
@@ -30,7 +30,7 @@
     oci_iad_object_storage_id: "{{ result.services[0].id }}"
     all_iad_services_id: "{{ result.services[1].id }}"
   
-- name: Create service_gateway
+- name: Create service gateway
   oci_network_service_gateway:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
@@ -43,7 +43,7 @@
 - set_fact:
     service_gateway_id: "{{ result.service_gateway.id }}"
     
-- name: Create custom route_table
+- name: Create custom route table
   oci_network_route_table:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
@@ -61,7 +61,7 @@
 - set_fact:
     private_rt_id: "{{ result.route_table.id }}"
     
-- name: Create custom security_list
+- name: Create custom security list
   oci_network_security_list:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
