@@ -1,0 +1,15 @@
+
+vcn_id: "ocid1.vcn.oc1.iad.amaaaaaantxkdlya2weipdaaoncw4llfsmrrv3rs3hu64j3esqawlmu6qeoa"
+
+private_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaa4qcmbjp3y7f3p5yje4mwjqiqmdhmaoztxltah7dhy6ymbb6izipq"
+public_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaa4nlhnvdii57asaaoakexnsjukj3ukqpck42bbojvueyhyb7lo2ra"
+
+custom_route_table_id: "ocid1.routetable.oc1.iad.aaaaaaaamqxef4uzysbxesnyxo2p7ioo6fnivg5siejrclngbsmjrrkhymea"
+default_route_table_id: "ocid1.routetable.oc1.iad.aaaaaaaaymh3to4xbpw53mk5w6d75r37eoqdsmliy4qvumkbysnffwkiy3nq"
+
+custom_security_list_id: "ocid1.securitylist.oc1.iad.aaaaaaaa7emfxsvztn2itqdwzoc57iwnrgyfqfc6fextns6ttgwlgeqtzbaa"
+default_security_list_id: ""
+
+internet_gateway_id: "ocid1.internetgateway.oc1.iad.aaaaaaaaoqfy6bighinqrpvgon66zqmct3p2mnesqklkyykhninj5mqx4qeq"
+nat_gateway_id: "ocid1.natgateway.oc1.iad.aaaaaaaaz3t2bsrtwrjl3xz7wbdlfksi7spxugj63flfwzu2jrptnw24zvqa"
+service_gateway_id: "ocid1.servicegateway.oc1.iad.aaaaaaaaecx6ydmjg3lul4skaostwu3puwcqwgu5mavd2c5bqwnx6cyu3poa"

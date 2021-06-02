@@ -1,0 +1,12 @@
+
+- name: Networking teardown
+  hosts: localhost
+  
+  tasks:
+    
+    - name: Delete Networking Components
+      include_role:
+        name: networking
+        tasks_from: networking_teardown.yml
+      
+    

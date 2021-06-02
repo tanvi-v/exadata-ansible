@@ -1,0 +1,58 @@
+- name: Networking teardown
+  include_vars: networking_components.yml
+
+# Delete Private Networking Components
+
+- name: Update custom route table to drop gateways
+  oci_network_route_table:
+    id: "{{ custom_route_table_id }}"
+    route_rules: []
+
+- name: Delete service gateway
+  oci_network_service_gateway:
+    id: "{{ service_gateway_id }}"
+    state: absent
+
+- name: Delete nat gateway
+  oci_network_nat_gateway:
+    id: "{{ nat_gateway_id }}"
+    state: absent
+
+- name: Delete private subnet
+  oci_network_subnet:
+    id: "{{ private_subnet_id }}"
+    state: absent
+
+- name: Delete custom route table 
+  oci_network_route_table:
+    id: "{{ custom_route_table_id }}"
+    state: absent
+
+- name: Delete custom security list 
+  oci_network_security_list:
+    id: "{{ custom_security_list_id }}"
+    state: absent
+
+# Delete Public Networking Components
+
+- name: Update default route table to drop internet gateway
+  oci_network_route_table:
+    id: "{{ default_route_table_id }}"
+    route_rules: []
+
+- name: Delete internet gateway
+  oci_network_internet_gateway:
+    id: "{{ internet_gateway_id }}"
+    state: absent
+
+- name: Delete public subnet
+  oci_network_subnet:
+    id: "{{ public_subnet_id }}"
+    state: absent
+
+# Delete VCN 
+
+- name: Delete the VCN
+  oci_network_vcn:
+    id: "{{ vcn_id }}"
+    state: absent
