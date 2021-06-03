@@ -12,6 +12,7 @@
 
 - name: Create nat gateway
   oci_network_nat_gateway:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}NG"
@@ -23,6 +24,7 @@
 
 - name: List Oracle services
   oci_network_service_facts:
+    region: "{{ region }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -32,6 +34,7 @@
   
 - name: Create service gateway
   oci_network_service_gateway:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}SG"
@@ -45,6 +48,7 @@
     
 - name: Create custom route table
   oci_network_route_table:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}PrivateRT"
@@ -63,6 +67,7 @@
     
 - name: Create custom security list
   oci_network_security_list:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}PrivateSL"
@@ -93,6 +98,7 @@
 
 - name: Update private subnet to use custom route table and security list
   oci_network_subnet:
+    region: "{{ region }}"
     subnet_id: "{{ private_subnet_id }}"
     route_table_id: "{{ private_rt_id }}"
     security_list_ids: 

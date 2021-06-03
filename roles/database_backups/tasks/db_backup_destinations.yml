@@ -4,6 +4,7 @@
   
   - name: Create db_backup_destination
     oci_database_backup_destination:
+      region: "us-phoenix-1"
       compartment_id: "{{ compartment_id }}"
       display_name: display_name_example
       type: " {{ db_backup_destination_type }}"

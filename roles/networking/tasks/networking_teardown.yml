@@ -5,31 +5,37 @@
 
 - name: Update custom route table to drop gateways
   oci_network_route_table:
+    region: "{{ region }}"
     id: "{{ custom_route_table_id }}"
     route_rules: []
 
 - name: Delete service gateway
   oci_network_service_gateway:
+    region: "{{ region }}"
     id: "{{ service_gateway_id }}"
     state: absent
 
 - name: Delete nat gateway
   oci_network_nat_gateway:
+    region: "{{ region }}"
     id: "{{ nat_gateway_id }}"
     state: absent
 
 - name: Delete private subnet
   oci_network_subnet:
+    region: "{{ region }}"
     id: "{{ private_subnet_id }}"
     state: absent
 
 - name: Delete custom route table 
   oci_network_route_table:
+    region: "{{ region }}"
     id: "{{ custom_route_table_id }}"
     state: absent
 
 - name: Delete custom security list 
   oci_network_security_list:
+    region: "{{ region }}"
     id: "{{ custom_security_list_id }}"
     state: absent
 
@@ -37,16 +43,19 @@
 
 - name: Update default route table to drop internet gateway
   oci_network_route_table:
+    region: "{{ region }}"
     id: "{{ default_route_table_id }}"
     route_rules: []
 
 - name: Delete internet gateway
   oci_network_internet_gateway:
+    region: "{{ region }}"
     id: "{{ internet_gateway_id }}"
     state: absent
 
 - name: Delete public subnet
   oci_network_subnet:
+    region: "{{ region }}"
     id: "{{ public_subnet_id }}"
     state: absent
 
@@ -54,5 +63,6 @@
 
 - name: Delete the VCN
   oci_network_vcn:
+    region: "{{ region }}"
     id: "{{ vcn_id }}"
     state: absent

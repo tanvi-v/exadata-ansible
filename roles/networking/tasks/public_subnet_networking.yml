@@ -12,6 +12,7 @@
 
 - name: Create internet gateway
   oci_network_internet_gateway:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}IG"
@@ -24,6 +25,7 @@
 
 - name: Add internet gateway route to default route table
   oci_network_route_table:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     id: "{{ default_route_table_id }}"
@@ -37,6 +39,7 @@
 
 - name: Add ingress rule to default security list
   oci_network_security_list:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     id: "{{ default_security_list_id }}"

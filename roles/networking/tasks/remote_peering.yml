@@ -2,13 +2,6 @@
 # - both security lists should allow incoming connections to port 1521 (can use other VCNs cidr or just 0.0.0.0)
 # Remote Peering
 
-# Primary side 
-# - Primary region DRG 
-# - Route rule to standby vcn for DRG
-
-# RPCs in both sides and attach
-
-
 # Create Standby Region Basic Networking
 
 - name: Standby Networking
@@ -17,7 +10,7 @@
 - name: Create VCN and Subnets for Exadata
   include_tasks: vcn_subnets.yml
   vars:
-    region: "us-phoenix-1"
+    region: "{{ standby_region }}"
     network_tag: "{{ standby_network_tag }}"
     vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
     public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
@@ -26,7 +19,7 @@
 - name: Add Networking for Public Subnet
   include_tasks: public_subnet_networking.yml
   vars:
-    region: "us-phoenix-1"
+    region: "{{ standby_region }}"
     network_tag: "{{ standby_network_tag }}"
     vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
     public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
@@ -36,6 +29,7 @@
 
 - name: Create drg
   oci_network_drg:
+    region: "{{ standby_region }}"
     display_name: "{{ standby_network_tag }}DRG"
     compartment_id: "{{ compartment_id }}"
   register: result
@@ -45,11 +39,13 @@
     standby_drg_id: "{{ result.drg.id }}"
 
 - name: Create drg_attachment 
-  drg_id: "{{ drg_id }}"
-  compartment_id: "{{ compartment_id }}"
-  network_details:
-    type: VCN
-    id: "{{ vcn_id }}"
+  oci_network_drg_attachment:
+    region: "{{ standby_region }}"
+    drg_id: "{{ standby_drg_id }}"
+    compartment_id: "{{ compartment_id }}"
+    network_details:
+      type: VCN
+      id: "{{ vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -58,6 +54,7 @@
 
 - name: Add drg route to default route table
   oci_network_route_table:
+    region: "{{ standby_region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     id: "{{ default_route_table_id }}"
@@ -76,6 +73,7 @@
 
 - name: Create drg
   oci_network_drg:
+    region: "{{ region }}"
     display_name: "{{ network_tag }}DRG"
     compartment_id: "{{ compartment_id }}"
   register: result
@@ -85,11 +83,13 @@
     prod_drg_id: "{{ result.drg.id }}"
 
 - name: Create drg_attachment 
-  drg_id: "{{ drg_id }}"
-  compartment_id: "{{ compartment_id }}"
-  network_details:
-    type: VCN
-    id: "{{ prod_vcn_id }}"
+  oci_network_drg_attachment:
+    region: "{{ region }}"
+    drg_id: "{{ prod_drg_id }}"
+    compartment_id: "{{ compartment_id }}"
+    network_details:
+      type: VCN
+      id: "{{ prod_vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -98,13 +98,17 @@
 
 - name: Add drg route to default route table
   oci_network_route_table:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ prod_vcn_id }}"
+    vcn_id: "{{ vcn_id }}"
     id: "{{ default_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
-      destination: "{{ vcn_cidr_block }}"
+      destination: "{{ standby_vcn_cidr_block }}"
       network_entity_id: "{{ prod_drg_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
+
+
+# RPCs in both sides and attach
