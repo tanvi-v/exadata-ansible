@@ -1,0 +1,13 @@
+- hosts: "server"
+  gather_facts: no
+  become: yes
+  become_user: oracle
+  tasks:
+  - name: "creating pdb"
+    pdb:
+      oracle_home: "/u02/app/oracle/product/19.0.0.0/dbhome_3"
+      dbname: "TestCDB1_phx249"
+      pdbname: "PDB2"
+      state: present
+      password: "WelcomeDB12##"
+      

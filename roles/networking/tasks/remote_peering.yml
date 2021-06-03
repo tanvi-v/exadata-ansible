@@ -1,0 +1,110 @@
+# DB specific requirements
+# - both security lists should allow incoming connections to port 1521 (can use other VCNs cidr or just 0.0.0.0)
+# Remote Peering
+
+# Primary side 
+# - Primary region DRG 
+# - Route rule to standby vcn for DRG
+
+# RPCs in both sides and attach
+
+
+# Create Standby Region Basic Networking
+
+- name: Standby Networking
+  include_vars: standby_networking.yml
+
+- name: Create VCN and Subnets for Exadata
+  include_tasks: vcn_subnets.yml
+  vars:
+    region: "us-phoenix-1"
+    network_tag: "{{ standby_network_tag }}"
+    vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
+    public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
+    private_subnet_cidr_block: "{{ standby_private_subnet_cidr_block }}"  
+
+- name: Add Networking for Public Subnet
+  include_tasks: public_subnet_networking.yml
+  vars:
+    region: "us-phoenix-1"
+    network_tag: "{{ standby_network_tag }}"
+    vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
+    public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
+    private_subnet_cidr_block: "{{ standby_private_subnet_cidr_block }}"  
+
+# Create Standby Region DRG
+
+- name: Create drg
+  oci_network_drg:
+    display_name: "{{ standby_network_tag }}DRG"
+    compartment_id: "{{ compartment_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    standby_drg_id: "{{ result.drg.id }}"
+
+- name: Create drg_attachment 
+  drg_id: "{{ drg_id }}"
+  compartment_id: "{{ compartment_id }}"
+  network_details:
+    type: VCN
+    id: "{{ vcn_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    standby_drg_attachment_id: "{{ result.drg_attachment.id }}"
+
+- name: Add drg route to default route table
+  oci_network_route_table:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    id: "{{ default_route_table_id }}"
+    route_rules:
+    - destination_type: CIDR_BLOCK
+      destination: "{{ vcn_cidr_block }}"
+      network_entity_id: "{{ standby_drg_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+
+# Create Primary Region DRG
+
+- name: Prod DRG
+  include_vars: prod_networking.yml
+
+- name: Create drg
+  oci_network_drg:
+    display_name: "{{ network_tag }}DRG"
+    compartment_id: "{{ compartment_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    prod_drg_id: "{{ result.drg.id }}"
+
+- name: Create drg_attachment 
+  drg_id: "{{ drg_id }}"
+  compartment_id: "{{ compartment_id }}"
+  network_details:
+    type: VCN
+    id: "{{ prod_vcn_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    prod_drg_attachment_id: "{{ result.drg_attachment.id }}"
+
+- name: Add drg route to default route table
+  oci_network_route_table:
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ prod_vcn_id }}"
+    id: "{{ default_route_table_id }}"
+    route_rules:
+    - destination_type: CIDR_BLOCK
+      destination: "{{ vcn_cidr_block }}"
+      network_entity_id: "{{ prod_drg_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"

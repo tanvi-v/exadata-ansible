@@ -1,24 +1,16 @@
 
-# vcn vars
-vcn_name: "ansible1"
-vcn_cidr_block: "10.1.0.0/16"
-vcn_dns_label: "ansible1"
+# primary network vars
+network_tag: "exa"
+vcn_cidr_block: "10.1.0.0/16" 
+public_subnet_cidr_block: "10.1.0.0/24"   # to host ExaCS VM Cluster
+private_subnet_cidr_block: "10.1.1.0/24"  # for ExaCS back-up
 
-# public subnet vars (to host ExaCS VM Cluster)
-public_subnet_cidr_block: "10.1.0.0/24"
-public_subnet_name: "publicSubnetExa"
-public_subnet_dns_label: "publicSubnetExa"
+# standby network vars
+standby_network_tag: "standby"
+standby_vcn_cidr_block: "10.2.0.0/16" 
+standby_public_subnet_cidr_block: "10.2.0.0/24"   # to host ExaCS VM Cluster
+standby_private_subnet_cidr_block: "10.2.1.0/24"  # for ExaCS back-up
 
-# private subnet vars (for ExaCS back-up)
-private_subnet_cidr_block: "10.1.1.0/24"
-private_subnet_name: "privateSubnetExa"
-private_subnet_dns_label: "privatesubexa"
 
-# gateway vars
-internet_gateway_name: "internet_gateway1"
-nat_gateway_name: "nat_gateway1"
-service_gateway_name: "service_gateway1"
 
-# route tables and security lists vars
-private_rt_name: "PrivateRouteTable"
-private_sl_name: "PrivateSecurityList"
+

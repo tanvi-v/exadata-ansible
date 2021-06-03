@@ -14,7 +14,7 @@
   oci_network_internet_gateway:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ internet_gateway_name }}"
+    display_name: "{{ network_tag }}IG"
     is_enabled: true
   register: result
 - debug:

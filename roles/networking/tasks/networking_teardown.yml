@@ -1,5 +1,5 @@
 - name: Networking teardown
-  include_vars: networking_components.yml
+  include_vars: prod_networking.yml
 
 # Delete Private Networking Components
 

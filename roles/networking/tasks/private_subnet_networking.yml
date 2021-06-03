@@ -14,7 +14,7 @@
   oci_network_nat_gateway:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ nat_gateway_name }}"
+    display_name: "{{ network_tag }}NG"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -34,7 +34,7 @@
   oci_network_service_gateway:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ service_gateway_name }}"
+    display_name: "{{ network_tag }}SG"
     services:
     - service_id: "{{ all_iad_services_id }}"
   register: result
@@ -47,7 +47,7 @@
   oci_network_route_table:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ private_rt_name }}"
+    display_name: "{{ network_tag }}PrivateRT"
     route_rules:
     - destination_type: CIDR_BLOCK
       destination: "0.0.0.0/0"
@@ -65,7 +65,7 @@
   oci_network_security_list:
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ private_sl_name }}"
+    display_name: "{{ network_tag }}PrivateSL"
     ingress_security_rules:
     - protocol: "6"
       source: "{{ vcn_cidr_block }}"

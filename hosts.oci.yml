@@ -1,0 +1,13 @@
+# demo.oci.yml
+plugin: oracle.oci.oci
+
+compartments:
+- compartment_ocid: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma"
+
+# hostnames:
+# - "129.146.63.183"
+# - "129.146.122.110"
+
+regions:
+  - us-phoenix-1
+  - us-ashburn-1

@@ -1,0 +1,6 @@
+
+# standby network vars
+network_tag: "standby"
+vcn_cidr_block: "10.2.0.0/16" 
+public_subnet_cidr_block: "10.2.0.0/24"   # to host ExaCS VM Cluster
+private_subnet_cidr_block: "10.2.1.0/24"  # for ExaCS back-up
