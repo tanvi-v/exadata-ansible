@@ -1,16 +1,16 @@
-Basic OCI 
+
+Basic Ansible / OCI errors
 - Figure out where region is currently being set automatically
 - Figure out why iad services is failing in Phoenix region but not Ashburn (route table for private subnet)
-
-Basic Ansible
-- export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
-- Figure out best practice for setting inventory
+- Figure out best practice for setting inventory 
+    - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
 - Figure out best practice for setting region in multi regional environment (ie for dataguard)
-- Figure out why VCN_CIDR for route rule is being shown as 
+- Figure out why VCN_CIDR for route rule is being shown as the wrong value!!!!!
 
 Code Development
 - ExaCC Backups / Backup Destinations
-- DataGuard
+- DRG teardown
+- remaining Dataguard (done with RPC)
 - PDBs
 - Variables
     - make variable values easier, check with customer naming conventions
