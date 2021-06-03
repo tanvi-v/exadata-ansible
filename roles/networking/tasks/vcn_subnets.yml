@@ -3,6 +3,7 @@
 
 - name: Create VCN
   oci_network_vcn:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}VCN"
     cidr_block: "{{ vcn_cidr_block }}"
@@ -17,6 +18,7 @@
   
 - name: Create public subnet with default values for route table, security list, & DHCP options
   oci_network_subnet:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ public_subnet_cidr_block }}"
@@ -31,6 +33,7 @@
 
 - name: Create private subnet with default values for route table, security list, & DHCP options
   oci_network_subnet:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ private_subnet_cidr_block }}"

@@ -1,13 +1,32 @@
+Basic OCI 
+- Figure out where region is currently being set automatically
+- Figure out why iad services is failing in Phoenix region but not Ashburn (route table for private subnet)
 
-Code
-- DB Operations: ExaCC Backups / Backup Destinations
-- Resource teardown
-    - Networking Tear down (best way to pull all the components) --> Use OCI CLI call?
-    - Calling the individual tasks in an intelligent way
+Basic Ansible
+- export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
+- Figure out best practice for setting inventory
+- Figure out best practice for setting region in multi regional environment (ie for dataguard)
+- Figure out why VCN_CIDR for route rule is being shown as 
+
+Code Development
+- ExaCC Backups / Backup Destinations
+- DataGuard
+- PDBs
 - Variables
     - make variable values easier, check with customer naming conventions
-- Add Comments
-- Check consistancy: variable definition, names of tasks, error handling method / location
+    - see if you can automatically save the generated OCIDs to a file (currently manually adding them to networking/vars)
+
+Clean-Up
+- Add More Comments
+- Check consistancy: variable definition, names of tasks
+
+Testing
+- ExaCS creation/termination
+- ExaCC creation/termination
+- ExaCC backups
+- Code Organization / calling items individually 
+
+
 
 Code organization
 - Do we want to further split up the DB role based on creation vs. operation?
@@ -21,13 +40,6 @@ Error Handling
     operation when resolved?
 - Checking to see if the resource has already been created?
 
-Increase timeouts?
-
-Testing
-- ExaCS creation/termination
-- ExaCC creation/termination
-- ExaCC backups
-- Code Organization / calling items individually 
 
 Deployment - Ansible Operation 
 - Ansible bastion

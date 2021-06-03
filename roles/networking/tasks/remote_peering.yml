@@ -7,7 +7,7 @@
 - name: Standby Networking
   include_vars: standby_networking.yml
 
-- name: Create VCN and Subnets for Exadata
+- name: Create VCN and Subnets for Exadata (Standby)
   include_tasks: vcn_subnets.yml
   vars:
     region: "{{ standby_region }}"
@@ -16,7 +16,7 @@
     public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
     private_subnet_cidr_block: "{{ standby_private_subnet_cidr_block }}"  
 
-- name: Add Networking for Public Subnet
+- name: Add Networking for Public Subnet (Standby)
   include_tasks: public_subnet_networking.yml
   vars:
     region: "{{ standby_region }}"
@@ -27,7 +27,7 @@
 
 # Create Standby Region DRG
 
-- name: Create drg
+- name: Create standby drg
   oci_network_drg:
     region: "{{ standby_region }}"
     display_name: "{{ standby_network_tag }}DRG"
@@ -38,7 +38,7 @@
 - set_fact:
     standby_drg_id: "{{ result.drg.id }}"
 
-- name: Create drg_attachment 
+- name: Create standby drg_attachment 
   oci_network_drg_attachment:
     region: "{{ standby_region }}"
     drg_id: "{{ standby_drg_id }}"
@@ -52,7 +52,7 @@
 - set_fact:
     standby_drg_attachment_id: "{{ result.drg_attachment.id }}"
 
-- name: Add drg route to default route table
+- name: Add drg route to standby default route table
   oci_network_route_table:
     region: "{{ standby_region }}"
     compartment_id: "{{ compartment_id }}"
@@ -60,7 +60,8 @@
     id: "{{ default_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
-      destination: "{{ vcn_cidr_block }}"
+      # destination: "{{ vcn_cidr_block }}" "10.1.0.0/16" 
+      destination: "10.1.0.0/16" 
       network_entity_id: "{{ standby_drg_id }}"
   register: result
 - debug:
@@ -71,7 +72,7 @@
 - name: Prod DRG
   include_vars: prod_networking.yml
 
-- name: Create drg
+- name: Create prod drg
   oci_network_drg:
     region: "{{ region }}"
     display_name: "{{ network_tag }}DRG"
@@ -82,7 +83,7 @@
 - set_fact:
     prod_drg_id: "{{ result.drg.id }}"
 
-- name: Create drg_attachment 
+- name: Create prod drg_attachment 
   oci_network_drg_attachment:
     region: "{{ region }}"
     drg_id: "{{ prod_drg_id }}"
@@ -96,12 +97,12 @@
 - set_fact:
     prod_drg_attachment_id: "{{ result.drg_attachment.id }}"
 
-- name: Add drg route to default route table
+- name: Add drg route to prod default route table
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    id: "{{ default_route_table_id }}"
+    vcn_id: "{{ prod_vcn_id }}"
+    id: "{{ prod_default_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
       destination: "{{ standby_vcn_cidr_block }}"
@@ -111,4 +112,34 @@
     msg: "{{ result }}"
 
 
-# RPCs in both sides and attach
+# Create remote peering connection
+
+- name: Create standby remote peering connection
+  oci_network_remote_peering_connection:
+    region: "{{ standby_region }}"
+    compartment_id: "{{ compartment_id }}"
+    drg_id: "{{ standby_drg_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    standby_rpc_id: "{{ result.remote_peering_connection.id }}"
+
+- name: Create prod remote peering connection and attach to standby
+  oci_network_remote_peering_connection:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    drg_id: "{{ prod_drg_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    prod_rpc_id: "{{ result.remote_peering_connection.id }}"
+
+- name: Perform action connect on remote_peering_connection
+  oci_network_remote_peering_connection_actions:
+    region: "{{ standby_region }}"
+    remote_peering_connection_id: "{{ standby_rpc_id }}"
+    peer_id: "{{ prod_rpc_id }}"
+    peer_region_name: "{{ region }}"
+    action: connect
