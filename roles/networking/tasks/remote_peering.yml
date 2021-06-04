@@ -9,20 +9,103 @@
   vars:
     region: "{{ standby_region }}"
     network_tag: "{{ standby_network_tag }}"
-    vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
-    public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
-    private_subnet_cidr_block: "{{ standby_private_subnet_cidr_block }}"  
+    vcn_cidr_block: "{{ standby_vcn_cidr_block }}"  
 
-- name: Add Networking for Public Subnet (Standby)
-  include_tasks: public_subnet_networking.yml
-  vars:
+- name: Create DB Security List for Standby
+  oci_network_security_list:
     region: "{{ standby_region }}"
-    network_tag: "{{ standby_network_tag }}"
-    vcn_cidr_block: "{{ standby_vcn_cidr_block }}" 
-    public_subnet_cidr_block: "{{ standby_public_subnet_cidr_block }}"   
-    private_subnet_cidr_block: "{{ standby_private_subnet_cidr_block }}"  
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    display_name: "{{ standby_network_tag }}DBSecurityList"
+    ingress_security_rules:
+    - protocol: "6"
+      source: "{{ vcn_cidr_block }}"
+      tcp_options:
+        destination_port_range:
+          min: "1521"
+          max: "1521"
+    egress_security_rules:
+    - protocol: "6"
+      destination: "{{ vcn_cidr_block }}"
+      tcp_options:
+        destination_port_range:
+          min: "1521"
+          max: "1521"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    standby_db_security_list_id: "{{ result.security_list.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ standby_network_tag }}_db_security_list_id: {{ standby_db_security_list_id }}"
 
-# Create Standby Region DRG
+
+- name: Create public subnet with default values for route table, security list, & DHCP options
+  oci_network_subnet:
+    region: "{{ standby_region }}"
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    cidr_block: "{{ standby_public_subnet_cidr_block }}"
+    display_name: "{{ standby_network_tag }}PublicSubnet"
+    prohibit_public_ip_on_vnic: "false"
+    dns_label: "{{ standby_network_tag }}Pub"
+    security_list_ids:
+    - "{{ default_security_list_id }}"
+    - "{{ standby_db_security_list_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    public_subnet_id: "{{ result.subnet.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ standby_network_tag }}_public_subnet_id: {{ public_subnet_id }}"
+
+# Prod Security List Changes
+
+- name: Create DB Security List for Prod
+  oci_network_security_list:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+    display_name: "{{ network_tag }}DBSecurityList"
+    ingress_security_rules:
+    - protocol: "6"
+      source: "{{ standby_vcn_cidr_block }}"
+      tcp_options:
+        destination_port_range:
+          min: "1521"
+          max: "1521"
+    egress_security_rules:
+    - protocol: "6"
+      destination: "{{ standby_vcn_cidr_block }}"
+      tcp_options:
+        destination_port_range:
+          min: "1521"
+          max: "1521"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    prod_db_security_list_id: "{{ result.security_list.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_db_security_list_id: {{ prod_db_security_list_id }}"
+
+- name: Add DB security list to prod subnet
+  oci_network_subnet:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
+    security_list_ids:
+    - "{{ lookup('vars', network_tag + '_default_security_list_id') }}"
+    - "{{ prod_db_security_list_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+     
+
+# Create Standby Region DRG and RPC
 
 - name: Create standby drg
   oci_network_drg:
@@ -34,6 +117,9 @@
     msg: "{{ result }}"
 - set_fact:
     standby_drg_id: "{{ result.drg.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ standby_network_tag }}_drg_id: {{ standby_drg_id }}"
 
 - name: Create standby drg_attachment 
   oci_network_drg_attachment:
@@ -49,6 +135,9 @@
     msg: "{{ result }}"
 - set_fact:
     standby_drg_attachment_id: "{{ result.drg_attachment.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ standby_network_tag }}_drg_attachment_id: {{ standby_drg_attachment_id }}"
 
 - name: Add drg route to standby default route table
   oci_network_route_table:
@@ -64,7 +153,22 @@
 - debug:
     msg: "{{ result }}"
 
-# Create Primary Region DRG
+- name: Create standby remote peering connection
+  oci_network_remote_peering_connection:
+    region: "{{ standby_region }}"
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ standby_network_tag }}RPC"
+    drg_id: "{{ standby_drg_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    standby_rpc_id: "{{ result.remote_peering_connection.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ standby_network_tag }}_rpc_id: {{ standby_rpc_id }}"   
+
+# Create Primary Region DRG and RPC
 
 - name: Create prod drg
   oci_network_drg:
@@ -76,6 +180,9 @@
     msg: "{{ result }}"
 - set_fact:
     prod_drg_id: "{{ result.drg.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_drg_id: {{ prod_drg_id }}"
 
 - name: Create prod drg_attachment 
   oci_network_drg_attachment:
@@ -91,6 +198,9 @@
     msg: "{{ result }}"
 - set_fact:
     prod_drg_attachment_id: "{{ result.drg_attachment.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_drg_attachment_id: {{ prod_drg_attachment_id }}"
 
 - name: Add drg route to prod default route table
   oci_network_route_table:
@@ -106,21 +216,6 @@
 - debug:
     msg: "{{ result }}"
 
-
-# Create remote peering connection
-
-- name: Create standby remote peering connection
-  oci_network_remote_peering_connection:
-    region: "{{ standby_region }}"
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ standby_network_tag }}RPC"
-    drg_id: "{{ standby_drg_id }}"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    standby_rpc_id: "{{ result.remote_peering_connection.id }}"
-
 - name: Create prod remote peering connection
   oci_network_remote_peering_connection:
     region: "{{ region }}"
@@ -132,6 +227,11 @@
     msg: "{{ result }}"
 - set_fact:
     prod_rpc_id: "{{ result.remote_peering_connection.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_rpc_id: {{ prod_rpc_id }}"
+
+# Create remote peering connection
 
 - name: Perform action connect on remote_peering_connection
   oci_network_remote_peering_connection_actions:
@@ -144,18 +244,7 @@
 - debug:
     msg: "{{ result }}"
 
-- blockinfile:
-    path: "./vars/networking_ocids.yml"
-    marker: "# {{ standby_network_tag }} Remote Peering OCIDs (Standby) {mark}"
-    block: |
-      {{ standby_network_tag }}_drg_id: {{ standby_drg_id }}
-      {{ standby_network_tag }}_drg_attachment_id: {{ standby_drg_attachment_id }}
-      {{ standby_network_tag }}_rpc_id: {{ standby_rpc_id }}
 
-- blockinfile:
-    path: "./vars/networking_ocids.yml"
-    marker: "# {{ network_tag }} Remote Peering OCIDs (Prod) {mark}"
-    block: |
-      {{ network_tag }}_drg_id: {{ prod_drg_id }}
-      {{ network_tag }}_drg_attachment_id: {{ prod_drg_attachment_id }}
-      {{ network_tag }}_rpc_id: {{ prod_rpc_id }}
+
+
+

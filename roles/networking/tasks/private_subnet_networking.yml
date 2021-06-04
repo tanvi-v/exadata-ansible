@@ -10,21 +10,6 @@
 
 # Create Networking for Private Subnet
 
-- name: Create private subnet with default values for route table, security list, & DHCP options
-  oci_network_subnet:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ private_subnet_cidr_block }}"
-    display_name: "{{ network_tag }}PrivateSubnet"
-    prohibit_public_ip_on_vnic: "true"
-    dns_label: "{{ network_tag }}Priv"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    private_subnet_id: "{{ result.subnet.id }}"
-
 - name: Create nat gateway
   oci_network_nat_gateway:
     region: "{{ region }}"
@@ -36,6 +21,9 @@
     msg: "{{ result }}"
 - set_fact:
     nat_gateway_id: "{{ result.nat_gateway.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_nat_gateway_id: {{ nat_gateway_id }}"
 
 - name: List Oracle services
   oci_network_service_facts:
@@ -60,6 +48,9 @@
     msg: "{{ result }}"
 - set_fact:
     service_gateway_id: "{{ result.service_gateway.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_service_gateway_id: {{ service_gateway_id }}"
     
 - name: Create custom route table
   oci_network_route_table:
@@ -79,6 +70,9 @@
     msg: "{{ result }}"
 - set_fact:
     private_route_table_id: "{{ result.route_table.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_private_route_table_id: {{ private_route_table_id }}"
     
 - name: Create custom security list
   oci_network_security_list:
@@ -110,21 +104,32 @@
     msg: "{{ result }}"
 - set_fact:
     private_security_list_id: "{{ result.security_list.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_private_security_list_id: {{ private_security_list_id }}"
 
-- name: Update private subnet to use custom route table and security list
+- name: Create private subnet with custom route table and security list
   oci_network_subnet:
     region: "{{ region }}"
-    subnet_id: "{{ private_subnet_id }}"
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    cidr_block: "{{ private_subnet_cidr_block }}"
+    display_name: "{{ network_tag }}PrivateSubnet"
+    prohibit_public_ip_on_vnic: "true"
+    dns_label: "{{ network_tag }}Priv"
     route_table_id: "{{ private_route_table_id }}"
     security_list_ids: 
     - "{{ private_security_list_id }}"
-
-- blockinfile:
-    path: "./vars/networking_ocids.yml"
-    marker: "# {{ network_tag }} Networking OCIDs - Private Subnet {mark}"
-    block: |
-      {{ network_tag }}_private_subnet_id: {{ private_subnet_id }}
-      {{ network_tag }}_private_route_table_id: {{ private_route_table_id }}
-      {{ network_tag }}_private_security_list_id: {{ private_security_list_id }}
-      {{ network_tag }}_nat_gateway_id: {{ nat_gateway_id }}
-      {{ network_tag }}_service_gateway_id: {{ service_gateway_id }}
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    private_subnet_id: "{{ result.subnet.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_private_subnet_id: {{ private_subnet_id }}"
+      
+      
+      
+      
+     

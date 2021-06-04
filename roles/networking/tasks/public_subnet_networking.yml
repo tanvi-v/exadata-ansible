@@ -10,21 +10,6 @@
 
 # Create Networking for Public Subnet
 
-- name: Create public subnet with default values for route table, security list, & DHCP options
-  oci_network_subnet:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ public_subnet_cidr_block }}"
-    display_name: "{{ network_tag }}PublicSubnet"
-    prohibit_public_ip_on_vnic: "false"
-    dns_label: "{{ network_tag }}Pub"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    public_subnet_id: "{{ result.subnet.id }}"
-
 - name: Create internet gateway
   oci_network_internet_gateway:
     region: "{{ region }}"
@@ -37,6 +22,9 @@
     msg: "{{ result }}"
 - set_fact:
     internet_gateway_id: "{{ result.internet_gateway.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_internet_gateway_id: {{ internet_gateway_id }}"
 
 - name: Add internet gateway route to default route table
   oci_network_route_table:
@@ -52,22 +40,21 @@
 - debug:
     msg: "{{ result }}"
 
-- name: Add ingress rule to default security list
-  oci_network_security_list:
+- name: Create public subnet with default values for route table, security list, & DHCP options
+  oci_network_subnet:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    id: "{{ default_security_list_id }}"
-    ingress_security_rules:
-    - protocol: "6"
-      source: "0.0.0.0/0"
+    cidr_block: "{{ public_subnet_cidr_block }}"
+    display_name: "{{ network_tag }}PublicSubnet"
+    prohibit_public_ip_on_vnic: "false"
+    dns_label: "{{ network_tag }}Pub"
   register: result
 - debug:
     msg: "{{ result }}"
-
-- blockinfile:
-    path: "./vars/networking_ocids.yml"
-    marker: "# {{ network_tag }} Networking OCIDs - Public Subnet {mark}"
-    block: |
-      {{ network_tag }}_public_subnet_id: {{ public_subnet_id }}
-      {{ network_tag }}_internet_gateway_id: {{ internet_gateway_id }}
+- set_fact:
+    public_subnet_id: "{{ result.subnet.id }}"
+- lineinfile:
+    path: ./vars/networking_ocids.yml
+    line: "{{ network_tag }}_public_subnet_id: {{ public_subnet_id }}"
+      

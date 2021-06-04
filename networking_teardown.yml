@@ -10,9 +10,9 @@
       include_role:
         name: networking
         tasks_from: networking_teardown.yml
-      # vars:
-      #   network_tag: "{{ network_tag }}"
-      #   region: "{{ region }}"
+      vars:
+        network_tag: "tv2"
+        region: "us-phoenix-1"
 
         
         
