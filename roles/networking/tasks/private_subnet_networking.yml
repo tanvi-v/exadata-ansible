@@ -1,12 +1,12 @@
 
 # Check for required variables.
   
-- block:
-  - name: Check VCN variables.
+- block: 
+  - name: "Check VCN variables."
     debug:
-      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn and private subnet OCIDs."
+      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
   - meta: end_host
-  when: vcn_id is not defined or private_subnet_id is not defined
+  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
 # Create Networking for Private Subnet
 
@@ -18,7 +18,7 @@
     cidr_block: "{{ private_subnet_cidr_block }}"
     display_name: "{{ network_tag }}PrivateSubnet"
     prohibit_public_ip_on_vnic: "true"
-    dns_label: "{{ network_tag }}PrivSubnet"
+    dns_label: "{{ network_tag }}Priv"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -78,7 +78,7 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    private_rt_id: "{{ result.route_table.id }}"
+    private_route_table_id: "{{ result.route_table.id }}"
     
 - name: Create custom security list
   oci_network_security_list:
@@ -109,12 +109,22 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    private_sl_id: "{{ result.security_list.id }}"
+    private_security_list_id: "{{ result.security_list.id }}"
 
 - name: Update private subnet to use custom route table and security list
   oci_network_subnet:
     region: "{{ region }}"
     subnet_id: "{{ private_subnet_id }}"
-    route_table_id: "{{ private_rt_id }}"
+    route_table_id: "{{ private_route_table_id }}"
     security_list_ids: 
-    - "{{ private_sl_id }}"
+    - "{{ private_security_list_id }}"
+
+- blockinfile:
+    path: "./vars/networking_ocids.yml"
+    marker: "# {{ network_tag }} Networking OCIDs - Private Subnet {mark}"
+    block: |
+      {{ network_tag }}_private_subnet_id: {{ private_subnet_id }}
+      {{ network_tag }}_private_route_table_id: {{ private_route_table_id }}
+      {{ network_tag }}_private_security_list_id: {{ private_security_list_id }}
+      {{ network_tag }}_nat_gateway_id: {{ nat_gateway_id }}
+      {{ network_tag }}_service_gateway_id: {{ service_gateway_id }}

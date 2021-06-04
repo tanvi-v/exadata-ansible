@@ -4,8 +4,8 @@
 
 # Create Standby Region Basic Networking
 
-- name: Create VCN and Subnets for Exadata (Standby)
-  include_tasks: vcn_subnets.yml
+- name: Create VCN (Standby)
+  include_tasks: vcn.yml
   vars:
     region: "{{ standby_region }}"
     network_tag: "{{ standby_network_tag }}"
@@ -39,6 +39,7 @@
   oci_network_drg_attachment:
     region: "{{ standby_region }}"
     drg_id: "{{ standby_drg_id }}"
+    display_name: "{{ standby_network_tag }}DRGAttachment"
     compartment_id: "{{ compartment_id }}"
     network_details:
       type: VCN
@@ -65,9 +66,6 @@
 
 # Create Primary Region DRG
 
-- name: Prod DRG
-  include_vars: prod_networking.yml
-
 - name: Create prod drg
   oci_network_drg:
     region: "{{ region }}"
@@ -83,10 +81,11 @@
   oci_network_drg_attachment:
     region: "{{ region }}"
     drg_id: "{{ prod_drg_id }}"
+    display_name: "{{ network_tag }}DRGAttachment"
     compartment_id: "{{ compartment_id }}"
     network_details:
       type: VCN
-      id: "{{ prod_vcn_id }}"
+      id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -97,8 +96,8 @@
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ prod_vcn_id }}"
-    id: "{{ prod_default_route_table_id }}"
+    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+    id: "{{ lookup('vars', network_tag + '_default_route_table_id') }}"
     route_rules:
     - destination_type: CIDR_BLOCK
       destination: "{{ standby_vcn_cidr_block }}"
@@ -114,6 +113,7 @@
   oci_network_remote_peering_connection:
     region: "{{ standby_region }}"
     compartment_id: "{{ compartment_id }}"
+    display_name: "{{ standby_network_tag }}RPC"
     drg_id: "{{ standby_drg_id }}"
   register: result
 - debug:
@@ -121,10 +121,11 @@
 - set_fact:
     standby_rpc_id: "{{ result.remote_peering_connection.id }}"
 
-- name: Create prod remote peering connection and attach to standby
+- name: Create prod remote peering connection
   oci_network_remote_peering_connection:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}RPC"
     drg_id: "{{ prod_drg_id }}"
   register: result
 - debug:
@@ -142,3 +143,19 @@
   register: result
 - debug:
     msg: "{{ result }}"
+
+- blockinfile:
+    path: "./vars/networking_ocids.yml"
+    marker: "# {{ standby_network_tag }} Remote Peering OCIDs (Standby) {mark}"
+    block: |
+      {{ standby_network_tag }}_drg_id: {{ standby_drg_id }}
+      {{ standby_network_tag }}_drg_attachment_id: {{ standby_drg_attachment_id }}
+      {{ standby_network_tag }}_rpc_id: {{ standby_rpc_id }}
+
+- blockinfile:
+    path: "./vars/networking_ocids.yml"
+    marker: "# {{ network_tag }} Remote Peering OCIDs (Prod) {mark}"
+    block: |
+      {{ network_tag }}_drg_id: {{ prod_drg_id }}
+      {{ network_tag }}_drg_attachment_id: {{ prod_drg_attachment_id }}
+      {{ network_tag }}_rpc_id: {{ prod_rpc_id }}

@@ -18,7 +18,7 @@
     cidr_block: "{{ public_subnet_cidr_block }}"
     display_name: "{{ network_tag }}PublicSubnet"
     prohibit_public_ip_on_vnic: "false"
-    dns_label: "{{ network_tag }}PubSubnet"
+    dns_label: "{{ network_tag }}Pub"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -64,3 +64,10 @@
   register: result
 - debug:
     msg: "{{ result }}"
+
+- blockinfile:
+    path: "./vars/networking_ocids.yml"
+    marker: "# {{ network_tag }} Networking OCIDs - Public Subnet {mark}"
+    block: |
+      {{ network_tag }}_public_subnet_id: {{ public_subnet_id }}
+      {{ network_tag }}_internet_gateway_id: {{ internet_gateway_id }}

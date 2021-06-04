@@ -1,78 +1,100 @@
-- name: Networking teardown
-  include_vars: prod_networking.yml
+# Drop All Routes from Route Tables
+
+- name: Update custom route table to drop any gateways
+  when: lookup('vars', network_tag + '_private_route_table_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_private_route_table_id') }}"
+    route_rules: []
+
+- name: Update default route table to drop any gateways
+  when: lookup('vars', network_tag + '_default_route_table_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_default_route_table_id') }}"
+    route_rules: []
+
+# Delete Remote Peering Components
+
+- name: Delete remote peering connection
+  when: lookup('vars', network_tag + '_rpc_id', default="") != ""
+  oci_network_remote_peering_connection:
+    region: "{{ region }}"
+    remote_peering_connection_id: "{{ lookup('vars', network_tag + '_rpc_id') }}"
+    state: absent
+
+- name: Delete drg_attachment
+  when: lookup('vars', network_tag + '_drg_attachment_id', default="") != ""
+  oci_network_drg_attachment:
+    region: "{{ region }}"
+    drg_attachment_id: "{{ lookup('vars', network_tag + '_drg_attachment_id') }}"
+    state: absent
+
+- name: Delete drg
+  when: lookup('vars', network_tag + '_drg_id', default="") != ""
+  oci_network_drg: 
+    region: "{{ region }}"
+    drg_id: "{{ lookup('vars', network_tag + '_drg_id') }}"
+    state: absent
 
 # Delete Private Networking Components
 
-- name: Update custom route table to drop gateways
-  when: prod_custom_route_table_id is defined
-  oci_network_route_table:
-    region: "{{ region }}"
-    id: "{{ prod_custom_route_table_id }}"
-    route_rules: []
-
 - name: Delete service gateway
-  when: prod_service_gateway_id is defined
+  when: lookup('vars', network_tag + '_service_gateway_id', default="") != ""
   oci_network_service_gateway:
     region: "{{ region }}"
-    id: "{{ prod_service_gateway_id }}"
+    id: "{{ lookup('vars', network_tag + '_service_gateway_id') }}"
     state: absent
 
 - name: Delete nat gateway
-  when: prod_nat_gateway_id is defined
+  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
   oci_network_nat_gateway:
     region: "{{ region }}"
-    id: "{{ prod_nat_gateway_id }}"
+    id: "{{ lookup('vars', network_tag + '_nat_gateway_id') }}"
     state: absent
 
 - name: Delete private subnet
-  when: prod_private_subnet_id is defined
+  when: lookup('vars', network_tag + '_private_subnet_id', default="") != ""
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ prod_private_subnet_id }}"
+    id: "{{ lookup('vars', network_tag + '_private_subnet_id') }}"
     state: absent
 
 - name: Delete custom route table 
-  when: prod_custom_route_table_id is defined
+  when: lookup('vars', network_tag + '_private_route_table_id', default="") != ""
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ prod_custom_route_table_id }}"
+    id: "{{ lookup('vars', network_tag + '_private_route_table_id') }}"
     state: absent
 
 - name: Delete custom security list 
-  when: prod_custom_security_list_id is defined
+  when: lookup('vars', network_tag + '_private_security_list_id', default="") != ""
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ prod_custom_security_list_id }}"
+    id: "{{ lookup('vars', network_tag + '_private_security_list_id') }}"
     state: absent
 
 # Delete Public Networking Components
 
-- name: Update default route table to drop internet gateway
-  when: prod_default_route_table_id is defined
-  oci_network_route_table:
-    region: "{{ region }}"
-    id: "{{ prod_default_route_table_id }}"
-    route_rules: []
-
 - name: Delete internet gateway
-  when: prod_internet_gateway_id is defined
+  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
   oci_network_internet_gateway:
     region: "{{ region }}"
-    id: "{{ prod_internet_gateway_id }}"
+    id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
     state: absent
 
 - name: Delete public subnet
-  when: prod_public_subnet_id is defined
+  when: lookup('vars', network_tag + '_public_subnet_id', default="") != ""
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ prod_public_subnet_id }}"
+    id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
     state: absent
 
 # Delete VCN 
 
 - name: Delete the VCN
-  when: prod_vcn_id is defined
+  when: lookup('vars', network_tag + '_vcn_id', default="") != ""
   oci_network_vcn:
     region: "{{ region }}"
-    id: "{{ prod_vcn_id }}"
+    id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
     state: absent

@@ -4,6 +4,8 @@
   
   tasks:
     
+    - include_vars: networking_ocids.yml
+
     - name: Create Remote Peering
       include_role:
         name: networking

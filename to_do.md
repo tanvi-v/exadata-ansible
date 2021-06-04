@@ -5,9 +5,10 @@ Basic Ansible / OCI errors
 - Figure out best practice for setting inventory 
     - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
 - Figure out best practice for setting region in multi regional environment (ie for dataguard)
+- Finalize best practice for security lists (right now 0.0.0.0/0 for all but should it be port 1521 and/or limited by VCN?)
 
 Code Development
-- remaining Dataguard (done with RPC)
+- remaining Dataguard
     - move vcn into main task and subnets into sub tasks and delete vcn/subnet file
     - need to spin up either VM Cluster or DB System in standby region
     - then enable dataguard

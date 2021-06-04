@@ -1,0 +1,30 @@
+
+- block:
+  - name: Check compartment_id variable
+    debug:
+      msg: "compartment_id is not defined. Please pass in compartment OCID."
+  - meta: end_host
+  when: compartment_id is not defined
+
+- name: Create VCN
+  oci_network_vcn:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}VCN"
+    cidr_block: "{{ vcn_cidr_block }}"
+    dns_label: "{{ network_tag }}VCN"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    vcn_id: "{{ result.vcn.id }}"
+    default_route_table_id: "{{ result.vcn.default_route_table_id }}"
+    default_security_list_id: "{{ result.vcn.default_security_list_id }}"
+
+- blockinfile:
+    path: "./vars/networking_ocids.yml"
+    marker: "# {{ network_tag }} Networking OCIDs - VCN and Defaults {mark}"
+    block: |
+      {{ network_tag}}_vcn_id: {{ vcn_id }}
+      {{ network_tag}}_default_route_table_id: {{ default_route_table_id }}
+      {{ network_tag}}_default_security_list_id: {{ default_security_list_id }}
