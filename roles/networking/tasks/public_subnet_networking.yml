@@ -10,6 +10,21 @@
 
 # Create Networking for Public Subnet
 
+- name: Create public subnet with default values for route table, security list, & DHCP options
+  oci_network_subnet:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ vcn_id }}"
+    cidr_block: "{{ public_subnet_cidr_block }}"
+    display_name: "{{ network_tag }}PublicSubnet"
+    prohibit_public_ip_on_vnic: "false"
+    dns_label: "{{ network_tag }}PubSubnet"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    public_subnet_id: "{{ result.subnet.id }}"
+
 - name: Create internet gateway
   oci_network_internet_gateway:
     region: "{{ region }}"

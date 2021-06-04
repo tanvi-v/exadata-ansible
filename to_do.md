@@ -5,12 +5,15 @@ Basic Ansible / OCI errors
 - Figure out best practice for setting inventory 
     - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
 - Figure out best practice for setting region in multi regional environment (ie for dataguard)
-- Figure out why VCN_CIDR for route rule is being shown as the wrong value!!!!!
 
 Code Development
-- ExaCC Backups / Backup Destinations
-- DRG teardown
 - remaining Dataguard (done with RPC)
+    - move vcn into main task and subnets into sub tasks and delete vcn/subnet file
+    - need to spin up either VM Cluster or DB System in standby region
+    - then enable dataguard
+    - figure out how to organize code for this
+- ExaCC Backups / Backup Destinations
+- DRG / RPC / Standby teardown
 - PDBs
 - Variables
     - make variable values easier, check with customer naming conventions
@@ -29,6 +32,7 @@ Testing
 
 
 Code organization
+- How should dataguard set-up work? Should Networking be included with OG networking set-up?
 - Do we want to further split up the DB role based on creation vs. operation?
 - Where should error handling occur? Since task files might be run individually? or should they be in main.yml to make sure code is not repeated? --> look at flow. Will the task file (especially the create ones really ever be run individually? If not, then no need for error handling there)
 

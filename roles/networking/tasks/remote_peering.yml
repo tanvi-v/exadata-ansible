@@ -4,9 +4,6 @@
 
 # Create Standby Region Basic Networking
 
-- name: Standby Networking
-  include_vars: standby_networking.yml
-
 - name: Create VCN and Subnets for Exadata (Standby)
   include_tasks: vcn_subnets.yml
   vars:
@@ -60,8 +57,7 @@
     id: "{{ default_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
-      # destination: "{{ vcn_cidr_block }}" "10.1.0.0/16" 
-      destination: "10.1.0.0/16" 
+      destination: "{{ vcn_cidr_block }}"
       network_entity_id: "{{ standby_drg_id }}"
   register: result
 - debug:
@@ -143,3 +139,6 @@
     peer_id: "{{ prod_rpc_id }}"
     peer_region_name: "{{ region }}"
     action: connect
+  register: result
+- debug:
+    msg: "{{ result }}"

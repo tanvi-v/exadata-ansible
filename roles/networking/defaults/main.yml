@@ -1,17 +1,17 @@
 
 # primary network vars
 region: "us-ashburn-1"
-network_tag: "exa3"
-vcn_cidr_block: "10.1.0.0/16" 
-public_subnet_cidr_block: "10.1.0.0/24"   # to host ExaCS VM Cluster
-private_subnet_cidr_block: "10.1.1.0/24"  # for ExaCS back-up
+network_tag: "prod1"
+vcn_cidr_block: "10.3.0.0/16" 
+public_subnet_cidr_block: "10.3.0.0/24"   # to host ExaCS VM Cluster
+private_subnet_cidr_block: "10.3.1.0/24"  # for ExaCS back-up
 
 # standby network vars
 standby_region: "us-phoenix-1"
-standby_network_tag: "sb2"
-standby_vcn_cidr_block: "10.2.0.0/16" 
-standby_public_subnet_cidr_block: "10.2.0.0/24"   # to host ExaCS VM Cluster
-standby_private_subnet_cidr_block: "10.2.1.0/24"  # for ExaCS back-up
+standby_network_tag: "dr1"
+standby_vcn_cidr_block: "10.4.0.0/16" 
+standby_public_subnet_cidr_block: "10.4.0.0/24"   # to host ExaCS VM Cluster
+standby_private_subnet_cidr_block: "10.4.1.0/24"  # for ExaCS back-up
 
 
 

@@ -4,65 +4,75 @@
 # Delete Private Networking Components
 
 - name: Update custom route table to drop gateways
+  when: prod_custom_route_table_id is defined
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ custom_route_table_id }}"
+    id: "{{ prod_custom_route_table_id }}"
     route_rules: []
 
 - name: Delete service gateway
+  when: prod_service_gateway_id is defined
   oci_network_service_gateway:
     region: "{{ region }}"
-    id: "{{ service_gateway_id }}"
+    id: "{{ prod_service_gateway_id }}"
     state: absent
 
 - name: Delete nat gateway
+  when: prod_nat_gateway_id is defined
   oci_network_nat_gateway:
     region: "{{ region }}"
-    id: "{{ nat_gateway_id }}"
+    id: "{{ prod_nat_gateway_id }}"
     state: absent
 
 - name: Delete private subnet
+  when: prod_private_subnet_id is defined
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ private_subnet_id }}"
+    id: "{{ prod_private_subnet_id }}"
     state: absent
 
 - name: Delete custom route table 
+  when: prod_custom_route_table_id is defined
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ custom_route_table_id }}"
+    id: "{{ prod_custom_route_table_id }}"
     state: absent
 
 - name: Delete custom security list 
+  when: prod_custom_security_list_id is defined
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ custom_security_list_id }}"
+    id: "{{ prod_custom_security_list_id }}"
     state: absent
 
 # Delete Public Networking Components
 
 - name: Update default route table to drop internet gateway
+  when: prod_default_route_table_id is defined
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ default_route_table_id }}"
+    id: "{{ prod_default_route_table_id }}"
     route_rules: []
 
 - name: Delete internet gateway
+  when: prod_internet_gateway_id is defined
   oci_network_internet_gateway:
     region: "{{ region }}"
-    id: "{{ internet_gateway_id }}"
+    id: "{{ prod_internet_gateway_id }}"
     state: absent
 
 - name: Delete public subnet
+  when: prod_public_subnet_id is defined
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ public_subnet_id }}"
+    id: "{{ prod_public_subnet_id }}"
     state: absent
 
 # Delete VCN 
 
 - name: Delete the VCN
+  when: prod_vcn_id is defined
   oci_network_vcn:
     region: "{{ region }}"
-    id: "{{ vcn_id }}"
+    id: "{{ prod_vcn_id }}"
     state: absent
