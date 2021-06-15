@@ -1,10 +1,25 @@
-# Drop All Routes from Default Route Table
+
+# Drop All Routes from Route Tables
 
 - name: Update default route table to drop any gateways
   when: lookup('vars', network_tag + '_default_route_table_id', default="") != ""
   oci_network_route_table:
     region: "{{ region }}"
     id: "{{ lookup('vars', network_tag + '_default_route_table_id') }}"
+    route_rules: []
+
+- name: Update backup route table to drop any gateways
+  when: lookup('vars', network_tag + '_backup_route_table_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_backup_route_table_id') }}"
+    route_rules: []
+
+- name: Update client route table to drop any gateways
+  when: lookup('vars', network_tag + '_client_route_table_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
     route_rules: []
 
 # Delete Remote Peering Components
@@ -30,7 +45,30 @@
     drg_id: "{{ lookup('vars', network_tag + '_drg_id') }}"
     state: absent
 
-# Delete Private Networking Components
+# Terminate Gateways
+
+- name: Delete service gateway
+  when: lookup('vars', network_tag + '_service_gateway_id', default="") != ""
+  oci_network_service_gateway:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_service_gateway_id') }}"
+    state: absent
+
+- name: Delete nat gateway
+  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
+  oci_network_nat_gateway:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_nat_gateway_id') }}"
+    state: absent
+
+- name: Delete internet gateway
+  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
+  oci_network_internet_gateway:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
+    state: absent
+
+# Terminate Backup Networking Components
 
 - name: Delete private subnet
   when: lookup('vars', network_tag + '_private_subnet_id', default="") != ""
@@ -53,19 +91,6 @@
     id: "{{ lookup('vars', network_tag + '_private_security_list_id') }}"
     state: absent
 
-- name: Delete service gateway
-  when: lookup('vars', network_tag + '_service_gateway_id', default="") != ""
-  oci_network_service_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_service_gateway_id') }}"
-    state: absent
-
-- name: Delete nat gateway
-  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
-  oci_network_nat_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_nat_gateway_id') }}"
-    state: absent
 
 # Delete Public Networking Components
 
@@ -74,13 +99,6 @@
   oci_network_subnet:
     region: "{{ region }}"
     id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
-    state: absent
-
-- name: Delete internet gateway
-  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
-  oci_network_internet_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
     state: absent
 
 - name: Delete db security list 

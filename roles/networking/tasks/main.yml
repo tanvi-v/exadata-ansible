@@ -8,8 +8,10 @@
 - name: Create VCN
   include_tasks: vcn.yml
 
-- name: Add Networking for Public Subnet
-  include_tasks: public_subnet_networking.yml
+- name: Add Networking for Backup Subnet
+  include_tasks: backup_subnet.yml
 
-- name: Add Networking for Private Subnet
-  include_tasks: private_subnet_networking.yml
+- name: Add Networking for Client Subnet
+  include_tasks: client_subnet.yml
+  vars:
+    subnet_type: "public"

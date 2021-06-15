@@ -11,12 +11,12 @@
     network_tag: "{{ standby_network_tag }}"
     vcn_cidr_block: "{{ standby_vcn_cidr_block }}"  
 
-- name: Create DB Security List for Standby
+- name: Create Client Security List for Standby
   oci_network_security_list:
     region: "{{ standby_region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ standby_network_tag }}DBSecurityList"
+    display_name: "{{ standby_network_tag }}ClientSL"
     ingress_security_rules:
     - protocol: "6"
       source: "{{ vcn_cidr_block }}"
@@ -35,24 +35,23 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    standby_db_security_list_id: "{{ result.security_list.id }}"
+    standby_client_security_list_id: "{{ result.security_list.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_db_security_list_id: {{ standby_db_security_list_id }}"
-
+    line: "{{ standby_network_tag }}_client_security_list_id: {{ standby_client_security_list_id }}"
 
 - name: Create public subnet with default values for route table, security list, & DHCP options
   oci_network_subnet:
     region: "{{ standby_region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ standby_public_subnet_cidr_block }}"
-    display_name: "{{ standby_network_tag }}PublicSubnet"
+    cidr_block: "{{ standby_client_subnet_cidr_block }}"
+    display_name: "{{ standby_network_tag }}CS"
     prohibit_public_ip_on_vnic: "false"
     dns_label: "{{ standby_network_tag }}Pub"
     security_list_ids:
     - "{{ default_security_list_id }}"
-    - "{{ standby_db_security_list_id }}"
+    - "{{ standby_client_security_list_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -60,49 +59,49 @@
     public_subnet_id: "{{ result.subnet.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_public_subnet_id: {{ public_subnet_id }}"
+    line: "{{ standby_network_tag }}_client_subnet_id: {{ standby_client_security_list_id }}"
 
 # Prod Security List Changes
 
-- name: Create DB Security List for Prod
-  oci_network_security_list:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
-    display_name: "{{ network_tag }}DBSecurityList"
-    ingress_security_rules:
-    - protocol: "6"
-      source: "{{ standby_vcn_cidr_block }}"
-      tcp_options:
-        destination_port_range:
-          min: "1521"
-          max: "1521"
-    egress_security_rules:
-    - protocol: "6"
-      destination: "{{ standby_vcn_cidr_block }}"
-      tcp_options:
-        destination_port_range:
-          min: "1521"
-          max: "1521"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    prod_db_security_list_id: "{{ result.security_list.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_db_security_list_id: {{ prod_db_security_list_id }}"
+# - name: Create DB Security List for Prod
+#   oci_network_security_list:
+#     region: "{{ region }}"
+#     compartment_id: "{{ compartment_id }}"
+#     vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+#     display_name: "{{ network_tag }}DBSecurityList"
+#     ingress_security_rules:
+#     - protocol: "6"
+#       source: "{{ standby_vcn_cidr_block }}"
+#       tcp_options:
+#         destination_port_range:
+#           min: "1521"
+#           max: "1521"
+#     egress_security_rules:
+#     - protocol: "6"
+#       destination: "{{ standby_vcn_cidr_block }}"
+#       tcp_options:
+#         destination_port_range:
+#           min: "1521"
+#           max: "1521"
+#   register: result
+# - debug:
+#     msg: "{{ result }}"
+# - set_fact:
+#     prod_db_security_list_id: "{{ result.security_list.id }}"
+# - lineinfile:
+#     path: ./vars/networking_ocids.yml
+#     line: "{{ network_tag }}_db_security_list_id: {{ prod_db_security_list_id }}"
 
-- name: Add DB security list to prod subnet
-  oci_network_subnet:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
-    security_list_ids:
-    - "{{ lookup('vars', network_tag + '_default_security_list_id') }}"
-    - "{{ prod_db_security_list_id }}"
-  register: result
-- debug:
-    msg: "{{ result }}"
+# - name: Add DB security list to prod subnet
+#   oci_network_subnet:
+#     region: "{{ region }}"
+#     id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
+#     security_list_ids:
+#     - "{{ lookup('vars', network_tag + '_default_security_list_id') }}"
+#     - "{{ prod_db_security_list_id }}"
+#   register: result
+# - debug:
+#     msg: "{{ result }}"
      
 
 # Create Standby Region DRG and RPC
@@ -202,7 +201,10 @@
     path: ./vars/networking_ocids.yml
     line: "{{ network_tag }}_drg_attachment_id: {{ prod_drg_attachment_id }}"
 
-- name: Add drg route to prod default route table
+# Add DRG to Route Table
+
+- name: Add drg route to prod default route table when subnet is public
+  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
@@ -212,9 +214,35 @@
     - destination_type: CIDR_BLOCK
       destination: "{{ standby_vcn_cidr_block }}"
       network_entity_id: "{{ prod_drg_id }}"
+    - destination_type: CIDR_BLOCK
+      destination: "0.0.0.0/0"
+      network_entity_id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
   register: result
 - debug:
     msg: "{{ result }}"
+
+- name: Add drg route to prod default route table when subnet is private
+  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+    id: "{{ lookup('vars', network_tag + '_default_route_table_id') }}"
+    route_rules:
+    - destination_type: CIDR_BLOCK
+      destination: "{{ standby_vcn_cidr_block }}"
+      network_entity_id: "{{ prod_drg_id }}"
+    - destination_type: CIDR_BLOCK
+        destination: "0.0.0.0/0"
+        network_entity_id: "{{ nat_gateway_id }}"
+      - destination_type: SERVICE_CIDR_BLOCK
+        destination: "all-iad-services-in-oracle-services-network"
+        network_entity_id: "{{ service_gateway_id }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+
+# Continue creation remote peering connection
 
 - name: Create prod remote peering connection
   oci_network_remote_peering_connection:

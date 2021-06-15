@@ -8,22 +8,7 @@
   - meta: end_host
   when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
 
-# Create Networking for Private Subnet
-
-- name: Create nat gateway
-  oci_network_nat_gateway:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}NG"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    nat_gateway_id: "{{ result.nat_gateway.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_nat_gateway_id: {{ nat_gateway_id }}"
+# Create Networking for Private Backup Subnet
 
 - name: List Oracle services
   oci_network_service_facts:
@@ -52,16 +37,13 @@
     path: ./vars/networking_ocids.yml
     line: "{{ network_tag }}_service_gateway_id: {{ service_gateway_id }}"
     
-- name: Create custom route table
+- name: Create backup route table
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}PrivateRT"
+    display_name: "{{ network_tag }}BackupRT"
     route_rules:
-    - destination_type: CIDR_BLOCK
-      destination: "0.0.0.0/0"
-      network_entity_id: "{{ nat_gateway_id }}"
     - destination_type: SERVICE_CIDR_BLOCK
       destination: "all-iad-services-in-oracle-services-network"
       network_entity_id: "{{ service_gateway_id }}"
@@ -69,17 +51,17 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    private_route_table_id: "{{ result.route_table.id }}"
+    backup_route_table_id: "{{ result.route_table.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_private_route_table_id: {{ private_route_table_id }}"
+    line: "{{ network_tag }}_backup_route_table_id: {{ backup_route_table_id }}"
     
-- name: Create custom security list
+- name: Create backup security list
   oci_network_security_list:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}PrivateSL"
+    display_name: "{{ network_tag }}BackupSL"
     ingress_security_rules:
     - protocol: "6"
       source: "{{ vcn_cidr_block }}"
@@ -103,31 +85,31 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    private_security_list_id: "{{ result.security_list.id }}"
+    backup_security_list_id: "{{ result.security_list.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_private_security_list_id: {{ private_security_list_id }}"
+    line: "{{ network_tag }}_backup_security_list_id: {{ backup_security_list_id }}"
 
-- name: Create private subnet with custom route table and security list
+- name: Create backup subnet with custom route table and security list
   oci_network_subnet:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ private_subnet_cidr_block }}"
-    display_name: "{{ network_tag }}PrivateSubnet"
+    cidr_block: "{{ backup_subnet_cidr_block }}"
+    display_name: "{{ network_tag }}BackupSubnet"
     prohibit_public_ip_on_vnic: "true"
-    dns_label: "{{ network_tag }}Priv"
-    route_table_id: "{{ private_route_table_id }}"
+    dns_label: "{{ network_tag }}BU"
+    route_table_id: "{{ backup_route_table_id }}"
     security_list_ids: 
-    - "{{ private_security_list_id }}"
+    - "{{ backup_security_list_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    private_subnet_id: "{{ result.subnet.id }}"
+    backup_subnet_id: "{{ result.subnet.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_private_subnet_id: {{ private_subnet_id }}"
+    line: "{{ network_tag }}_backup_subnet_id: {{ backup_subnet_id }}"
       
       
       
