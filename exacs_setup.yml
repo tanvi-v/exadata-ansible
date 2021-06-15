@@ -1,4 +1,10 @@
 
+# Playbook exacs_setup.yml creates an Exadata Cloud Service environment by calling the Exadata Infrastructure role, Exadata VM Cluster role,
+# Database Home role, and Database role. 
+
+# To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
+# the desired value under vars for each task. These variables will take precedence over the defaults.
+
 - name: ExaCS Set-Up
   hosts: localhost
   
@@ -12,6 +18,7 @@
         name: networking
       vars:
         compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq" 
+        client_subnet_type: "public"
 
     # - name: Create Exadata Infrastructure for ExaCS
     #   include_role:

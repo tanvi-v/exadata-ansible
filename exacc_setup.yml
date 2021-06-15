@@ -6,15 +6,11 @@
   
   tasks:
     
-    - name: Validate Networking for ExaCC
-      debug:
-        msg: "TO DO!"
-
-    # What other steps for ExaCC set-up? VM Cluster Network?
+    # What other steps for ExaCC set-up? VM Cluster Network? Don't need ExaCC Set-up command because will be already set-up by Oracle.
 
     - name: Create VM Cluster for ExaCC
-    include_role:
-      name: exadata_vm_cluster
+      include_role:
+        name: exadata_vm_cluster
     
     - name: Create Database Home for ExaCC
       include_role:

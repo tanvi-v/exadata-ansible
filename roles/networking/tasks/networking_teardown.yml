@@ -70,45 +70,52 @@
 
 # Terminate Backup Networking Components
 
-- name: Delete private subnet
-  when: lookup('vars', network_tag + '_private_subnet_id', default="") != ""
+- name: Delete backup subnet
+  when: lookup('vars', network_tag + '_backup_subnet_id', default="") != ""
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_private_subnet_id') }}"
+    id: "{{ lookup('vars', network_tag + '_backup_subnet_id') }}"
     state: absent
 
-- name: Delete custom route table 
-  when: lookup('vars', network_tag + '_private_route_table_id', default="") != ""
+- name: Delete backup route table 
+  when: lookup('vars', network_tag + '_backup_route_table_id', default="") != ""
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_private_route_table_id') }}"
+    id: "{{ lookup('vars', network_tag + '_backup_route_table_id') }}"
     state: absent
 
-- name: Delete custom security list 
-  when: lookup('vars', network_tag + '_private_security_list_id', default="") != ""
+- name: Delete backup security list 
+  when: lookup('vars', network_tag + '_backup_security_list_id', default="") != ""
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_private_security_list_id') }}"
+    id: "{{ lookup('vars', network_tag + '_backup_security_list_id') }}"
     state: absent
 
 
-# Delete Public Networking Components
+# Terminate Client Networking Components
 
-- name: Delete public subnet
-  when: lookup('vars', network_tag + '_public_subnet_id', default="") != ""
+- name: Delete client subnet
+  when: lookup('vars', network_tag + '_client_subnet_id', default="") != ""
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
+    id: "{{ lookup('vars', network_tag + '_client_subnet_id') }}"
     state: absent
 
-- name: Delete db security list 
-  when: lookup('vars', network_tag + '_db_security_list_id', default="") != ""
+- name: Delete client route table 
+  when: lookup('vars', network_tag + '_client_route_table_id', default="") != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
+    state: absent
+
+- name: Delete client security list 
+  when: lookup('vars', network_tag + '_client_security_list_id', default="") != ""
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_db_security_list_id') }}"
+    id: "{{ lookup('vars', network_tag + '_client_security_list_id') }}"
     state: absent
 
-# Delete VCN 
+# Terminate VCN
 
 - name: Delete the VCN
   when: lookup('vars', network_tag + '_vcn_id', default="") != ""

@@ -13,5 +13,3 @@
 
 - name: Add Networking for Client Subnet
   include_tasks: client_subnet.yml
-  vars:
-    subnet_type: "public"

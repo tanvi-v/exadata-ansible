@@ -1,4 +1,5 @@
 
+# Playbook db_teardown.yml terminates several databases and db homes by looping through a list of OCIDs. 
 
 - name: DB Teardown For Testing
   hosts: localhost

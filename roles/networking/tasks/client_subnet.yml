@@ -49,7 +49,7 @@
       path: ./vars/networking_ocids.yml
       line: "{{ network_tag }}_client_route_table_id: {{ client_route_table_id }}"
   
-  when: subnet_type == "private"
+  when: client_subnet_type == "private"
 
 
 # Create Networking for Public Client Subnet
@@ -91,7 +91,7 @@
       path: ./vars/networking_ocids.yml
       line: "{{ network_tag }}_client_route_table_id: {{ client_route_table_id }}"
 
-  when: subnet_type == "public"
+  when: client_subnet_type == "public"
 
 # Create Networking for Client Subnet
 
