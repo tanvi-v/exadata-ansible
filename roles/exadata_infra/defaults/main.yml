@@ -1,8 +1,8 @@
 
 # exacc vars
-exacc_name: "tstExaInfra"
-exacc_shape: "Exadata.Full2.336"
-time_zone: "PST"
+exacc_name: tstExaInfra
+exacc_shape: Exadata.Full2.336
+time_zone: PST
 cloud_control_plane_server1: "192.168.19.1"
 cloud_control_plane_server2: "192.168.19.2"
 netmask: "255.255.0.0"

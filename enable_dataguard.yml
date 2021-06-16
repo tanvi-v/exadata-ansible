@@ -29,8 +29,19 @@
     # - name: Provision Standby Database
     # TO DO!!
 
-    # - name: Enable DataGuard
-    # TO DO!!
+    # "msg": "Internal error occurred"
+    - name: Enable DataGuard
+      include_role:
+        name: database_creation
+        tasks_from: dataguard.yml
+      vars:
+        region: "us-ashburn-1"
+        primary_database_id: "ocid1.database.oc1.iad.abuwcljsnyyvi6mci4duwkgfkigiy2wxlfunmrlnf2575tp7qarkwmnl4lsq"
+        standby_availability_domain: "rLid:US-PHOENIX-AD-1"
+        standby_display_name: "DRDB2"
+        standby_hostname: "drdb2"
+        standby_subnet_id: "ocid1.subnet.oc1.phx.aaaaaaaaui7ivfa7fcuqzcjgy5k3rdzjd45h4xvyp5ksvvel3wuwluvfc5aa"
+        shape: "VM.Standard2.4"
 
 
       

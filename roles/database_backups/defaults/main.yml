@@ -1,4 +1,4 @@
 
 # automatic backup
-auto_backup_window: "SLOT_TWO"
+auto_backup_window: SLOT_TWO
 recovery_window_in_days: 30

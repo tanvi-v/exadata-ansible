@@ -1,16 +1,16 @@
 
 # vm cluster vars
-vm_cluster_name: "tstExaVM"
-vm_cluster_network_id: "ocid1.vmcluster..."
+vm_cluster_name: tstExaVM
+vm_cluster_network_id: ocid1.vmcluster
 cpu_core_count: "4"
 memory_size_in_gbs: "30"
 db_node_storage_size_in_gbs: "60"
 data_storage_size_in_tbs: "84"
 ssh_public_keys: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAz..."
-license_model: "LICENSE_INCLUDED"
+license_model: LICENSE_INCLUDED
 is_sparse_diskgroup_enabled: "false"
 is_local_backup_enabled: "true"
-time_zone: "PST"
+time_zone: PST
 gi_version: "19.1.0.0"
 
 

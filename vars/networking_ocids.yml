@@ -24,3 +24,8 @@ tv2_rpc_id: ocid1.remotepeeringconnection.oc1.phx.aaaaaaaalsq3jkcsp2byghyad4dpe3
 tv1_drg_id: ocid1.drg.oc1.iad.aaaaaaaavawgobapeftfsq42soxkkbntm4pc4dtrxxavkcyc5qcqasv3acrq
 tv1_drg_attachment_id: ocid1.drgattachment.oc1.iad.aaaaaaaacit3yms5kagl5md6jsmnbbd4wd5itfjpvcu2x7oigk6pmw72323a
 tv1_rpc_id: ocid1.remotepeeringconnection.oc1.iad.aaaaaaaaroa3ntbn3oxjgtyhgwo3oji6hzy7rukqeuekj366p675ferufjzq
+# test1 Networking OCIDs - VCN and Defaults BEGIN
+test1_vcn_id: ocid1.vcn.oc1.iad.amaaaaaantxkdlyaj3dxqzcu4bwy4gqaqfu7jznoa2v2kkcwise3kiukni7a
+test1_default_route_table_id: ocid1.routetable.oc1.iad.aaaaaaaaenpdq4jgqtsxrk3fuuoarz76hud2dhp2rzwx7opqyfbdanwjoaxq
+test1_default_security_list_id: ocid1.securitylist.oc1.iad.aaaaaaaah7nj2dyz2i7bkxsbmno67hfp6cvykf4637babjagufyz64f6j4mq
+# test1 Networking OCIDs - VCN and Defaults END

@@ -14,8 +14,8 @@
         name: networking
         tasks_from: networking_teardown.yml
       vars:
-        network_tag: "tv1"
-        region: "us-ashburn-1"
+        network_tag: test1
+        region: us-ashburn-1
 
         
         
