@@ -18,6 +18,10 @@
         tasks_from: remote_peering.yml
       vars:
         compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq"
+        primary_vcn_id: "{{ lookup('vars', tv1 + '_vcn_id') }}"
+        primary_client_route_table_id: "{{ lookup('vars', tv1 + '_client_route_table_id') }}"
+        primary_internet_gateway_id: "{{ lookup('vars', tv1 + '_internet_gateway_id') }}"
+        
     
     # - name: Provision Standby Exadata 
     # TO DO!!

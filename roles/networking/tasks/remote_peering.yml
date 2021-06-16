@@ -60,48 +60,6 @@
 - lineinfile:
     path: ./vars/networking_ocids.yml
     line: "{{ standby_network_tag }}_client_subnet_id: {{ standby_client_subnet_id }}"
-
-# Prod Security List Changes
-
-# - name: Create DB Security List for Prod
-#   oci_network_security_list:
-#     region: "{{ region }}"
-#     compartment_id: "{{ compartment_id }}"
-#     vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
-#     display_name: "{{ network_tag }}DBSecurityList"
-#     ingress_security_rules:
-#     - protocol: "6"
-#       source: "{{ standby_vcn_cidr_block }}"
-#       tcp_options:
-#         destination_port_range:
-#           min: "1521"
-#           max: "1521"
-#     egress_security_rules:
-#     - protocol: "6"
-#       destination: "{{ standby_vcn_cidr_block }}"
-#       tcp_options:
-#         destination_port_range:
-#           min: "1521"
-#           max: "1521"
-#   register: result
-# - debug:
-#     msg: "{{ result }}"
-# - set_fact:
-#     prod_db_security_list_id: "{{ result.security_list.id }}"
-# - lineinfile:
-#     path: ./vars/networking_ocids.yml
-#     line: "{{ network_tag }}_db_security_list_id: {{ prod_db_security_list_id }}"
-
-# - name: Add DB security list to prod subnet
-#   oci_network_subnet:
-#     region: "{{ region }}"
-#     id: "{{ lookup('vars', network_tag + '_public_subnet_id') }}"
-#     security_list_ids:
-#     - "{{ lookup('vars', network_tag + '_default_security_list_id') }}"
-#     - "{{ prod_db_security_list_id }}"
-#   register: result
-# - debug:
-#     msg: "{{ result }}"
      
 
 # Create Standby Region DRG and RPC
@@ -191,7 +149,7 @@
     compartment_id: "{{ compartment_id }}"
     network_details:
       type: VCN
-      id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+      id: "{{ primary_vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -204,30 +162,30 @@
 # Add DRG to Route Table
 
 - name: Add drg route to client route table when subnet is public
-  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
+  when: primary_internet_gateway_id is defined
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
-    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
+    vcn_id: "{{ primary_vcn_id }}"
+    id: "{{ primary_client_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
       destination: "{{ standby_vcn_cidr_block }}"
       network_entity_id: "{{ prod_drg_id }}"
     - destination_type: CIDR_BLOCK
       destination: "0.0.0.0/0"
-      network_entity_id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
+      network_entity_id: "{{ primary_internet_gateway_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
 
 - name: Add drg route to client route table when subnet is private
-  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
+  when: primary_nat_gateway_id is defined
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
-    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
+    vcn_id: "{{ primary_vcn_id }}"
+    id: "{{ primary_client_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
       destination: "{{ standby_vcn_cidr_block }}"

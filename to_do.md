@@ -5,7 +5,7 @@ Basic Ansible / OCI errors
 - Figure out best practice for setting inventory 
     - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
 - Figure out best practice for setting region in multi regional environment (ie for dataguard)
-- Finalize what security list values should be!!! especially for private backup network, etc (right now just default but should probs be something else)
+
 
 Code Development
 - remaining Dataguard

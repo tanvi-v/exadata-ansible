@@ -1,5 +1,7 @@
 
-# Playbook add_pdb.yml terminates several databases and db homes by looping through a list of OCIDs. 
+# Playbook add_pdb.yml adds a PDB to the designated database.
+
+# TO DO!!
 
 - hosts: "server"
   gather_facts: no
