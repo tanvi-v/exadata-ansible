@@ -4,7 +4,7 @@
   - name: Create cloud vm cluster
     oci_database_cloud_vm_cluster:
       compartment_id: "{{ compartment_id }}"
-      subnet_id: "{{ vm_cluster_subnet_id }}"
+      subnet_id: "{{ client_subnet_id }}"
       backup_subnet_id: "{{ backup_subnet_id }}"
       cloud_exadata_infrastructure_id: "{{ exadata_infrastructure_id }}"
       cpu_core_count: "{{ vm_cluster_cpu_count }}"

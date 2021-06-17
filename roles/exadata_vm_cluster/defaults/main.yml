@@ -15,8 +15,8 @@ gi_version: "19.1.0.0"
 
 
 # vm_cluster vars (prereq: run networking.yml and pull OCIDs from output or console)
-vm_cluster_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaeuwadcrk4m2flypo55s63zi6rjvsiw4r3lfj5l3b7minxkebcgna"
-backup_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaah6sf3cqse5pafcylcyjcmd6iz76umgyrwievv6kzvurtbilueo2a"
+# vm_cluster_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaeuwadcrk4m2flypo55s63zi6rjvsiw4r3lfj5l3b7minxkebcgna"
+# backup_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaah6sf3cqse5pafcylcyjcmd6iz76umgyrwievv6kzvurtbilueo2a"
 vm_cluster_cpu_count: 56
 vm_cluster_display_name: "tstVMCluster"
 vm_cluster_hostname: "tstcluster"

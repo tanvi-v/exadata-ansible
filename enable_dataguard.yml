@@ -22,14 +22,29 @@
         primary_client_route_table_id: "{{ lookup('vars', tv1 + '_client_route_table_id') }}"
         primary_internet_gateway_id: "{{ lookup('vars', tv1 + '_internet_gateway_id') }}"
         
+    # - name: Create Exadata Infrastructure for ExaCS
+    #   include_role:
+    #     name: exadata_infra
     
-    # - name: Provision Standby Exadata 
-    # TO DO!!
+    # - name: Create VM Cluster for ExaCS
+    #   include_role:
+    #     name: exadata_vm_cluster
+    
+    # - name: Create Database Home for ExaCS
+    #   include_role:
+    #     name: database_home_creation
+    #   vars:
+    #     vm_cluster_id: "ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a" 
+    #     compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
+    
+    # - name: Create Database for ExaCS
+    #   include_role:
+    #     name: database_creation
+    #   vars:
+    #     compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
+    #     db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
 
-    # - name: Provision Standby Database
-    # TO DO!!
-
-    # "msg": "Internal error occurred"
+    # TO DO: Fix error. "msg": "Internal error occurred"
     - name: Enable DataGuard
       include_role:
         name: database_creation

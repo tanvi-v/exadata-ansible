@@ -16,5 +16,5 @@ ntp_server:
 - "192.168.10.20"
 
 # exacs vars
-exacs_name: "tstExaInfra"
-exacs_shape: "Exadata.X8M"
+exacs_name: tstExaInfra
+exacs_shape: Exadata.X8M

@@ -35,10 +35,10 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    standby_client_security_list_id: "{{ result.security_list.id }}"
+    client_security_list_id: "{{ result.security_list.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_client_security_list_id: {{ standby_client_security_list_id }}"
+    line: "{{ standby_network_tag }}_client_security_list_id: {{ client_security_list_id }}"
 
 - name: Create public subnet with default values for route table, security list, & DHCP options
   oci_network_subnet:
@@ -51,15 +51,15 @@
     dns_label: "{{ standby_network_tag }}Pub"
     security_list_ids:
     - "{{ default_security_list_id }}"
-    - "{{ standby_client_security_list_id }}"
+    - "{{ client_security_list_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    standby_client_subnet_id: "{{ result.subnet.id }}"
+    client_subnet_id: "{{ result.subnet.id }}"
 - lineinfile:
     path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_client_subnet_id: {{ standby_client_subnet_id }}"
+    line: "{{ standby_network_tag }}_client_subnet_id: {{ client_subnet_id }}"
      
 
 # Create Standby Region DRG and RPC
