@@ -127,6 +127,9 @@
 
 # Create Primary Region DRG and RPC
 
+- name: Primary VCN OCID
+  include_tasks: vcn_discovery.yml
+
 - name: Create prod drg
   oci_network_drg:
     region: "{{ region }}"

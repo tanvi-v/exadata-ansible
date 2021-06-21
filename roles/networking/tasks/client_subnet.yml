@@ -1,20 +1,22 @@
 
 # Check for required variables.
 
-- block: 
-  - name: "Check VCN variables."
-    debug:
-      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
-  - meta: end_host
-  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
+- name: "Check VCN variables."
+  assert:
+    that:
+      - vcn_id is defined
+      - default_route_table_id is defined
+      - default_security_list_id is defined
+    fail_msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
 
 # Create Networking for Private Client Subnet
 
-- block:
+# TO DO: CHANGE BLOCK METHOD
 
+- block:
+  
   - name: Create nat gateway
     oci_network_nat_gateway:
-      # region: "{{ region }}"
       compartment_id: "{{ compartment_id }}"
       vcn_id: "{{ vcn_id }}"
       display_name: "{{ network_tag }}NG"
@@ -23,13 +25,9 @@
       msg: "{{ result }}"
   - set_fact:
       nat_gateway_id: "{{ result.nat_gateway.id }}"
-  - lineinfile:
-      path: ./vars/networking_ocids.yml
-      line: "{{ network_tag }}_nat_gateway_id: {{ nat_gateway_id }}"
       
   - name: Create client route table
     oci_network_route_table:
-      # region: "{{ region }}"
       compartment_id: "{{ compartment_id }}"
       vcn_id: "{{ vcn_id }}"
       display_name: "{{ network_tag }}ClientRT"
@@ -38,19 +36,15 @@
         destination: "0.0.0.0/0"
         network_entity_id: "{{ nat_gateway_id }}"
       - destination_type: SERVICE_CIDR_BLOCK
-        destination: "all-iad-services-in-oracle-services-network"
+        destination: "{{ all_services_cidr }}"
         network_entity_id: "{{ service_gateway_id }}"
     register: result
   - debug:
       msg: "{{ result }}"
   - set_fact:
-      client_route_table_id: "{{ result.route_table.id }}"
-  - lineinfile:
-      path: ./vars/networking_ocids.yml
-      line: "{{ network_tag }}_client_route_table_id: {{ client_route_table_id }}"
+      client_route_table_id: "{{ result.route_table.id }}"  
   
   when: client_subnet_type == "private"
-
 
 # Create Networking for Public Client Subnet
 
@@ -58,7 +52,6 @@
 
   - name: Create internet gateway
     oci_network_internet_gateway:
-      # region: "{{ region }}"
       compartment_id: "{{ compartment_id }}"
       vcn_id: "{{ vcn_id }}"
       display_name: "{{ network_tag }}IG"
@@ -68,13 +61,9 @@
       msg: "{{ result }}"
   - set_fact:
       internet_gateway_id: "{{ result.internet_gateway.id }}"
-  - lineinfile:
-      path: ./vars/networking_ocids.yml
-      line: "{{ network_tag }}_internet_gateway_id: {{ internet_gateway_id }}"
   
   - name: Create client route table
     oci_network_route_table:
-      # region: "{{ region }}"
       compartment_id: "{{ compartment_id }}"
       vcn_id: "{{ vcn_id }}"
       display_name: "{{ network_tag }}ClientRT"
@@ -87,17 +76,13 @@
       msg: "{{ result }}"
   - set_fact:
       client_route_table_id: "{{ result.route_table.id }}"
-  - lineinfile:
-      path: ./vars/networking_ocids.yml
-      line: "{{ network_tag }}_client_route_table_id: {{ client_route_table_id }}"
-
+  
   when: client_subnet_type == "public"
 
-# Create Networking for Client Subnet
+# Create Remaining Networking for Client Subnet
 
 - name: Create client security list
   oci_network_security_list:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}ClientSL"
@@ -116,13 +101,9 @@
     msg: "{{ result }}"
 - set_fact:
     client_security_list_id: "{{ result.security_list.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_client_security_list_id: {{ client_security_list_id }}"
 
 - name: Create public client subnet
   oci_network_subnet:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ client_subnet_cidr_block }}"
@@ -138,7 +119,4 @@
     msg: "{{ result }}"
 - set_fact:
     client_subnet_id: "{{ result.subnet.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_client_subnet_id: {{ client_subnet_id }}"
       

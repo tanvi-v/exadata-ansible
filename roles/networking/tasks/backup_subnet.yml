@@ -1,45 +1,31 @@
 
 # Check for required variables.
-  
-- block: 
-  - name: "Check VCN variables."
-    debug:
-      msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
-  - meta: end_host
-  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
+
+- name: "Check VCN variables."
+  assert:
+    that:
+      - vcn_id is defined
+      - default_route_table_id is defined
+      - default_security_list_id is defined
+    fail_msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
 
 # Create Networking for Private Backup Subnet
-
-- name: List Oracle services
-  oci_network_service_facts:
-    # region: "{{ region }}"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact:
-    oci_iad_object_storage_id: "{{ result.services[0].id }}"
-    all_iad_services_id: "{{ result.services[1].id }}"
   
 - name: Create service gateway
   oci_network_service_gateway:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}SG"
     services:
-    - service_id: "{{ all_iad_services_id }}"
+    - service_id: "{{ all_services_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
 - set_fact:
     service_gateway_id: "{{ result.service_gateway.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_service_gateway_id: {{ service_gateway_id }}"
     
 - name: Create backup route table
   oci_network_route_table:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}BackupRT"
@@ -52,13 +38,9 @@
     msg: "{{ result }}"
 - set_fact:
     backup_route_table_id: "{{ result.route_table.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_backup_route_table_id: {{ backup_route_table_id }}"
     
 - name: Create backup security list
   oci_network_security_list:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}BackupSL"
@@ -86,13 +68,9 @@
     msg: "{{ result }}"
 - set_fact:
     backup_security_list_id: "{{ result.security_list.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_backup_security_list_id: {{ backup_security_list_id }}"
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
-    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ backup_subnet_cidr_block }}"
@@ -107,9 +85,6 @@
     msg: "{{ result }}"
 - set_fact:
     backup_subnet_id: "{{ result.subnet.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_backup_subnet_id: {{ backup_subnet_id }}"
       
       
       

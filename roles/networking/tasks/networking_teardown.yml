@@ -1,125 +1,190 @@
+- name: VCN discovery
+  include_tasks: vcn_discovery.yml
 
-# Drop All Routes from Route Tables
+- name: "Check VCN variables."
+  assert:
+    that:
+      - vcn_id is defined
+      - default_route_table_id is defined
+      - default_security_list_id is defined
+    fail_msg: "VCN values not defined. Please check that VCN exists."
 
 - name: Update default route table to drop any gateways
-  when: lookup('vars', network_tag + '_default_route_table_id', default="") != ""
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_default_route_table_id') }}"
+    id: "{{ default_route_table_id }}"
     route_rules: []
-
-- name: Update backup route table to drop any gateways
-  when: lookup('vars', network_tag + '_backup_route_table_id', default="") != ""
-  oci_network_route_table:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_backup_route_table_id') }}"
-    route_rules: []
-
-- name: Update client route table to drop any gateways
-  when: lookup('vars', network_tag + '_client_route_table_id', default="") != ""
-  oci_network_route_table:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
-    route_rules: []
-
-# Delete Remote Peering Components
-
-- name: Delete remote peering connection
-  when: lookup('vars', network_tag + '_rpc_id', default="") != ""
-  oci_network_remote_peering_connection:
-    region: "{{ region }}"
-    remote_peering_connection_id: "{{ lookup('vars', network_tag + '_rpc_id') }}"
-    state: absent
-
-- name: Delete drg_attachment
-  when: lookup('vars', network_tag + '_drg_attachment_id', default="") != ""
-  oci_network_drg_attachment:
-    region: "{{ region }}"
-    drg_attachment_id: "{{ lookup('vars', network_tag + '_drg_attachment_id') }}"
-    state: absent
-
-- name: Delete drg
-  when: lookup('vars', network_tag + '_drg_id', default="") != ""
-  oci_network_drg: 
-    region: "{{ region }}"
-    drg_id: "{{ lookup('vars', network_tag + '_drg_id') }}"
-    state: absent
-
-# Terminate Gateways
-
-- name: Delete service gateway
-  when: lookup('vars', network_tag + '_service_gateway_id', default="") != ""
-  oci_network_service_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_service_gateway_id') }}"
-    state: absent
-
-- name: Delete nat gateway
-  when: lookup('vars', network_tag + '_nat_gateway_id', default="") != ""
-  oci_network_nat_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_nat_gateway_id') }}"
-    state: absent
-
-- name: Delete internet gateway
-  when: lookup('vars', network_tag + '_internet_gateway_id', default="") != ""
-  oci_network_internet_gateway:
-    region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_internet_gateway_id') }}"
-    state: absent
 
 # Terminate Backup Networking Components
 
+- name: Backup subnet discovery
+  include_tasks: subnet_discovery.yml
+  vars:
+    subnet_name: "{{ network_tag }}BackupSubnet"
+
+# Backup Gateways and Route Tables
+
+- name: Update backup route table to drop any gateways
+  when: subnet_route_table_id is defined
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ subnet_route_table_id }}"
+    route_rules: []
+
+- name: Service GW discovery
+  oci_network_service_gateway_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}SG"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    service_gateway_id: "{{ result.service_gateways[0].id}}"
+  when: result.service_gateways|length > 0 
+
+- name: Delete service gateway
+  when: service_gateway_id is defined
+  oci_network_service_gateway:
+    region: "{{ region }}"
+    id: "{{ service_gateway_id }}"
+    state: absent
+
+# Backup Subnet + Components
+
 - name: Delete backup subnet
-  when: lookup('vars', network_tag + '_backup_subnet_id', default="") != ""
+  when: subnet_id is defined
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_backup_subnet_id') }}"
+    id: "{{ subnet_id }}"
     state: absent
 
 - name: Delete backup route table 
-  when: lookup('vars', network_tag + '_backup_route_table_id', default="") != ""
+  when: subnet_route_table_id is defined
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_backup_route_table_id') }}"
+    id: "{{ subnet_route_table_id }}"
     state: absent
 
 - name: Delete backup security list 
-  when: lookup('vars', network_tag + '_backup_security_list_id', default="") != ""
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_backup_security_list_id') }}"
+    id: "{{ item }}"
     state: absent
+  loop: "{{ subnet_security_list_ids }}"
+  when: subnet_security_list_ids is defined and item != default_security_list_id 
+
+# Clear discovered subnet values
+
+- set_fact: 
+    subnet_id: ""
+    subnet_route_table_id: ""
+    subnet_security_list_ids: []
 
 
 # Terminate Client Networking Components
 
+- name: Client subnet discovery
+  include_tasks: subnet_discovery.yml
+  vars:
+    subnet_name: "{{ network_tag }}ClientSubnet"
+
+# Client Gateways and Route Tables
+
+- name: Update client route table to drop any gateways
+  when: subnet_route_table_id != ""
+  oci_network_route_table:
+    region: "{{ region }}"
+    id: "{{ subnet_route_table_id }}"
+    route_rules: []
+
+- name: NAT GW discovery
+  oci_network_nat_gateway_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}NG"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    nat_gateway_id: "{{ result.nat_gateways[0].id}}"
+  when: result.nat_gateways|length > 0 
+
+- name: Delete nat gateway
+  when: nat_gateway_id is defined
+  oci_network_nat_gateway:
+    region: "{{ region }}"
+    id: "{{ nat_gateway_id }}"
+    state: absent
+
+- name: Internet GW discovery
+  oci_network_internet_gateway_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}IG"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    internet_gateway_id: "{{ result.internet_gateways[0].id}}"
+  when: result.internet_gateways|length > 0 
+
+- name: Delete internet gateway
+  when: internet_gateway_id is defined
+  oci_network_internet_gateway:
+    region: "{{ region }}"
+    id: "{{ internet_gateway_id }}"
+    state: absent
+
+# Client Subnet + Components
+
 - name: Delete client subnet
-  when: lookup('vars', network_tag + '_client_subnet_id', default="") != ""
+  when: subnet_id != ""
   oci_network_subnet:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_client_subnet_id') }}"
+    id: "{{ subnet_id }}"
     state: absent
 
 - name: Delete client route table 
-  when: lookup('vars', network_tag + '_client_route_table_id', default="") != ""
+  when: subnet_route_table_id != ""
   oci_network_route_table:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_client_route_table_id') }}"
+    id: "{{ subnet_route_table_id }}"
     state: absent
 
 - name: Delete client security list 
-  when: lookup('vars', network_tag + '_client_security_list_id', default="") != ""
   oci_network_security_list:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_client_security_list_id') }}"
+    id: "{{ item }}"
     state: absent
+  loop: "{{ subnet_security_list_ids }}"
+  when: subnet_security_list_ids is not false and item != default_security_list_id
+
+# Delete Remote Peering Components
+
+# - name: Delete remote peering connection
+#   when: lookup('vars', network_tag + '_rpc_id', default="") != ""
+#   oci_network_remote_peering_connection:
+#     region: "{{ region }}"
+#     remote_peering_connection_id: "{{ lookup('vars', network_tag + '_rpc_id') }}"
+#     state: absent
+
+# - name: Delete drg_attachment
+#   when: lookup('vars', network_tag + '_drg_attachment_id', default="") != ""
+#   oci_network_drg_attachment:
+#     region: "{{ region }}"
+#     drg_attachment_id: "{{ lookup('vars', network_tag + '_drg_attachment_id') }}"
+#     state: absent
+
+# - name: Delete drg
+#   when: lookup('vars', network_tag + '_drg_id', default="") != ""
+#   oci_network_drg: 
+#     region: "{{ region }}"
+#     drg_id: "{{ lookup('vars', network_tag + '_drg_id') }}"
+#     state: absent
+
 
 # Terminate VCN
 
 - name: Delete the VCN
-  when: lookup('vars', network_tag + '_vcn_id', default="") != ""
   oci_network_vcn:
     region: "{{ region }}"
-    id: "{{ lookup('vars', network_tag + '_vcn_id') }}"
+    id: "{{ vcn_id }}"
     state: absent

@@ -1,0 +1,12 @@
+
+- name: List Oracle services
+  oci_network_service_facts:
+    region: "{{ region }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    oci_object_storage_id: "{{ result.services[0].id }}"
+    oci_object_storage_cidr: "{{ result.services[0].cidr_block }}"
+    all_services_id: "{{ result.services[1].id }}"
+    all_services_cidr: "{{ result.services[1].cidr_block }}"

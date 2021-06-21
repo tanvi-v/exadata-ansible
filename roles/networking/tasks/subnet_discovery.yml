@@ -1,0 +1,13 @@
+
+- name: Subnet discovery
+  oci_network_subnet_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ subnet_name }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    subnet_id: "{{ result.subnets[0].id }}"
+    subnet_route_table_id: "{{ result.subnets[0].route_table_id }}"
+    subnet_security_list_ids: "{{ result.subnets[0].security_list_ids }}"
+  when: result.subnets|length > 0 
