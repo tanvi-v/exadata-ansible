@@ -4,6 +4,6 @@
 
 - name: Create Database
   include_tasks: db_creation_database.yml
-  when: vm_cluster_lifecycle_state == "AVAILABLE"
+  when: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == "AVAILABLE"
     
     

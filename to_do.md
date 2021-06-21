@@ -1,14 +1,11 @@
 
 Organization/Ansible Best Practices
 - All code should be validated to actually be idempotent
-- Use Loop instead of with_*: https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#migrating-from-with-x-to-loop
 - Common Variables
     - Variable overrides should be in ./inventory/group_vars/*.yml
 - Do not use block!! Use include_tasks instead!!
-- Avoid lineinfile!! 
 - Single quotes on all parameters
-- when should use when: > (strip of new lines and space)
-- shell should use shell: |
+- when - should use when: > (strip of new lines and space)
 - parameters should be alphabetical
 - if a variable is being used in a when statement, should be testing to exist before used (item.changed is defined and item.changed is false)
 

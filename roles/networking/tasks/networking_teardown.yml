@@ -155,7 +155,7 @@
     id: "{{ item }}"
     state: absent
   loop: "{{ subnet_security_list_ids }}"
-  when: subnet_security_list_ids is not false and item != default_security_list_id
+  when: item != default_security_list_id
 
 # Delete Remote Peering Components
 

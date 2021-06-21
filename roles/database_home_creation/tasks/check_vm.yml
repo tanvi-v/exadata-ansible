@@ -7,7 +7,7 @@
     register: result
   - set_fact:
       vm_cluster_lifecycle_state: "{{ result.cloud_vm_cluster.lifecycle_state }}"
-  when: exadata_type == "exacs"
+  when: exadata_type is defined and exadata_type == "exacs"
 
 - block:
   - name: Check ExaCC VM Cluster
@@ -17,8 +17,8 @@
     register: result
   - set_fact:
       vm_cluster_lifecycle_state: "{{ result.vm_cluster.lifecycle_state }}"
-  when: exadata_type == "exacc"
+  when: exadata_type is defined and exadata_type == "exacc"
 
 - debug:
     msg: "Cannot perform database operation, VM_Cluster is in {{ vm_cluster_lifecycle_state }} state."
-  when: vm_cluster_lifecycle_state != "AVAILABLE"
+  when: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state != "AVAILABLE"
