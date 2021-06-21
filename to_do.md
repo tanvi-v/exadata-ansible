@@ -1,27 +1,36 @@
 
 Organization/Ansible Best Practices
-- Tasks/Roles organized okay?
-- Saving variables with lineinfile?
+- All code should be validated to actually be idempotent
+- Use Loop instead of with_*: https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#migrating-from-with-x-to-loop
+- Common Variables
+    - Variable overrides should be in ./inventory/group_vars/*.yml
+- Do not use block!! Use include_tasks instead!!
+- Avoid lineinfile!! 
+- Single quotes on all parameters
+- when should use when: > (strip of new lines and space)
+- shell should use shell: |
+- parameters should be alphabetical
+- if a variable is being used in a when statement, should be testing to exist before used (item.changed is defined and item.changed is false)
+
+
+- Should we be doing a lot of error handling?
 - Figure out best practice for setting region variable (ie for dataguard since now working with two regions in one play)
 - Figure out best practice for setting inventory 
     - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
     - ansible-playbook -i inventory add_pdb.yml
 
-
-
 Code Development
 - Dataguard
-    - Dataguard service error (not happening from console)
     - need to spin up ExaCS/ExaCC + database in standby region
 - ExaCC Backups / Backup Destinations
 - PDB (Python or ansible? How to run commands as Oracle user)
 - Variables
     - make variable values easier, check with customer naming conventions
-    - automatically save DB OCIDs to a file like we did for networking!
+    - automatically save DB OCIDs to a file like we did for networking
 
 Clean-Up
 - Add More Comments
-- Check consistancy: variable definition, names of tasks
+- Follow Style Guide: https://confluence.oraclecorp.com/confluence/display/CDO/Ansible+Guidelines
 
 Testing
 - ExaCS creation/termination

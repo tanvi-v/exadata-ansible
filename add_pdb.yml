@@ -4,9 +4,9 @@
 # TO DO!!
 
 - hosts: "server"
-  # gather_facts: no
-  # become: yes
-  # become_user: grid
+  become: true
+  become_user: oracle
+  gather_facts: no
   # vars:
   #   sys_system_pw: "WelcomeDB12##"
   
@@ -19,23 +19,27 @@
   #     state: present
   #     password: "WelcomeDB12##"
     
-    # - name: "become grid"
-    #   become: yes
-    #   become_user: grid
-    #   shell: "/u01/app/19.0.0.0/grid/bin/srvctl config database -v"
+    # - name: "srvctl config"
+    #   shell: |
+    #     /u01/app/19.0.0.0/grid/bin/srvctl config database -v
+    #   args:
+    #     chdir: /home/grid
     #   register: result
     # - debug:
     #     msg: "{{ result }}"
-  
-    - name: "become grid"
-      become: yes
-      # become_exe: "sudo su -"
-      # become_method: sudo
-      become_user: grid
-      # pipelining: true
-      command: "srvctl config database -v"
-      args:
-        chdir: /home/grid       
+    
+    - copy:
+        src: ./files/show_pdbs.sql
+        dest: /home/oracle
+      
+
+    - name: "log_on"
+      shell: echo exit |
+        $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/show_pdbs.sql
+      environment:
+        ORACLE_HOME: '/u01/app/oracle/product/19.0.0.0/dbhome_1'
+        ORACLE_SID: 'PR2'
+        ORACLE_UNIQUE_NAME: 'PR2_iad1fh'
       register: result
     - debug:
         msg: "{{ result }}"

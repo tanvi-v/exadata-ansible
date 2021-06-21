@@ -22,7 +22,7 @@
   
 - name: Create service gateway
   oci_network_service_gateway:
-    region: "{{ region }}"
+    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}SG"
@@ -39,7 +39,7 @@
     
 - name: Create backup route table
   oci_network_route_table:
-    region: "{{ region }}"
+    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}BackupRT"
@@ -58,7 +58,7 @@
     
 - name: Create backup security list
   oci_network_security_list:
-    region: "{{ region }}"
+    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     display_name: "{{ network_tag }}BackupSL"
@@ -92,7 +92,7 @@
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
-    region: "{{ region }}"
+    # region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ backup_subnet_cidr_block }}"
