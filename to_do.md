@@ -1,17 +1,12 @@
-Questions for Manoj
-1. Trying to get shell script to work
-2. Any contacts for best practices on organizing code into roles / where to define variables?
-3. Best way to set up inventory?
-4. Best way to set region variable?
 
-
-Basic Ansible / OCI errors
-- Figure out where region is currently being set automatically
-- Figure out why iad services is failing in Phoenix region but not Ashburn (route table for private subnet)
+Organization/Ansible Best Practices
+- Tasks/Roles organized okay?
+- Saving variables with lineinfile?
+- Figure out best practice for setting region variable (ie for dataguard since now working with two regions in one play)
 - Figure out best practice for setting inventory 
     - export ANSIBLE_INVENTORY=/Users/tvaradha/OracleContent/OracleContent/Accounts/Fiserv/fiserv_playbook/inventory
     - ansible-playbook -i inventory add_pdb.yml
-- Figure out best practice for setting region variable (ie for dataguard since now working with two regions in one play)
+
 
 
 Code Development
@@ -35,7 +30,9 @@ Testing
 - Code Organization / calling items individually 
 
 Code organization
-- How should dataguard set-up work? Should remote peering be included with OG networking set-up or with enabling dataguard?
+- Dataguard
+    - Should remote peering be included with OG networking set-up or with enabling dataguard?
+    - Which steps will be required when doing Exadata instead of a VM database?
 - Do we want to further split up the DB role based on creation vs. operation?
 - Where should error handling occur? Since task files might be run individually? or should they be in main.yml to make sure code is not repeated? --> look at flow. Will the task file ever be run individually? If not, then no need for error handling there. 
     - But might not need any error handling if ansible tower will automatically catch errors
