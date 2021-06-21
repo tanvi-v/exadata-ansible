@@ -1,5 +1,5 @@
 
 # new database vars
-region: "us-phoenix-1"
-db_name: "ansibDB3"
-db_admin_password: "welcomeDB12##"
+region: us-phoenix-1
+db_name: ansibDB3
+db_admin_password: WelcomeDB12##

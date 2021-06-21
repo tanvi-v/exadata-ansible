@@ -14,7 +14,8 @@
     hostname: "{{ standby_hostname }}"
     subnet_id: "{{ standby_subnet_id }}"
     shape: "{{ shape }}"
+    wait: no
   register: result
-  - debug:
-      msg: "{{ result }}"
+- debug:
+    msg: "{{ result }}"
 

@@ -1,9 +1,9 @@
 - block:
   - name: Delete database
     oci_database_database:
-      region: "us-phoenix-1"
+      region: region: "{{ region }}"
       database_id: "{{ database_id }}"
-      state: "absent"
+      state: absent
     register: result
   - debug:
       msg: "{{ result }}"

@@ -1,3 +1,9 @@
+Questions for Manoj
+1. Trying to get shell script to work
+2. Any contacts for best practices on organizing code into roles / where to define variables?
+3. Best way to set up inventory?
+4. Best way to set region variable?
+
 
 Basic Ansible / OCI errors
 - Figure out where region is currently being set automatically
@@ -35,6 +41,7 @@ Code organization
     - But might not need any error handling if ansible tower will automatically catch errors
 
 Error Handling
+- Change any error handling from "when" to assert statements
 - Focus Error Checking on DB Operations, not creation since those will all run together
 - Checking to see if related resources exist / are able to be updated currently 
     - Do we need to do this? Test with DB Home and Database creation

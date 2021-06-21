@@ -2,7 +2,7 @@
 - block:
   - name: Check ExaCS VM Cluster
     oci_database_cloud_vm_cluster:
-      region: "us-phoenix-1"
+      region: "{{ region }}"
       cloud_vm_cluster_id: "{{ vm_cluster_id }}"
     register: result
   - set_fact:
@@ -12,7 +12,7 @@
 - block:
   - name: Check ExaCC VM Cluster
     oci_database_vm_cluster:
-      region: "us-phoenix-1"
+      region: "{{ region }}"
       vm_cluster_id: "{{ vm_cluster_id }}"
     register: result
   - set_fact:

@@ -12,9 +12,9 @@ tv1_client_route_table_id: ocid1.routetable.oc1.iad.aaaaaaaallyxwhd62m5xr57vb4y5
 tv1_client_security_list_id: ocid1.securitylist.oc1.iad.aaaaaaaagtmrcs3255axaw6dh7wniiaoycc5ggp5jrvcgbeam4rvzvtrfn5a
 tv1_client_subnet_id: ocid1.subnet.oc1.iad.aaaaaaaa6gyxumlmxgt6qtyq4zldtumdf4imkqegcbuiauzmxfabilk67qnq
 # tv2 Networking OCIDs - VCN and Defaults BEGIN
-tv2_vcn_id: ocid1.vcn.oc1.phx.amaaaaaantxkdlyaf2enepyklzgtbojzmhtsx2ru4u4tzilbxwvrbn5z7maa
-tv2_default_route_table_id: ocid1.routetable.oc1.phx.aaaaaaaaedcx66iih44amurftwhdivid3jm3elvlme5wittxnh5ws5mloira
-tv2_default_security_list_id: ocid1.securitylist.oc1.phx.aaaaaaaa7uzyvo3yciz3xrv66j2gfrfwn6ckvg4zu7l4qn37e4xv6mmwn4ma
+tv2_vcn_id: ocid1.vcn.oc1.iad.amaaaaaantxkdlyaawdjg6xc3k25b6ujokmkqp34gsd7o2gcm2nqc6gmx53q
+tv2_default_route_table_id: ocid1.routetable.oc1.iad.aaaaaaaahbrsb3hvn5i5jvupxw7s3dosqwp6rvgla3sr6zl4oe6yf7gi3hka
+tv2_default_security_list_id: ocid1.securitylist.oc1.iad.aaaaaaaar3wfznrmwv2dlvy6fbt5irspooq3itfenjffbvpeqa22s5eczfrq
 # tv2 Networking OCIDs - VCN and Defaults END
 tv2_client_security_list_id: ocid1.securitylist.oc1.phx.aaaaaaaane2bay54ls4zaezn7esg5gibeky7bl7qdlgpfcwtjlwbopzi5ssa
 tv2_client_subnet_id: ocid1.subnet.oc1.phx.aaaaaaaaui7ivfa7fcuqzcjgy5k3rdzjd45h4xvyp5ksvvel3wuwluvfc5aa
@@ -29,3 +29,8 @@ test1_vcn_id: ocid1.vcn.oc1.iad.amaaaaaantxkdlyaj3dxqzcu4bwy4gqaqfu7jznoa2v2kkcw
 test1_default_route_table_id: ocid1.routetable.oc1.iad.aaaaaaaaenpdq4jgqtsxrk3fuuoarz76hud2dhp2rzwx7opqyfbdanwjoaxq
 test1_default_security_list_id: ocid1.securitylist.oc1.iad.aaaaaaaah7nj2dyz2i7bkxsbmno67hfp6cvykf4637babjagufyz64f6j4mq
 # test1 Networking OCIDs - VCN and Defaults END
+# rgn Networking OCIDs - VCN and Defaults BEGIN
+rgn_vcn_id: ocid1.vcn.oc1.iad.amaaaaaantxkdlya3rjvluialztnzqy7m556dcb4kgea3rsd6fr7yw2cc6jq
+rgn_default_route_table_id: ocid1.routetable.oc1.iad.aaaaaaaaaz4myoq2ty67mf74lm2k6rpdovrk3hn7adw67xxarfwasbezprwa
+rgn_default_security_list_id: ocid1.securitylist.oc1.iad.aaaaaaaaortl3yyfoix6aba3lxrrgzk6fr6jy7kszv2dabcygyz7gnuzgcga
+# rgn Networking OCIDs - VCN and Defaults END

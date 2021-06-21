@@ -12,7 +12,7 @@
 
 - name: List Oracle services
   oci_network_service_facts:
-    region: "{{ region }}"
+    # region: "{{ region }}"
   register: result
 - debug:
     msg: "{{ result }}"

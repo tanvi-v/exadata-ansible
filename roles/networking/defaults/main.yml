@@ -1,10 +1,10 @@
 
 # primary network vars
-region: us-ashburn-1
-network_tag: test1
-vcn_cidr_block: 10.1.0.0/16
-client_subnet_cidr_block: 10.1.0.0/24   # to host ExaCS VM Cluster
-backup_subnet_cidr_block: 10.1.1.0/24  # for ExaCS back-up
+# region: us-ashburn-1
+network_tag: rgn
+vcn_cidr_block: 10.5.0.0/16
+client_subnet_cidr_block: 10.5.0.0/24   # to host ExaCS VM Cluster
+backup_subnet_cidr_block: 10.5.1.0/24  # for ExaCS back-up
 
 # standby network vars
 standby_region: us-phoenix-1

@@ -1,9 +1,10 @@
 #!/usr/bin/python
-import ansible.module_utils.oracle_common as oc
-import ansible.module_utils.oracle_srvctl_service as svc
+# import ansible.module_utils.oracle_common as oc
+# import ansible.module_utils.oracle_srvctl_service as svc
 
 def close_pdb(conn,pdbname):
     cursor = conn.cursor()
+    # cursor.execute(f"alter pluggable database {pdbname} close immediate instances=all")
     cursor.execute(f"alter pluggable database {pdbname} close immediate instances=all")
     cursor.close()
 
