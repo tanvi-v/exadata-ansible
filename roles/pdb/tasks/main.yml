@@ -1,0 +1,19 @@
+
+# Playbook add_pdb.yml adds a PDB to the designated database.
+
+- copy:
+    src: show_pdbs.sql
+    dest: /home/oracle
+  
+- name: "create pdb"
+  shell: echo exit |
+    $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/show_pdbs.sql
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    ORACLE_SID: '{{ oracle_sid }}'
+    ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
+  register: result
+- debug:
+    msg: "{{ result }}"
+
+    
