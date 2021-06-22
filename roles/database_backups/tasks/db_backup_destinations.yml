@@ -1,26 +1,28 @@
 # NOT TESTED
 
-- block:
+- name: "Check Exadata Infrastructure variable."
+  assert:
+    that:
+      - exadata_type is defined
+      - exadata_type == "exacc"
   
-  - name: Create db_backup_destination (Recovery Applicance)
-    oci_database_backup_destination:
-      region: us-phoenix-1
-      compartment_id: "{{ compartment_id }}"
-      display_name: display_name_example
-      type: "{{ db_backup_destination_type }}"
-      connection_string: connection_string_example
-      vpc_users:
-    when: db_backup_destination_type is defined and db_backup_destination_type == "RECOVERY_APPLICANCE"
-  
-  - name: Create db_backup_destination (NFS)
-    oci_database_backup_destination:
-      region: us-phoenix-1
-      compartment_id: "{{ compartment_id }}"
-      display_name: display_name_example
-      type: "{{ db_backup_destination_type }}"
-      mount_type_details:
-        mountType: "SELF_MOUNT"
-        local_mount_point_path:
-    when: db_backup_destination_type is defined and db_backup_destination_type == "NFS"
-  
-  when: exadata_type is defined and exadata_type == "exacc"
+- name: Create db_backup_destination (Recovery Applicance)
+  oci_database_backup_destination:
+    region: us-phoenix-1
+    compartment_id: "{{ compartment_id }}"
+    display_name: display_name_example
+    type: "{{ db_backup_destination_type }}"
+    connection_string: connection_string_example
+    vpc_users:
+  when: db_backup_destination_type is defined and db_backup_destination_type == "RECOVERY_APPLICANCE"
+
+- name: Create db_backup_destination (NFS)
+  oci_database_backup_destination:
+    region: us-phoenix-1
+    compartment_id: "{{ compartment_id }}"
+    display_name: display_name_example
+    type: "{{ db_backup_destination_type }}"
+    mount_type_details:
+      mountType: "SELF_MOUNT"
+      local_mount_point_path:
+  when: db_backup_destination_type is defined and db_backup_destination_type == "NFS"

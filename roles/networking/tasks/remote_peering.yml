@@ -36,9 +36,6 @@
     msg: "{{ result }}"
 - set_fact:
     client_security_list_id: "{{ result.security_list.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_client_security_list_id: {{ client_security_list_id }}"
 
 - name: Create public subnet with default values for route table, security list, & DHCP options
   oci_network_subnet:
@@ -57,9 +54,6 @@
     msg: "{{ result }}"
 - set_fact:
     client_subnet_id: "{{ result.subnet.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_client_subnet_id: {{ client_subnet_id }}"
      
 
 # Create Standby Region DRG and RPC
@@ -74,9 +68,6 @@
     msg: "{{ result }}"
 - set_fact:
     standby_drg_id: "{{ result.drg.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_drg_id: {{ standby_drg_id }}"
 
 - name: Create standby drg_attachment 
   oci_network_drg_attachment:
@@ -92,9 +83,6 @@
     msg: "{{ result }}"
 - set_fact:
     standby_drg_attachment_id: "{{ result.drg_attachment.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_drg_attachment_id: {{ standby_drg_attachment_id }}"
 
 - name: Add drg route to standby default route table
   oci_network_route_table:
@@ -120,10 +108,7 @@
 - debug:
     msg: "{{ result }}"
 - set_fact:
-    standby_rpc_id: "{{ result.remote_peering_connection.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ standby_network_tag }}_rpc_id: {{ standby_rpc_id }}"   
+    standby_rpc_id: "{{ result.remote_peering_connection.id }}" 
 
 # Create Primary Region DRG and RPC
 
@@ -140,9 +125,6 @@
     msg: "{{ result }}"
 - set_fact:
     prod_drg_id: "{{ result.drg.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_drg_id: {{ prod_drg_id }}"
 
 - name: Create prod drg_attachment 
   oci_network_drg_attachment:
@@ -158,9 +140,6 @@
     msg: "{{ result }}"
 - set_fact:
     prod_drg_attachment_id: "{{ result.drg_attachment.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_drg_attachment_id: {{ prod_drg_attachment_id }}"
 
 # Add DRG to Route Table
 
@@ -216,9 +195,6 @@
     msg: "{{ result }}"
 - set_fact:
     prod_rpc_id: "{{ result.remote_peering_connection.id }}"
-- lineinfile:
-    path: ./vars/networking_ocids.yml
-    line: "{{ network_tag }}_rpc_id: {{ prod_rpc_id }}"
 
 - name: Perform action connect on remote_peering_connection
   oci_network_remote_peering_connection_actions:

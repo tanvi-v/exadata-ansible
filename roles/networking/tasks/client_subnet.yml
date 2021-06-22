@@ -44,7 +44,7 @@
   - set_fact:
       client_route_table_id: "{{ result.route_table.id }}"  
   
-  when: client_subnet_type == "private"
+  when: client_subnet_type is defined and client_subnet_type == "private"
 
 # Create Networking for Public Client Subnet
 
@@ -77,7 +77,7 @@
   - set_fact:
       client_route_table_id: "{{ result.route_table.id }}"
   
-  when: client_subnet_type == "public"
+  when: client_subnet_type is defined and client_subnet_type == "public"
 
 # Create Remaining Networking for Client Subnet
 
