@@ -2,3 +2,6 @@
 # automatic backup
 auto_backup_window: SLOT_TWO
 recovery_window_in_days: 30
+
+# nfs
+local_mount_point_path: /backup

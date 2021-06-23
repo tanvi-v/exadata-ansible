@@ -1,0 +1,8 @@
+
+- name: Update database backup destination
+  oci_database_database:
+    db_backup_config:
+      backup_destination_details:
+      - id: "{{ backup_destination_id }}"
+        type: "{{ backup_destination_type }}"
+    database_id: "{{ database_id }}"

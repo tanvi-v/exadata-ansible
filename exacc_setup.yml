@@ -23,10 +23,20 @@
     #   include_role:
     #     name: exadata_vm_cluster
     
-    - name: Create Database Home for ExaCC
-      include_role:
-        name: database_home_creation
+    # - name: Create Database Home for ExaCC
+    #   include_role:
+    #     name: database_home_creation
     
     - name: Create Database for ExaCC
       include_role:
         name: database_creation
+      vars:
+        db_home_id: ocid1.dbhome.oc1.iad.abuwcljrn7hhgdwr6cmk6p2zatw265keupl2cpul3fispmtqeqsr5cwuwkkq
+    
+    - name: Add Backup Destination for ExaCC
+      include_role:
+        name: database_backups
+      vars:
+        # database_id: "ocid1.database.oc1.iad.abuwcljrh5bnhqu23slwupzip54auolog7oqrpjw4gd2yyq3de5crkha47kq"
+        backup_destination_type: "NFS"
+        backup_destination_id: "ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq"

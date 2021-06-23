@@ -1,7 +1,14 @@
 
+- name: Create Backup Destination
+  include_tasks: db_backup_destinations.yml
+  when: backup_destination_id is not defined
+
+- name: Add Backup Destination to Database
+  include_tasks: db_add_backup_destination.yml
+
 - name: Enable automatic backups
   include_tasks: db_enable_automatic_backup.yml
+  when: automatic is defined and automatic == "yes"
 
-- name: Create database backup
-  include_tasks: db_backup_new.yml
+
   
