@@ -1,8 +1,12 @@
+# TO DO: TEST 
+
+# - name: "Check Exadata Infrastructure is defined and type exacs."
+#   assert: { that: exadata_type is defined and exadata_type == "exacs" }
 
 - name: Create new database backup
   oci_database_backup:
     database_id: "{{ database_id }}"
-    display_name: "{{ backup_name }}"
+    display_name: "{{ workload_prefix }}Bkup"
   register: result
-  - debug:
+- debug:
     msg: "{{ result }}"

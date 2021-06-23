@@ -1,0 +1,32 @@
+# TO DO: TEST 
+
+- block:
+  - assert: {that: backup_destination_id is defined and backup_destination_type is defined}
+  - name: Enable automatic database backups
+    oci_database_database:
+      database_id: "{{ database_id }}"
+      db_backup_config:
+        auto_backup_enabled: "{{ auto_backup_enabled }}"
+        auto_backup_window: "{{ auto_backup_window }}"
+        recovery_window_in_days: "{{ recovery_window_in_days }}"
+        backup_destination_details:
+        - id: "{{ backup_destination_id }}"
+          type: "{{ backup_destination_type }}"
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  when: exadata_type is defined and exadata_type == "exacc"
+
+- block:
+  - name: Enable automatic database backups
+    oci_database_database:
+      database_id: "{{ database_id }}"
+      db_backup_config:
+        auto_backup_enabled: "{{ auto_backup_enabled }}"
+        auto_backup_window: "{{ auto_backup_window }}"
+        recovery_window_in_days: "{{ recovery_window_in_days }}"
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  when: exadata_type is defined and exadata_type == "exacs"
+  

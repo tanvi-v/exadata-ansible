@@ -1,4 +1,9 @@
 
+- name: "Check Exadata Infrastructure variable."
+  assert:
+    that:
+      - exadata_type is defined
+      - exadata_type == "exacc" or exadata_type == "exacs"
 
 - name: Check VM Cluster Lifecycle State
   include_tasks: check_vm.yml

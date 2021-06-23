@@ -11,8 +11,6 @@
   vars:
     compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq"
 
-
-  
   tasks:
 
     - name: Create Remote Peering
@@ -52,10 +50,8 @@
     #     region: "us-ashburn-1"
     #     primary_database_id: "ocid1.database.oc1.iad.abuwcljsnyyvi6mci4duwkgfkigiy2wxlfunmrlnf2575tp7qarkwmnl4lsq"
     #     standby_availability_domain: "rLid:PHX-AD-1"
-    #     standby_display_name: "DRDB2"
     #     standby_hostname: "drdb2"
     #     standby_subnet_id: "ocid1.subnet.oc1.phx.aaaaaaaaui7ivfa7fcuqzcjgy5k3rdzjd45h4xvyp5ksvvel3wuwluvfc5aa"
-    #     shape: "VM.Standard2.4"
 
 
       

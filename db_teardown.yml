@@ -5,7 +5,11 @@
   hosts: localhost
   
   vars:
-      exadata_type: exacs
+      exadata_type: exacc
+      workload_prefix: t1
+      
+      vm_cluster_id: "ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq" 
+      compartment_id: "ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq" 
   
   tasks:
     
@@ -13,20 +17,19 @@
       include_role:
         name: database_creation
         tasks_from: db_delete_database.yml
-      vars:
-        database_id: "{{ item }}" 
-      loop:
-        # - "ocid1.database.oc1.phx.abyhqljsooz43xwjnprtunfhgcczywvs3eb3n5hscedgtswpqjtusyyqaiaa"
-        - "ocid1.database.oc1.phx.abyhqljsi7modasx47xr6wx5ywbgbn6u75wv5whka7352nf2nkekvkzh3j4a"
+      # vars:
+      #   database_id: "{{ item }}" 
+      # loop:
+      #   - "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
 
     - name: Delete DB Homes
       include_role:
         name: database_home_creation
         tasks_from: db_delete_home.yml
-      vars:
-        db_home_id: "{{ item }}" 
-      loop:
-        - "ocid1.dbhome.oc1.phx.abyhqljsf3ixcs6ywjqcumjte2neqmeh4apba6k3daxm5skhm5v2oo6332fq"
-        - "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
+      # vars:
+      #   db_home_id: "{{ item }}" 
+      # loop:
+      #   - "ocid1.dbhome.oc1.phx.abyhqljsf3ixcs6ywjqcumjte2neqmeh4apba6k3daxm5skhm5v2oo6332fq"
+      #   - "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
 
     

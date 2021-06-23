@@ -1,26 +1,10 @@
-# NOT TESTED
+# TO DO: TEST
 
-- name: "Check Exadata Infrastructure variable."
-  assert:
-    that:
-      - exadata_type is defined
-      - exadata_type == "exacc"
+- name: "Check Exadata Infrastructure is defined and type exacc."
+  assert: { that: exadata_type is defined and exadata_type == "exacc" }
 
-- block:  
-  - name: Create backup_destination (Recovery Applicance)
-    oci_database_backup_destination:
-      region: "{{ region }}"
-      compartment_id: "{{ compartment_id }}"
-      display_name: "{{ workload_prefix }}RA"
-      type: "{{ backup_destination_type }}"
-      connection_string: connection_string_example
-      vpc_users: ""
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      backup_destination_id: "{{ result.backup_destination.id }}"
-  when: backup_destination_type is defined and backup_destination_type == "RECOVERY_APPLICANCE"
+- name: "Check Backup Destination type is defined."
+  assert: { that: backup_destination_type is defined }
 
 - block:
   - name: Create backup_destination (NFS)
@@ -36,4 +20,20 @@
       msg: "{{ result }}"
   - set_fact:
       backup_destination_id: "{{ result.backup_destination.id }}"
-  when: backup_destination_type is defined and backup_destination_type == "NFS"
+  when: backup_destination_type == "NFS"
+
+- block:  
+  - name: Create backup_destination (Recovery Applicance)
+    oci_database_backup_destination:
+      region: "{{ region }}"
+      compartment_id: "{{ compartment_id }}"
+      display_name: "{{ workload_prefix }}RA"
+      type: "{{ backup_destination_type }}"
+      connection_string: connection_string_example # TO DO
+      vpc_users: "" 
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  - set_fact:
+      backup_destination_id: "{{ result.backup_destination.id }}"
+  when: backup_destination_type == "RECOVERY_APPLICANCE"

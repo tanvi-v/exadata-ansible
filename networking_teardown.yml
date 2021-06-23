@@ -4,17 +4,17 @@
 
 - name: Networking teardown
   hosts: localhost
+
+  vars:
+    network_tag: var1
+    compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
   
   tasks:
-  
     - name: Delete Networking Components
       include_role:
         name: networking
         tasks_from: networking_teardown.yml
-      vars:
-        network_tag: var1
-        compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
-
+        
         
         
       

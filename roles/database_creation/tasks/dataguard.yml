@@ -1,5 +1,5 @@
 
-# Create Dataguard Association for a VM database (for testing purposes)
+# TO DO: EDIT FOR EXACC/EXACS (currently for VM for testing purposes)
 
 - name: Create data_guard_association
   oci_database_data_guard_association:
@@ -10,11 +10,10 @@
     transport_type: ASYNC
     creation_type: NewDbSystem
     availability_domain: "{{ standby_availability_domain }}"
-    display_name: "{{ standby_display_name }}"
+    display_name: "{{ workload_prefix }}{{ db_name }}"
     hostname: "{{ standby_hostname }}"
     subnet_id: "{{ standby_subnet_id }}"
     shape: "{{ shape }}"
-    wait: no
   register: result
 - debug:
     msg: "{{ result }}"

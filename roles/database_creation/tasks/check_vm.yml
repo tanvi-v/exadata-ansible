@@ -19,6 +19,7 @@
       vm_cluster_lifecycle_state: "{{ result.vm_cluster.lifecycle_state }}"
   when: exadata_type is defined and exadata_type == "exacc"
 
-- debug:
-    msg: "Cannot perform database operation, VM_Cluster is in {{ vm_cluster_lifecycle_state }} state."
-  when: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state != "AVAILABLE"
+# - assert:
+#     that: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == "AVAILABLE"
+#     fail_msg: "Cannot perform database operation, VM_Cluster is in {{ vm_cluster_lifecycle_state }} state."
+  

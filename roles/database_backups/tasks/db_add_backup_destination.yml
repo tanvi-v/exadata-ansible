@@ -1,4 +1,7 @@
 
+- name: "Check Exadata Infrastructure is defined and type exacc."
+  assert: { that: exadata_type is defined and exadata_type == "exacc" }
+
 - name: Update database backup destination
   oci_database_database:
     db_backup_config:
