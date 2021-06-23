@@ -5,6 +5,6 @@
 
 - name: Create DB Home 
   include_tasks: db_creation_home.yml
-  when: vm_cluster_lifecycle_state is defined vm_cluster_lifecycle_state == "AVAILABLE"
+  when: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == "AVAILABLE"
     
     

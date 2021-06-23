@@ -1,4 +1,5 @@
 
 # db_home
-db_home_name: ansiblehome3
+db_home_name: ansibhome1
 db_version: 19.0.0.0
+region: "us-ashburn-1"

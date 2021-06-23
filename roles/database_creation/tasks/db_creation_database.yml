@@ -1,15 +1,15 @@
-- block:
-  - name: Create database
-    oci_database_database:
-      region: "{{ region }}"
-      compartment_id: "{{ compartment_id }}"
-      source: NONE
-      db_home_id: "{{ db_home_id }}"
-      database:
-        admin_password: "{{ db_admin_password }}"
-        db_name: "{{ db_name }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      database_id: "{{ result.database.id }}"
+
+- name: Create database
+  oci_database_database:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    source: NONE
+    db_home_id: "{{ db_home_id }}"
+    database:
+      admin_password: "{{ db_admin_password }}"
+      db_name: "{{ workload_prefix }}{{ db_name }}"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact:
+    database_id: "{{ result.database.id }}"
