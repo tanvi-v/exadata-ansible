@@ -1,6 +1,15 @@
 
 # Playbook add_pdb.yml adds a PDB to the designated database.
 
+# TO DO: DBAASCLI METHOD
+
+# 1. Download DBAASCLI onto VM CLUSTER
+
+# 2. RUN DBAASCLI PDB COMMAND
+
+
+# Alternate Method
+
 - copy:
     src: show_pdbs.sql
     dest: /home/oracle
