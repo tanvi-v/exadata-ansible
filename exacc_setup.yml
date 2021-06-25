@@ -35,9 +35,9 @@
       include_role:
         name: database_backups
       vars:
-        database_id: ""
+        database_id: "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
         auto_backup_enabled: "true"
         backup_destination_type: "NFS"
-        backup_destination_id: ""
+        backup_destination_id: "ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq"
 
     
