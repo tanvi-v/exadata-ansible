@@ -1,8 +1,6 @@
 
 
 Code Development
-- Current Issues
-    - Fix DB teardown - not doing it right now for some reason
 - Rewrite code to work with Customer Environment
     - AWX - Khushboo
     - use Bastion Servers for DBs (necessary DB configuration - PDBs)

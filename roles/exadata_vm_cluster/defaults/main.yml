@@ -6,7 +6,6 @@ cpu_core_count: "4"
 memory_size_in_gbs: "30"
 db_node_storage_size_in_gbs: "60"
 data_storage_size_in_tbs: "84"
-ssh_public_keys: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAz..."
 license_model: LICENSE_INCLUDED
 is_sparse_diskgroup_enabled: "false"
 is_local_backup_enabled: "true"
@@ -20,5 +19,4 @@ gi_version: "19.1.0.0"
 vm_cluster_cpu_count: 56
 vm_cluster_display_name: "tstVMCluster"
 vm_cluster_hostname: "tstcluster"
-ssh_public_key: [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCV3vNwzN4+ptemURpmb6lDwO3FTbQqD1qi+T0fGAUs0lRC20q4/gKxxTTy9HDMbDNsOky9L+FNezEiwisP5Eda17rLkVXCm8FpucIQaZBpjGvRvoMO+BlQS/E6PDI4iS6mdsFHXEGU3dAGwMqYM6w6UiL5O/4gpd5EFSzK1bj01KRQyEFCtdMeb+9qcMAem2uKX9g85tYqqEs2/uUHf3VdAoP/c3K6x6JrpXEVZ7xEGTDBpcGiIfWo+lm/A6ANFOY7k7iJiYnsrr1IxmaW1gKfLKEclM28NfF28AU1pIH211ZVfpgLFdIHjrWT+eLOaEre+PceGx8s72lroYHWrBZ" ]
 gi_version: "19.0.0.0"

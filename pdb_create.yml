@@ -1,7 +1,7 @@
 - hosts: "server"
   become: true
   become_user: oracle
-  gather_facts: no
+  # gather_facts: no
   
   tasks:
     

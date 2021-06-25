@@ -2,5 +2,4 @@
 # new database vars
 region: us-ashburn-1
 db_name: DB1
-db_admin_password: WelcomeDB12##
 shape: "VM.Standard2.4"
