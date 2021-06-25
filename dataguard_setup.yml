@@ -5,6 +5,11 @@
 # To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
 # the desired value under vars for each task. These variables will take precedence over the defaults.
 
+# Run this playbook with the following command in order to set the variable db_admin_password:
+
+#     ansible-playbook dataguard_setup.yml --extra-vars "db_admin_password=<db_admin_password>"
+
+
 - name: Dataguard
   hosts: localhost
 
@@ -17,8 +22,6 @@
       include_role:
         name: networking
         tasks_from: remote_peering.yml
-      vars:
-        primary_vcn_id: ""
        
     # - name: Create Exadata Infrastructure for ExaCS
     #   include_role:
@@ -42,16 +45,15 @@
     #     compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
     #     db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
 
-    - name: Enable DataGuard
-      include_role:
-        name: database_creation
-        tasks_from: dataguard.yml
-      vars:
-        region: "us-ashburn-1"
-        primary_database_id: ""
-        standby_availability_domain: "rLid:PHX-AD-1"
-        standby_hostname: "drdb2"
-        standby_subnet_id: ""
+    # - name: Enable DataGuard
+    #   include_role:
+    #     name: database_creation
+    #     tasks_from: dataguard.yml
+    #   vars:
+    #     primary_database_id: ""
+    #     standby_availability_domain: "rLid:PHX-AD-1"
+    #     standby_hostname: "drdb2"
+    #     standby_subnet_id: ""
 
 
       

@@ -1,0 +1,20 @@
+
+- hosts: "server"
+  become: true
+  become_user: oracle
+  gather_facts: no
+
+  # vars:
+  #   oracle_home: '/u02/app/oracle/product/19.0.0.0/dbhome_3/'
+  #   oracle_sid: 'TestCDB11'
+  #   oracle_unique_name: 'TestCDB1_phx249'
+
+  tasks:
+    
+    - name: Delete PDB
+      include_role:
+        name: pdb
+        tasks_from: pdb_delete.yml
+      vars:
+        db_name: TestCDB1
+        pdb_name: PDB3

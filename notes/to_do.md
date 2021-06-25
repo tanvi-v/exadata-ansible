@@ -1,16 +1,16 @@
 
 
 Code Development
+- Networking
+    - go through discovery and add vcn_id as a filter where possible!!
 - Rewrite code to work with Customer Environment
     - AWX - Khushboo
     - use Bastion Servers for DBs (necessary DB configuration - PDBs)
     - OCI Infrastructure Discovery to fill in inventory file
-- ExaCC - need to speak with Albert first!
+- ExaCC - need to speak with Albert first
     - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
     - ExaCC Recovery Appliance Backup Destination
-- Additional Database Set-Up 
-    - PDB: additional set-up steps, make method of setting up cleaner - Tanvi
-    - Database: additional set-up steps
+- Additional Database/PDB Set-Up 
 - Playbook to call FPP - check with Santosh
 - DataGuard (low priority)
     - Change Remote Peering to Discovery Method
@@ -27,7 +27,7 @@ Testing To Do
     - Add Recovery Appliance as Backup Destination to DB
 - ExaCC
     - Exadata Set-Up
-    - Create VM Cluster 
+    - Create VM Cluster / Networking
     - PDB
     - Teardown
 - ExaCS

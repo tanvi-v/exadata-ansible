@@ -1,28 +1,8 @@
 
 # Playbook add_pdb.yml adds a PDB to the designated database.
 
-# TO DO: DBAASCLI METHOD
+- name: Create PDB
+  include_tasks: pdb_create.yml
 
-# 1. Download DBAASCLI onto VM CLUSTER
-
-# 2. RUN DBAASCLI PDB COMMAND
-
-
-# Alternate Method
-
-- copy:
-    src: show_pdbs.sql
-    dest: /home/oracle
-  
-- name: "create pdb"
-  shell: echo exit |
-    $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/show_pdbs.sql
-  environment:
-    ORACLE_HOME: '{{ oracle_home }}'
-    ORACLE_SID: '{{ oracle_sid }}'
-    ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
-  register: result
-- debug:
-    msg: "{{ result }}"
-
-    
+- name: PDB Info
+  include_tasks: pdb_info.yml

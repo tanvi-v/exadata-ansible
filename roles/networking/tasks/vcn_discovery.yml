@@ -1,6 +1,7 @@
 
 - name: List vcns
   oci_network_vcn_facts:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}VCN"
   register: result

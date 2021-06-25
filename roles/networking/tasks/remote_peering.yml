@@ -43,7 +43,7 @@
     compartment_id: "{{ compartment_id }}"
     vcn_id: "{{ vcn_id }}"
     cidr_block: "{{ standby_client_subnet_cidr_block }}"
-    display_name: "{{ standby_network_tag }}CS"
+    display_name: "{{ standby_network_tag }}ClientSubnet"
     prohibit_public_ip_on_vnic: "false"
     dns_label: "{{ standby_network_tag }}Pub"
     security_list_ids:
@@ -112,8 +112,13 @@
 
 # Create Primary Region DRG and RPC
 
+- set_fact: 
+    vcn_id: ""
+
 - name: Primary VCN OCID
   include_tasks: vcn_discovery.yml
+
+- assert: { that: vcn_id != "" }
 
 - name: Create prod drg
   oci_network_drg:
@@ -134,7 +139,7 @@
     compartment_id: "{{ compartment_id }}"
     network_details:
       type: VCN
-      id: "{{ primary_vcn_id }}"
+      id: "{{ vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -148,7 +153,7 @@
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ primary_vcn_id }}"
+    vcn_id: "{{ vcn_id }}"
     id: "{{ primary_client_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK
@@ -166,7 +171,7 @@
   oci_network_route_table:
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ primary_vcn_id }}"
+    vcn_id: "{{ vcn_id }}"
     id: "{{ primary_client_route_table_id }}"
     route_rules:
     - destination_type: CIDR_BLOCK

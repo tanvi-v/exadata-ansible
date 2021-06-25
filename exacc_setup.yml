@@ -5,6 +5,13 @@
 # To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
 # the desired value under vars for each task. These variables will take precedence over the defaults.
 
+
+# Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
+# and db_admin_password (for the database creation):
+
+#     ansible-playbook exacc_setup.yml --extra-vars "db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>"
+
+
 - name: ExaCC Set-Up
   hosts: localhost
   
@@ -23,21 +30,23 @@
     #   include_role:
     #     name: exadata_vm_cluster
     
-    - name: Create Database Home for ExaCC
-      include_role:
-        name: database_home_creation
+    # - name: Create Database Home for ExaCC
+    #   include_role:
+    #     name: database_home_creation
     
     - name: Create Database for ExaCC
       include_role:
         name: database_creation
- 
-    - name: Add Backup Destination for ExaCC
-      include_role:
-        name: database_backups
       vars:
-        database_id: "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
-        auto_backup_enabled: "true"
-        backup_destination_type: "NFS"
-        backup_destination_id: "ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq"
+        db_home_id: ocid1.dbhome.oc1.iad.abuwcljryudhho5srskufqzjzzikhfhkg4ravysjrfc52hz2swzcvuntrgbq
+ 
+    # - name: Add Backup Destination for ExaCC
+    #   include_role:
+    #     name: database_backups
+    #   vars:
+    #     database_id: "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
+    #     auto_backup_enabled: "true"
+    #     backup_destination_type: "NFS"
+    #     backup_destination_id: "ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq"
 
     

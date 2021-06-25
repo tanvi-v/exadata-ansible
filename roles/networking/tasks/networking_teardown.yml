@@ -33,6 +33,7 @@
 
 - name: Service GW discovery
   oci_network_service_gateway_facts:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}SG"
   register: result
@@ -99,6 +100,7 @@
 
 - name: NAT GW discovery
   oci_network_nat_gateway_facts:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}NG"
   register: result
@@ -117,6 +119,7 @@
 
 - name: Internet GW discovery
   oci_network_internet_gateway_facts:
+    region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}IG"
   register: result
@@ -159,26 +162,62 @@
 
 # Delete Remote Peering Components
 
-# - name: Delete remote peering connection
-#   when: lookup('vars', network_tag + '_rpc_id', default="") != ""
-#   oci_network_remote_peering_connection:
-#     region: "{{ region }}"
-#     remote_peering_connection_id: "{{ lookup('vars', network_tag + '_rpc_id') }}"
-#     state: absent
+- name: List Remote Peering Facts
+  oci_network_remote_peering_connection_facts:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}RPC"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    rpc_id: "{{ result.remote_peering_connections[0].id}}"
+  when: result.remote_peering_connections|length > 0 
 
-# - name: Delete drg_attachment
-#   when: lookup('vars', network_tag + '_drg_attachment_id', default="") != ""
-#   oci_network_drg_attachment:
-#     region: "{{ region }}"
-#     drg_attachment_id: "{{ lookup('vars', network_tag + '_drg_attachment_id') }}"
-#     state: absent
+- name: Delete remote peering connection
+  when: rpc_id is defined
+  oci_network_remote_peering_connection:
+    region: "{{ region }}"
+    remote_peering_connection_id: "{{ rpc_id }}"
+    state: absent
 
-# - name: Delete drg
-#   when: lookup('vars', network_tag + '_drg_id', default="") != ""
-#   oci_network_drg: 
-#     region: "{{ region }}"
-#     drg_id: "{{ lookup('vars', network_tag + '_drg_id') }}"
-#     state: absent
+- name: List DRG Attachment Facts
+  oci_network_drg_attachment_facts:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}DRGAttachment"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    drg_attachment_id: "{{ result.drg_attachments[0].id}}"
+  when: result.drg_attachments|length > 0 
+
+- name: Delete drg_attachment
+  when: drg_attachment_id is defined
+  oci_network_drg_attachment:
+    region: "{{ region }}"
+    drg_attachment_id: "{{ drg_attachment_id }}"
+    state: absent
+
+- name: List DRG Facts
+  oci_network_drg_facts:
+    region: "{{ region }}"
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ network_tag }}DRG"
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    drg_id: "{{ result.drgs[0].id}}"
+  when: result.drgs|length > 0 
+
+- name: Delete drg
+  when: drg_id is defined
+  oci_network_drg: 
+    region: "{{ region }}"
+    drg_id: "{{ drg_id }}"
+    state: absent
 
 
 # Terminate VCN
