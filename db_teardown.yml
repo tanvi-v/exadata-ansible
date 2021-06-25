@@ -17,19 +17,9 @@
       include_role:
         name: database_creation
         tasks_from: db_delete_database.yml
-      # vars:
-      #   database_id: "{{ item }}" 
-      # loop:
-      #   - "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
 
     - name: Delete DB Homes
       include_role:
         name: database_home_creation
         tasks_from: db_delete_home.yml
-      # vars:
-      #   db_home_id: "{{ item }}" 
-      # loop:
-      #   - "ocid1.dbhome.oc1.phx.abyhqljsf3ixcs6ywjqcumjte2neqmeh4apba6k3daxm5skhm5v2oo6332fq"
-      #   - "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
-
     

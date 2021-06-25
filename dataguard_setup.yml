@@ -18,7 +18,7 @@
         name: networking
         tasks_from: remote_peering.yml
       vars:
-        primary_vcn_id: "{{ lookup('vars', rgn + '_vcn_id') }}"
+        primary_vcn_id: ""
        
     # - name: Create Exadata Infrastructure for ExaCS
     #   include_role:
@@ -42,16 +42,16 @@
     #     compartment_id: "ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma" 
     #     db_home_id: "ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a"
 
-    # - name: Enable DataGuard
-    #   include_role:
-    #     name: database_creation
-    #     tasks_from: dataguard.yml
-    #   vars:
-    #     region: "us-ashburn-1"
-    #     primary_database_id: "ocid1.database.oc1.iad.abuwcljsnyyvi6mci4duwkgfkigiy2wxlfunmrlnf2575tp7qarkwmnl4lsq"
-    #     standby_availability_domain: "rLid:PHX-AD-1"
-    #     standby_hostname: "drdb2"
-    #     standby_subnet_id: "ocid1.subnet.oc1.phx.aaaaaaaaui7ivfa7fcuqzcjgy5k3rdzjd45h4xvyp5ksvvel3wuwluvfc5aa"
+    - name: Enable DataGuard
+      include_role:
+        name: database_creation
+        tasks_from: dataguard.yml
+      vars:
+        region: "us-ashburn-1"
+        primary_database_id: ""
+        standby_availability_domain: "rLid:PHX-AD-1"
+        standby_hostname: "drdb2"
+        standby_subnet_id: ""
 
 
       
