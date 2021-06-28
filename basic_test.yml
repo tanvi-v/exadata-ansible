@@ -19,10 +19,6 @@
       
   tasks:
 
-    - name: Installing oci python library using Ansible pip module
-      pip:
-        name: oci
-
     - name: Get Network Services
       include_role:
         name: networking

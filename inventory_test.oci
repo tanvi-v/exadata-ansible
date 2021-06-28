@@ -1,3 +1,0 @@
-plugin=oracle.oci.oci
-regions=all
-fetch_db_hosts=true
