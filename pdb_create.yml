@@ -19,6 +19,10 @@
 
 # Note: ran pip3 install pexpect from db node as root
 
+# - name: Installing pexpect python library using Ansible pip module?
+#   pip:
+#     name: pexpect
+
 #oracle_home: '/u02/app/oracle/product/19.0.0.0/dbhome_3/'
 #oracle_sid: 'TestCDB11'
 #oracle_unique_name: 'TestCDB1_phx249'
