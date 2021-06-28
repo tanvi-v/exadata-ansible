@@ -1,7 +1,7 @@
 
 - name: "pdb info"
   shell: |
-    dbaascli pdb info --dbname {{ db_name }}
+    pwd
   register: result
 - debug:
     msg: "{{ result }}"

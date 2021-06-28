@@ -9,8 +9,17 @@
       - default_security_list_id is defined
     fail_msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
 
+# Check to make sure Subnet has not already been created / no Subnet exists with the same name
+
+- name: Subnet discovery
+  include_tasks: subnet_discovery.yml
+  vars:
+    subnet_name: "{{ network_tag }}BackupSubnet"
+
+- assert: { that: subnet_id is not defined }
+
 # Create Networking for Private Backup Subnet
-  
+
 - name: Create service gateway
   oci_network_service_gateway:
     compartment_id: "{{ compartment_id }}"

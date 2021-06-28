@@ -1,4 +1,9 @@
 
+- name: List DBs
+  include_tasks: db_discovery.yml
+
+- assert: { that: database_id is not defined }
+
 - name: Create database
   oci_database_database:
     region: "{{ region }}"

@@ -1,5 +1,6 @@
 # DB specific requirements
 # - both security lists should allow incoming connections to port 1521 (can use other VCNs cidr or just 0.0.0.0)
+
 # Remote Peering
 
 # Create Standby Region Basic Networking

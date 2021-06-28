@@ -5,17 +5,8 @@
     name: database_home_creation
     tasks_from: db_home_discovery.yml
 
-- name: List databases
-  oci_database_database_facts:
-    compartment_id: "{{ compartment_id }}"
-    db_name: "{{ workload_prefix }}{{ db_name }}"
-    db_home_id: "{{ db_home_id }}"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact: 
-    database_id: "{{ result.databases[0].id}}"
-  when: result.databases|length > 0 
+- name: List DBs
+  include_tasks: db_discovery.yml
 
 - name: Delete database
   oci_database_database:
