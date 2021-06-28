@@ -6,9 +6,9 @@
   hosts: localhost
 
   vars:
-    network_tag: var1
+    network_tag: var2
     compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
-    # region: us-phoenix-1
+    region: us-phoenix-1
   
   tasks:
     - name: Delete Networking Components

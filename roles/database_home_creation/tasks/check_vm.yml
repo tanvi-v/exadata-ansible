@@ -1,5 +1,5 @@
 
-- block:
+- block:      # exadata type is exacs
   - name: Check ExaCS VM Cluster
     oci_database_cloud_vm_cluster:
       region: "{{ region }}"
@@ -9,7 +9,7 @@
       vm_cluster_lifecycle_state: "{{ result.cloud_vm_cluster.lifecycle_state }}"
   when: exadata_type is defined and exadata_type == "exacs"
 
-- block:
+- block:      # exadata type is exacc
   - name: Check ExaCC VM Cluster
     oci_database_vm_cluster:
       region: "{{ region }}"

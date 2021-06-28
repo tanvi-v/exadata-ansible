@@ -5,6 +5,11 @@
       - compartment_id is defined
     fail_msg: "compartment_id is not defined. Please pass in compartment OCID."
 
+- name: VCN discovery
+  include_tasks: vcn_discovery.yml
+
+- assert: { that: vcn_id is not defined }
+
 - name: Create VCN
   oci_network_vcn:
     region: "{{ region }}"

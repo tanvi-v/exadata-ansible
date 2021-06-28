@@ -36,6 +36,7 @@
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}SG"
+    vcn_id: "{{ vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -103,6 +104,7 @@
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}NG"
+    vcn_id: "{{ vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -122,6 +124,7 @@
     region: "{{ region }}"
     compartment_id: "{{ compartment_id }}"
     display_name: "{{ network_tag }}IG"
+    vcn_id: "{{ vcn_id }}"
   register: result
 - debug:
     msg: "{{ result }}"
@@ -146,7 +149,7 @@
     state: absent
 
 - name: Delete client route table 
-  when: subnet_route_table_id != ""
+  when: subnet_route_table_id != "" and subnet_route_table_id != default_route_table_id
   oci_network_route_table:
     region: "{{ region }}"
     id: "{{ subnet_route_table_id }}"
@@ -162,44 +165,6 @@
 
 # Delete Remote Peering Components
 
-- name: List Remote Peering Facts
-  oci_network_remote_peering_connection_facts:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ network_tag }}RPC"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact: 
-    rpc_id: "{{ result.remote_peering_connections[0].id}}"
-  when: result.remote_peering_connections|length > 0 
-
-- name: Delete remote peering connection
-  when: rpc_id is defined
-  oci_network_remote_peering_connection:
-    region: "{{ region }}"
-    remote_peering_connection_id: "{{ rpc_id }}"
-    state: absent
-
-- name: List DRG Attachment Facts
-  oci_network_drg_attachment_facts:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ network_tag }}DRGAttachment"
-  register: result
-- debug:
-    msg: "{{ result }}"
-- set_fact: 
-    drg_attachment_id: "{{ result.drg_attachments[0].id}}"
-  when: result.drg_attachments|length > 0 
-
-- name: Delete drg_attachment
-  when: drg_attachment_id is defined
-  oci_network_drg_attachment:
-    region: "{{ region }}"
-    drg_attachment_id: "{{ drg_attachment_id }}"
-    state: absent
-
 - name: List DRG Facts
   oci_network_drg_facts:
     region: "{{ region }}"
@@ -212,13 +177,56 @@
     drg_id: "{{ result.drgs[0].id}}"
   when: result.drgs|length > 0 
 
-- name: Delete drg
-  when: drg_id is defined
-  oci_network_drg: 
-    region: "{{ region }}"
-    drg_id: "{{ drg_id }}"
-    state: absent
+- block:   # when drg_id is defined
 
+  - name: List Remote Peering Facts
+    oci_network_remote_peering_connection_facts:
+      region: "{{ region }}"
+      compartment_id: "{{ compartment_id }}"
+      display_name: "{{ network_tag }}RPC"
+      drg_id: "{{ drg_id }}"
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  - set_fact: 
+      rpc_id: "{{ result.remote_peering_connections[0].id}}"
+    when: result.remote_peering_connections|length > 0 
+
+  - name: Delete remote peering connection
+    when: rpc_id is defined
+    oci_network_remote_peering_connection:
+      region: "{{ region }}"
+      remote_peering_connection_id: "{{ rpc_id }}"
+      state: absent
+
+  - name: List DRG Attachment Facts
+    oci_network_drg_attachment_facts:
+      region: "{{ region }}"
+      compartment_id: "{{ compartment_id }}"
+      display_name: "{{ network_tag }}DRGAttachment"
+      drg_id: "{{ drg_id }}"
+      network_id: "{{ vcn_id }}"
+    register: result
+  - debug:
+      msg: "{{ result }}"
+  - set_fact: 
+      drg_attachment_id: "{{ result.drg_attachments[0].id}}"
+    when: result.drg_attachments|length > 0 
+
+  - name: Delete drg_attachment
+    when: drg_attachment_id is defined
+    oci_network_drg_attachment:
+      region: "{{ region }}"
+      drg_attachment_id: "{{ drg_attachment_id }}"
+      state: absent
+
+  - name: Delete drg
+    oci_network_drg: 
+      region: "{{ region }}"
+      drg_id: "{{ drg_id }}"
+      state: absent
+  
+  when: drg_id is defined
 
 # Terminate VCN
 

@@ -1,6 +1,6 @@
 # TO DO: TEST 
 
-- block:
+- block:      # exadata type is exacc
   - assert: {that: backup_destination_id is defined and backup_destination_type is defined}
   - name: Enable automatic database backups
     oci_database_database:
@@ -17,7 +17,7 @@
       msg: "{{ result }}"
   when: exadata_type is defined and exadata_type == "exacc"
 
-- block:
+- block:      # exadata type is exacs
   - name: Enable automatic database backups
     oci_database_database:
       database_id: "{{ database_id }}"

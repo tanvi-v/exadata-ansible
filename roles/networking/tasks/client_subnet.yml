@@ -11,9 +11,7 @@
 
 # Create Networking for Private Client Subnet
 
-# TO DO: CHANGE BLOCK METHOD
-
-- block:
+- block:      # client subnet type is private
   
   - name: Create nat gateway
     oci_network_nat_gateway:
@@ -48,7 +46,7 @@
 
 # Create Networking for Public Client Subnet
 
-- block:
+- block:      # client subnet type is public
 
   - name: Create internet gateway
     oci_network_internet_gateway:
