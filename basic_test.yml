@@ -22,4 +22,4 @@
     - name: Get Network Services
       include_role:
         name: networking
-        tasks: network_service_discovery.yml
+        tasks_from: network_service_discovery.yml
