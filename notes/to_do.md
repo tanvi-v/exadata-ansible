@@ -1,18 +1,24 @@
 
 
 Code Development
-- Rewrite code to work with Customer Environment
-    - AWX - Khushboo
-    - use Bastion Servers for DBs (necessary DB configuration - PDBs)
-    - OCI Infrastructure Discovery to fill in inventory file
+- AWX
+    - See if we should use manual files?
+    - Fix galaxy ansible collection --> inventory, basic tests
+- Use Bastion Servers for DBs
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Additional Database/PDB Set-Up 
-- Playbook to call FPP - check with Santosh
+- Playbook to call FPP
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard
+
+Santosh Questions
+- FPP
+- Bastion Servers?
+- AWX
 
 Code Organization
 - Dataguard: should remote peering be with initial network setup?
 - Backup: Should exacc backup destination be with initial database creation or afterwards?
+- How is customer using AWX? 
 
 Testing To Do 
 - DB Backup

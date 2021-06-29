@@ -1,4 +1,9 @@
 
+- name: Check for DB Home
+  include_tasks: db_home_discovery.yml
+
+- assert: { that: db_home_id is not defined }
+
 - name: Create db home
   oci_database_db_home:
     region: "{{ region }}"

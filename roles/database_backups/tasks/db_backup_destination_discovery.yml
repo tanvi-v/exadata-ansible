@@ -1,0 +1,11 @@
+- name: List backup_destinations
+  oci_database_backup_destination_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: "{{ workload_prefix }}NFS"
+    type: "{{ backup_destination_type }}"  
+  register: result
+- debug:
+    msg: "{{ result }}"
+- set_fact: 
+    : "{{ result.backup_destinations[0].id}}"
+  when: result.backup_destinations|length > 0 
