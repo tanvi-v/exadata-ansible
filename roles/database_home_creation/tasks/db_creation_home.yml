@@ -6,9 +6,8 @@
 
 - name: Create db home
   oci_database_db_home:
-    region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    source: VM_CLUSTER_NEW
+    source: 'VM_CLUSTER_NEW'
     vm_cluster_id: '{{ vm_cluster_id }}'
     display_name: '{{ workload_prefix }}{{ db_home_name }}'
     db_version: '{{ db_version }}'

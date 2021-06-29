@@ -15,8 +15,8 @@
   hosts: localhost
   
   vars:
-      exadata_type: exacs       # exacs or exacc
-      compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
+      exadata_type: 'exacs'       # exacs or exacc
+      compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
       
   tasks:
 
@@ -24,7 +24,7 @@
       include_role:
         name: networking
       vars:
-        client_subnet_type: public      # public or private
+        client_subnet_type: 'public'      # public or private
 
     # - name: Create Exadata Infrastructure for ExaCS
     #   include_role:

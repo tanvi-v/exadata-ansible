@@ -1,5 +1,4 @@
 
 # db_home
-db_home_name: anshome1
-db_version: 19.0.0.0
-region: 'us-ashburn-1'
+db_home_name: 'anshome1'
+db_version: '19.0.0.0'

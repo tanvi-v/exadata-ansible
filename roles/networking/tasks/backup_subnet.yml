@@ -39,8 +39,8 @@
     vcn_id: '{{ vcn_id }}'
     display_name: '{{ network_tag }}BackupRT'
     route_rules:
-    - destination_type: SERVICE_CIDR_BLOCK
-      destination: 'all-iad-services-in-oracle-services-network'
+    - destination_type: 'SERVICE_CIDR_BLOCK'
+      destination: '{{ all_services_cidr }}'
       network_entity_id: '{{ service_gateway_id }}'
   register: result
 - debug:
