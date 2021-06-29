@@ -1,20 +1,19 @@
 
 - name: List DBs
   include_tasks: db_discovery.yml
-
 - assert: { that: database_id is not defined }
 
 - name: Create database
   oci_database_database:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
+    region: '{{ region }}'
+    compartment_id: '{{ compartment_id }}'
     source: NONE
-    db_home_id: "{{ db_home_id }}"
+    db_home_id: '{{ db_home_id }}'
     database:
-      admin_password: "{{ db_admin_password }}"
-      db_name: "{{ workload_prefix }}{{ db_name }}"
+      admin_password: '{{ db_admin_password }}'
+      db_name: '{{ workload_prefix }}{{ db_name }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    database_id: "{{ result.database.id }}"
+    database_id: '{{ result.database.id }}'

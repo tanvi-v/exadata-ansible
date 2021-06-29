@@ -1,20 +1,20 @@
 
 # Check for required variables.
 
-- name: "Check VCN variables."
+- name: 'Check VCN variables.'
   assert:
     that:
       - vcn_id is defined
       - default_route_table_id is defined
       - default_security_list_id is defined
-    fail_msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
+    fail_msg: 'VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs.'
 
 # Check to make sure Subnet has not already been created / no Subnet exists with the same name
 
 - name: Subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: "{{ network_tag }}ClientSubnet"
+    subnet_name: '{{ network_tag }}ClientSubnet'
 
 - assert: { that: subnet_id is not defined }
 
@@ -24,34 +24,34 @@
   
   - name: Create nat gateway
     oci_network_nat_gateway:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ network_tag }}NG"
+      compartment_id: '{{ compartment_id }}'
+      vcn_id: '{{ vcn_id }}'
+      display_name: '{{ network_tag }}NG'
     register: result
   - debug:
-      msg: "{{ result }}"
+      msg: '{{ result }}'
   - set_fact:
-      nat_gateway_id: "{{ result.nat_gateway.id }}"
+      nat_gateway_id: '{{ result.nat_gateway.id }}'
       
   - name: Create client route table
     oci_network_route_table:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ network_tag }}ClientRT"
+      compartment_id: '{{ compartment_id }}'
+      vcn_id: '{{ vcn_id }}'
+      display_name: '{{ network_tag }}ClientRT'
       route_rules:
       - destination_type: CIDR_BLOCK
-        destination: "0.0.0.0/0"
-        network_entity_id: "{{ nat_gateway_id }}"
+        destination: '0.0.0.0/0'
+        network_entity_id: '{{ nat_gateway_id }}'
       - destination_type: SERVICE_CIDR_BLOCK
-        destination: "{{ all_services_cidr }}"
-        network_entity_id: "{{ service_gateway_id }}"
+        destination: '{{ all_services_cidr }}'
+        network_entity_id: '{{ service_gateway_id }}'
     register: result
   - debug:
-      msg: "{{ result }}"
+      msg: '{{ result }}'
   - set_fact:
-      client_route_table_id: "{{ result.route_table.id }}"  
+      client_route_table_id: '{{ result.route_table.id }}'  
   
-  when: client_subnet_type is defined and client_subnet_type == "private"
+  when: client_subnet_type is defined and client_subnet_type == 'private'
 
 # Create Networking for Public Client Subnet
 
@@ -59,71 +59,71 @@
 
   - name: Create internet gateway
     oci_network_internet_gateway:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ network_tag }}IG"
+      compartment_id: '{{ compartment_id }}'
+      vcn_id: '{{ vcn_id }}'
+      display_name: '{{ network_tag }}IG'
       is_enabled: true
     register: result
   - debug:
-      msg: "{{ result }}"
+      msg: '{{ result }}'
   - set_fact:
-      internet_gateway_id: "{{ result.internet_gateway.id }}"
+      internet_gateway_id: '{{ result.internet_gateway.id }}'
   
   - name: Create client route table
     oci_network_route_table:
-      compartment_id: "{{ compartment_id }}"
-      vcn_id: "{{ vcn_id }}"
-      display_name: "{{ network_tag }}ClientRT"
+      compartment_id: '{{ compartment_id }}'
+      vcn_id: '{{ vcn_id }}'
+      display_name: '{{ network_tag }}ClientRT'
       route_rules:
       - destination_type: CIDR_BLOCK
-        destination: "0.0.0.0/0"
-        network_entity_id: "{{ internet_gateway_id }}"
+        destination: '0.0.0.0/0'
+        network_entity_id: '{{ internet_gateway_id }}'
     register: result
   - debug:
-      msg: "{{ result }}"
+      msg: '{{ result }}'
   - set_fact:
-      client_route_table_id: "{{ result.route_table.id }}"
+      client_route_table_id: '{{ result.route_table.id }}'
   
-  when: client_subnet_type is defined and client_subnet_type == "public"
+  when: client_subnet_type is defined and client_subnet_type == 'public'
 
 # Create Remaining Networking for Client Subnet
 
 - name: Create client security list
   oci_network_security_list:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}ClientSL"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    display_name: '{{ network_tag }}ClientSL'
     ingress_security_rules:
-    - protocol: "6"
-      source: "0.0.0.0/0"
+    - protocol: '6'
+      source: '0.0.0.0/0'
       tcp_options:
         destination_port_range:
-          min: "1521"
-          max: "1521"
+          min: '1521'
+          max: '1521'
     egress_security_rules:
-    - protocol: "all"
-      destination: "0.0.0.0/0"
+    - protocol: 'all'
+      destination: '0.0.0.0/0'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    client_security_list_id: "{{ result.security_list.id }}"
+    client_security_list_id: '{{ result.security_list.id }}'
 
 - name: Create public client subnet
   oci_network_subnet:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ client_subnet_cidr_block }}"
-    display_name: "{{ network_tag }}ClientSubnet"
-    prohibit_public_ip_on_vnic: "false"
-    dns_label: "{{ network_tag }}CS"
-    route_table_id: "{{ client_route_table_id }}"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    cidr_block: '{{ client_subnet_cidr_block }}'
+    display_name: '{{ network_tag }}ClientSubnet'
+    prohibit_public_ip_on_vnic: 'false'
+    dns_label: '{{ network_tag }}CS'
+    route_table_id: '{{ client_route_table_id }}'
     security_list_ids: 
-    - "{{ client_security_list_id }}"
-    - "{{ default_security_list_id }}"
+    - '{{ client_security_list_id }}'
+    - '{{ default_security_list_id }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    client_subnet_id: "{{ result.subnet.id }}"
+    client_subnet_id: '{{ result.subnet.id }}'
       

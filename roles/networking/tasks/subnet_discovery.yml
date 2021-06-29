@@ -1,15 +1,15 @@
 
 - name: Subnet discovery
   oci_network_subnet_facts:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ subnet_name }}"
-    vcn_id: "{{ vcn_id }}"
+    region: '{{ region }}'
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ subnet_name }}'
+    vcn_id: '{{ vcn_id }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact: 
-    subnet_id: "{{ result.subnets[0].id }}"
-    subnet_route_table_id: "{{ result.subnets[0].route_table_id }}"
-    subnet_security_list_ids: "{{ result.subnets[0].security_list_ids }}"
+    subnet_id: '{{ result.subnets[0].id }}'
+    subnet_route_table_id: '{{ result.subnets[0].route_table_id }}'
+    subnet_security_list_ids: '{{ result.subnets[0].security_list_ids }}'
   when: result.subnets|length > 0 

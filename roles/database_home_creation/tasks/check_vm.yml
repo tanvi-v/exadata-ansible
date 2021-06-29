@@ -2,24 +2,24 @@
 - block:      # exadata type is exacs
   - name: Check ExaCS VM Cluster
     oci_database_cloud_vm_cluster:
-      region: "{{ region }}"
-      cloud_vm_cluster_id: "{{ vm_cluster_id }}"
+      region: '{{ region }}'
+      cloud_vm_cluster_id: '{{ vm_cluster_id }}'
     register: result
   - set_fact:
-      vm_cluster_lifecycle_state: "{{ result.cloud_vm_cluster.lifecycle_state }}"
-  when: exadata_type is defined and exadata_type == "exacs"
+      vm_cluster_lifecycle_state: '{{ result.cloud_vm_cluster.lifecycle_state }}'
+  when: exadata_type is defined and exadata_type == 'exacs'
 
 - block:      # exadata type is exacc
   - name: Check ExaCC VM Cluster
     oci_database_vm_cluster:
-      region: "{{ region }}"
-      vm_cluster_id: "{{ vm_cluster_id }}"
+      region: '{{ region }}'
+      vm_cluster_id: '{{ vm_cluster_id }}'
     register: result
   - set_fact:
-      vm_cluster_lifecycle_state: "{{ result.vm_cluster.lifecycle_state }}"
-  when: exadata_type is defined and exadata_type == "exacc"
+      vm_cluster_lifecycle_state: '{{ result.vm_cluster.lifecycle_state }}'
+  when: exadata_type is defined and exadata_type == 'exacc'
 
 # - assert:
-#     that: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == "AVAILABLE"
-#     fail_msg: "Cannot perform database operation, VM_Cluster is in {{ vm_cluster_lifecycle_state }} state."
+#     that: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == 'AVAILABLE'
+#     fail_msg: 'Cannot perform database operation, VM_Cluster is in {{ vm_cluster_lifecycle_state }} state.'
   

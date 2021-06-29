@@ -1,11 +1,11 @@
 
-- name: "create pdb"
+- name: 'create pdb'
   expect:
     command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ db_name }}'
     responses:
-      \bpassword\b: "{{ pdb_password }}"
+      \bpassword\b: '{{ pdb_password }}'
     echo: yes
     timeout: 300
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'

@@ -8,8 +8,8 @@
       exadata_type: exacc
       workload_prefix: t1
       
-      vm_cluster_id: "ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq" 
-      compartment_id: "ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq" 
+      vm_cluster_id: 'ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq' 
+      compartment_id: 'ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq' 
   
   tasks:
     

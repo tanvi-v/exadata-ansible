@@ -1,26 +1,26 @@
 
-- name: "Check compartment_id variable."
+- name: 'Check compartment_id variable.'
   assert:
     that:
       - compartment_id is defined
-    fail_msg: "compartment_id is not defined. Please pass in compartment OCID."
+    fail_msg: 'compartment_id is not defined. Please pass in compartment OCID.'
 
-# - name: VCN discovery
-#   include_tasks: vcn_discovery.yml
+- name: VCN discovery
+  include_tasks: vcn_discovery.yml
 
-# - assert: { that: vcn_id is not defined }
+- assert: { that: vcn_id is not defined }
 
 - name: Create VCN
   oci_network_vcn:
-    region: "{{ region }}"
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ network_tag }}VCN"
-    cidr_block: "{{ vcn_cidr_block }}"
-    dns_label: "{{ network_tag }}VCN"
+    region: '{{ region }}'
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ network_tag }}VCN'
+    cidr_block: '{{ vcn_cidr_block }}'
+    dns_label: '{{ network_tag }}VCN'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    vcn_id: "{{ result.vcn.id }}"
-    default_route_table_id: "{{ result.vcn.default_route_table_id }}"
-    default_security_list_id: "{{ result.vcn.default_security_list_id }}"
+    vcn_id: '{{ result.vcn.id }}'
+    default_route_table_id: '{{ result.vcn.default_route_table_id }}'
+    default_security_list_id: '{{ result.vcn.default_security_list_id }}'

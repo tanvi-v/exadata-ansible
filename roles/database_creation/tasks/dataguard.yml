@@ -3,18 +3,18 @@
 
 - name: Create data_guard_association
   oci_database_data_guard_association:
-    region: "{{ region }}"
-    database_id: "{{ primary_database_id }}"
-    database_admin_password: "{{ db_admin_password }}"
+    region: '{{ region }}'
+    database_id: '{{ primary_database_id }}'
+    database_admin_password: '{{ db_admin_password }}'
     protection_mode: MAXIMUM_PERFORMANCE
     transport_type: ASYNC
     creation_type: NewDbSystem
-    availability_domain: "{{ standby_availability_domain }}"
-    display_name: "{{ workload_prefix }}{{ db_name }}"
-    hostname: "{{ standby_hostname }}"
-    subnet_id: "{{ standby_subnet_id }}"
-    shape: "{{ shape }}"
+    availability_domain: '{{ standby_availability_domain }}'
+    display_name: '{{ workload_prefix }}{{ db_name }}'
+    hostname: '{{ standby_hostname }}'
+    subnet_id: '{{ standby_subnet_id }}'
+    shape: '{{ shape }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 

@@ -1,7 +1,7 @@
 
-- name: "pdb info"
+- name: 'pdb info'
   shell: |
     pwd
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'

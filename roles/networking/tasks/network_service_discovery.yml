@@ -1,19 +1,12 @@
 
 - name: List Oracle services
   oracle.oci.oci_network_service_facts:
-    region: "{{ region }}"
+    region: '{{ region }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    oci_object_storage_id: "{{ result.services[0].id }}"
-    oci_object_storage_cidr: "{{ result.services[0].cidr_block }}"
-    all_services_id: "{{ result.services[1].id }}"
-    all_services_cidr: "{{ result.services[1].cidr_block }}"
-
-- name: List compartments
-  oci_identity_compartment_facts:
-    parent_compartment_id: "ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq"
-  register: result
-- debug:
-    msg: "{{ result }}"
+    oci_object_storage_id: '{{ result.services[0].id }}'
+    oci_object_storage_cidr: '{{ result.services[0].cidr_block }}'
+    all_services_id: '{{ result.services[1].id }}'
+    all_services_cidr: '{{ result.services[1].cidr_block }}'

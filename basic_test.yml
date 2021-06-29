@@ -8,14 +8,14 @@
 # Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
 # and db_admin_password (for the database creation):
 
-#     ansible-playbook exacs_setup.yml --extra-vars "db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>"
+#     ansible-playbook exacs_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
 
 
 - name: Basic Test
   hosts: localhost
   
-  # vars:
-  #     compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
+  vars:
+      compartment_id: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
       
   tasks:
 
@@ -23,3 +23,4 @@
       include_role:
         name: networking
         tasks_from: network_service_discovery.yml
+  

@@ -6,9 +6,9 @@
 
 - name: Delete db home
   oci_database_db_home:
-    region: "{{ region }}"
-    db_home_id: "{{ db_home_id }}"
+    region: '{{ region }}'
+    db_home_id: '{{ db_home_id }}'
     state: absent
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'

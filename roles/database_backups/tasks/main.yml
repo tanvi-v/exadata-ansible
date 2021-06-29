@@ -1,23 +1,23 @@
-- name: "Check Exadata Infrastructure variable."
+- name: Check Exadata Infrastructure variable.
   assert:
     that:
       - exadata_type is defined
-      - exadata_type == "exacc" or exadata_type == "exacs"
+      - exadata_type == 'exacc' or exadata_type == 'exacs'
 
 - name: Create Backup Destination
   include_tasks: db_backup_destinations.yml
-  when: backup_destination_id is not defined and exadata_type == "exacc"
+  when: backup_destination_id is not defined and exadata_type == 'exacc'
 
 - name: Add Backup Destination to Database
-  include_tasks: db_add_backup_destination.yml and exadata_type == "exacc"
+  include_tasks: db_add_backup_destination.yml and exadata_type == 'exacc'
 
 - name: Enable automatic backups
   include_tasks: db_enable_automatic_backup.yml
-  when: auto_backup_enabled is defined and auto_backup_enabled == "true"
+  when: auto_backup_enabled is defined and auto_backup_enabled == 'true'
 
 - name: Create new backup
   include_tasks: db_backup_new.yml
-  when: exadata_type == "exacs"
+  when: exadata_type == 'exacs'
 
 
   

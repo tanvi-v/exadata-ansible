@@ -1,40 +1,39 @@
 # TO DO: TEST
 
-- name: "Check Exadata Infrastructure is defined and type exacc."
-  assert: { that: exadata_type is defined and exadata_type == "exacc" }
+- name: Check Exadata Infrastructure is defined and type exacc.
+  assert: { that: exadata_type is defined and exadata_type == 'exacc' }
 
-- name: "Check Backup Destination type is defined."
+- name: Check Backup Destination type is defined.
   assert: { that: backup_destination_type is defined }
 
-- block:      # backup destination type is "NFS"
-  - name: Create backup_destination (NFS)
-    oci_database_backup_destination:
-      compartment_id: "{{ compartment_id }}"
-      display_name: "{{ workload_prefix }}NFS"
-      type: "{{ backup_destination_type }}"
-      mount_type_details:
-        mount_type: "SELF_MOUNT"
-        local_mount_point_path: "{{ local_mount_point_path }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      backup_destination_id: "{{ result.backup_destination.id }}"
-  when: backup_destination_type == "NFS"
+- name: Backup Destination discovery
+  include_tasks: db_backup_destination_discovery.yml
+- assert: { that: backup_destination_id is not defined }
 
-- block:      # backup destination type is "RECOVERY_APPLICANCE"
-  - name: Create backup_destination (Recovery Applicance)
-    oci_database_backup_destination:
-      region: "{{ region }}"
-      compartment_id: "{{ compartment_id }}"
-      display_name: "{{ workload_prefix }}RA"
-      type: "{{ backup_destination_type }}"
-      connection_string: "{{ connection_string }}"
-      vpc_users:
-        -  "{{ vpc_user }}"
-    register: result
-  - debug:
-      msg: "{{ result }}"
-  - set_fact:
-      backup_destination_id: "{{ result.backup_destination.id }}"
-  when: backup_destination_type == "RECOVERY_APPLICANCE"
+- name: Create backup_destination (NFS)
+  when: backup_destination_type == 'NFS'
+  oci_database_backup_destination:
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_prefix }}NFS'
+    type: '{{ backup_destination_type }}'
+    mount_type_details:
+      mount_type: 'SELF_MOUNT'
+      local_mount_point_path: '{{ local_mount_point_path }}'
+  register: result
+
+- name: Create backup_destination (Recovery Applicance)
+  when: backup_destination_type == 'RECOVERY_APPLICANCE'
+  oci_database_backup_destination:
+    region: '{{ region }}'
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_prefix }}RA'
+    type: '{{ backup_destination_type }}'
+    connection_string: '{{ connection_string }}'
+    vpc_users:
+      -  '{{ vpc_user }}'
+  register: result
+
+- debug:
+    msg: '{{ result }}'
+- set_fact:
+    backup_destination_id: '{{ result.backup_destination.id }}'

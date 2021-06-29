@@ -1,14 +1,14 @@
 
-- hosts: "test"
+- hosts: 'test'
   become: true
   become_user: oracle
   gather_facts: no
   
   tasks:
     
-    - name: "pdb info"
+    - name: 'pdb info'
       shell: |
         pwd
       register: result
     - debug:
-        msg: "{{ result }}"
+        msg: '{{ result }}'

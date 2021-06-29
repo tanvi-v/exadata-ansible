@@ -1,9 +1,8 @@
 
-
 Code Development
 - AWX
     - See if we should use manual files?
-    - Fix galaxy ansible collection --> inventory, basic tests
+    - Fix dynamic inventory
 - Use Bastion Servers for DBs
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Additional Database/PDB Set-Up 
@@ -64,7 +63,7 @@ Ansible Best Practices / Clean-Up
 
 Additional Items
 - Dataguard: ExaCS/ExaCC specific dataguard: Need to change parameters and spin up Exadata in standby region
-- Manual Backups: "Standalone DB Backups not permitted"
+- Manual Backups: 'Standalone DB Backups not permitted'
 - Error Handling
 
 Error Handling

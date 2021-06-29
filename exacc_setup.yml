@@ -9,7 +9,7 @@
 # Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
 # and db_admin_password (for the database creation):
 
-#     ansible-playbook exacc_setup.yml --extra-vars "db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>"
+#     ansible-playbook exacc_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
 
 
 - name: ExaCC Set-Up
@@ -19,8 +19,8 @@
       exadata_type: exacc
       workload_prefix: t1
 
-      vm_cluster_id: "ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq" 
-      compartment_id: "ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq"
+      vm_cluster_id: 'ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq' 
+      compartment_id: 'ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq'
   
   tasks:
 
@@ -44,9 +44,9 @@
     #   include_role:
     #     name: database_backups
     #   vars:
-    #     database_id: "ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq"
-    #     auto_backup_enabled: "true"
-    #     backup_destination_type: "NFS"
-    #     backup_destination_id: "ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq"
+    #     database_id: 'ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq'
+    #     auto_backup_enabled: 'true'
+    #     backup_destination_type: 'NFS'
+    #     backup_destination_id: 'ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq'
 
     

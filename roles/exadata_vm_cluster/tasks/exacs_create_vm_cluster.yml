@@ -1,24 +1,24 @@
 # Create ExaCS VM Cluster
 
-- name: "Check Exadata Infrastructure variable."
+- name: 'Check Exadata Infrastructure variable.'
   assert:
     that:
       - exadata_infrastructure_id is defined
-    fail_msg: "exadata_infrastructure_id value not defined. Please run create_exacc.yml and pass in ExaCC OCID."
+    fail_msg: 'exadata_infrastructure_id value not defined. Please run create_exacc.yml and pass in ExaCC OCID.'
 
 - name: Create cloud vm cluster
   oci_database_cloud_vm_cluster:
-    compartment_id: "{{ compartment_id }}"
-    subnet_id: "{{ client_subnet_id }}"
-    backup_subnet_id: "{{ backup_subnet_id }}"
-    cloud_exadata_infrastructure_id: "{{ exadata_infrastructure_id }}"
-    cpu_core_count: "{{ vm_cluster_cpu_count }}"
-    display_name: "{{ vm_cluster_display_name }}"
-    hostname: "{{ vm_cluster_hostname }}"
-    ssh_public_keys: "{{ ssh_public_keys }}"
-    gi_version: "{{ gi_version }}"
+    compartment_id: '{{ compartment_id }}'
+    subnet_id: '{{ client_subnet_id }}'
+    backup_subnet_id: '{{ backup_subnet_id }}'
+    cloud_exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+    cpu_core_count: '{{ vm_cluster_cpu_count }}'
+    display_name: '{{ vm_cluster_display_name }}'
+    hostname: '{{ vm_cluster_hostname }}'
+    ssh_public_keys: '{{ ssh_public_keys }}'
+    gi_version: '{{ gi_version }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    vm_cluster_id: "{{ result.cloud_vm_cluster.id }}"
+    vm_cluster_id: '{{ result.cloud_vm_cluster.id }}'

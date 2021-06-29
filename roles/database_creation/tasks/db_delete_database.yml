@@ -9,8 +9,9 @@
   include_tasks: db_discovery.yml
 
 - name: Delete database
-  oci_database_database:
-    region: "{{ region }}"
-    database_id: "{{ database_id }}"
-    state: absent
   when: database_id is defined
+  oci_database_database:
+    region: '{{ region }}'
+    database_id: '{{ database_id }}'
+    state: absent
+  

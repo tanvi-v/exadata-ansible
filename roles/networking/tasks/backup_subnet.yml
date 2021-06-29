@@ -1,20 +1,20 @@
 
 # Check for required variables.
 
-- name: "Check VCN variables."
+- name: 'Check VCN variables.'
   assert:
     that:
       - vcn_id is defined
       - default_route_table_id is defined
       - default_security_list_id is defined
-    fail_msg: "VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs."
+    fail_msg: 'VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs.'
 
 # Check to make sure Subnet has not already been created / no Subnet exists with the same name
 
 - name: Subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: "{{ network_tag }}BackupSubnet"
+    subnet_name: '{{ network_tag }}BackupSubnet'
 
 - assert: { that: subnet_id is not defined }
 
@@ -22,78 +22,78 @@
 
 - name: Create service gateway
   oci_network_service_gateway:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}SG"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    display_name: '{{ network_tag }}SG'
     services:
-    - service_id: "{{ all_services_id }}"
+    - service_id: '{{ all_services_id }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    service_gateway_id: "{{ result.service_gateway.id }}"
+    service_gateway_id: '{{ result.service_gateway.id }}'
     
 - name: Create backup route table
   oci_network_route_table:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}BackupRT"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    display_name: '{{ network_tag }}BackupRT'
     route_rules:
     - destination_type: SERVICE_CIDR_BLOCK
-      destination: "all-iad-services-in-oracle-services-network"
-      network_entity_id: "{{ service_gateway_id }}"
+      destination: 'all-iad-services-in-oracle-services-network'
+      network_entity_id: '{{ service_gateway_id }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    backup_route_table_id: "{{ result.route_table.id }}"
+    backup_route_table_id: '{{ result.route_table.id }}'
     
 - name: Create backup security list
   oci_network_security_list:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    display_name: "{{ network_tag }}BackupSL"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    display_name: '{{ network_tag }}BackupSL'
     ingress_security_rules:
-    - protocol: "6"
-      source: "{{ vcn_cidr_block }}"
+    - protocol: '6'
+      source: '{{ vcn_cidr_block }}'
       tcp_options:
         destination_port_range:
-          min: "22"
-          max: "22"
-    - protocol: "1"
-      source: "0.0.0.0/0"
+          min: '22'
+          max: '22'
+    - protocol: '1'
+      source: '0.0.0.0/0'
       icmp_options:
-        type: "3"
-        code: "4"
-    - protocol: "1"
-      source: "{{ vcn_cidr_block }}"
+        type: '3'
+        code: '4'
+    - protocol: '1'
+      source: '{{ vcn_cidr_block }}'
       icmp_options:
-        type: "3"
+        type: '3'
     egress_security_rules:
-    - protocol: "all"
-      destination: "0.0.0.0/0"
+    - protocol: 'all'
+      destination: '0.0.0.0/0'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    backup_security_list_id: "{{ result.security_list.id }}"
+    backup_security_list_id: '{{ result.security_list.id }}'
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
-    compartment_id: "{{ compartment_id }}"
-    vcn_id: "{{ vcn_id }}"
-    cidr_block: "{{ backup_subnet_cidr_block }}"
-    display_name: "{{ network_tag }}BackupSubnet"
-    prohibit_public_ip_on_vnic: "true"
-    dns_label: "{{ network_tag }}BU"
-    route_table_id: "{{ backup_route_table_id }}"
+    compartment_id: '{{ compartment_id }}'
+    vcn_id: '{{ vcn_id }}'
+    cidr_block: '{{ backup_subnet_cidr_block }}'
+    display_name: '{{ network_tag }}BackupSubnet'
+    prohibit_public_ip_on_vnic: 'true'
+    dns_label: '{{ network_tag }}BU'
+    route_table_id: '{{ backup_route_table_id }}'
     security_list_ids: 
-    - "{{ backup_security_list_id }}"
+    - '{{ backup_security_list_id }}'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    backup_subnet_id: "{{ result.subnet.id }}"
+    backup_subnet_id: '{{ result.subnet.id }}'
       
       
       

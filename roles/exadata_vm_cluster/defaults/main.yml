@@ -2,21 +2,21 @@
 # vm cluster vars
 vm_cluster_name: tstExaVM
 vm_cluster_network_id: ocid1.vmcluster
-cpu_core_count: "4"
-memory_size_in_gbs: "30"
-db_node_storage_size_in_gbs: "60"
-data_storage_size_in_tbs: "84"
+cpu_core_count: '4'
+memory_size_in_gbs: '30'
+db_node_storage_size_in_gbs: '60'
+data_storage_size_in_tbs: '84'
 license_model: LICENSE_INCLUDED
-is_sparse_diskgroup_enabled: "false"
-is_local_backup_enabled: "true"
+is_sparse_diskgroup_enabled: 'false'
+is_local_backup_enabled: 'true'
 time_zone: PST
-gi_version: "19.1.0.0"
+gi_version: '19.1.0.0'
 
 
 # vm_cluster vars (prereq: run networking.yml and pull OCIDs from output or console)
-# vm_cluster_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaeuwadcrk4m2flypo55s63zi6rjvsiw4r3lfj5l3b7minxkebcgna"
-# backup_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaah6sf3cqse5pafcylcyjcmd6iz76umgyrwievv6kzvurtbilueo2a"
+# vm_cluster_subnet_id: 'ocid1.subnet.oc1.iad.aaaaaaaaeuwadcrk4m2flypo55s63zi6rjvsiw4r3lfj5l3b7minxkebcgna'
+# backup_subnet_id: 'ocid1.subnet.oc1.iad.aaaaaaaah6sf3cqse5pafcylcyjcmd6iz76umgyrwievv6kzvurtbilueo2a'
 vm_cluster_cpu_count: 56
-vm_cluster_display_name: "tstVMCluster"
-vm_cluster_hostname: "tstcluster"
-gi_version: "19.0.0.0"
+vm_cluster_display_name: 'tstVMCluster'
+vm_cluster_hostname: 'tstcluster'
+gi_version: '19.0.0.0'

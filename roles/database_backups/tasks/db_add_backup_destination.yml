@@ -1,12 +1,18 @@
 
-- name: "Check Exadata Infrastructure is defined and type exacc."
-  assert: { that: exadata_type is defined and exadata_type == "exacc" }
+- name: Check Exadata Infrastructure is defined and type exacc.
+  assert: { that: exadata_type is defined and exadata_type == 'exacc' }
 
+- name: Backup Destination discovery
+  include_tasks: db_backup_destination_discovery.yml
+- assert: { that: backup_destination_id is defined }
 
-- name: Update database backup destination
+- name: Set database backup destination
   oci_database_database:
+    database_id: '{{ database_id }}'
     db_backup_config:
       backup_destination_details:
-      - id: "{{ backup_destination_id }}"
-        type: "{{ backup_destination_type }}"
-    database_id: "{{ database_id }}"
+      - id: '{{ backup_destination_id }}'
+        type: '{{ backup_destination_type }}'
+  register: result
+- debug:
+    msg: '{{ result }}'

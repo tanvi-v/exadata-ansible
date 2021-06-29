@@ -1,13 +1,13 @@
 
 - name: Create cloud exadata infrastructure
   oci_database_cloud_exadata_infrastructure:
-    compartment_id: "{{ compartment_id }}"
-    display_name: "{{ exacs_name }}"
-    shape: "{{ exacs_shape }}"
-    compute_count: "2"
-    storage_count: "3"
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ exacs_name }}'
+    shape: '{{ exacs_shape }}'
+    compute_count: '2'
+    storage_count: '3'
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 - set_fact:
-    exadata_infrastructure_id: "{{ result.cloud_exadata_infrastructure.id }}"
+    exadata_infrastructure_id: '{{ result.cloud_exadata_infrastructure.id }}'

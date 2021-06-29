@@ -1,10 +1,10 @@
 
-- name: "delete pdb"
+- name: 'delete pdb'
   shell: |
     dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ db_name }}
   register: result
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ result }}'
 
 - name: PDB Info
   include_tasks: pdb_info.yml
