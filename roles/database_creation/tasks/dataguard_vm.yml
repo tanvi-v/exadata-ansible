@@ -1,14 +1,11 @@
 
-# TO DO: EDIT FOR EXACC/EXACS (currently for VM for testing purposes)
-
-- name: Create data_guard_association
+- name: Create data_guard_association for vm database
   oci_database_data_guard_association:
-    region: '{{ region }}'
     database_id: '{{ primary_database_id }}'
     database_admin_password: '{{ db_admin_password }}'
-    protection_mode: MAXIMUM_PERFORMANCE
-    transport_type: ASYNC
-    creation_type: NewDbSystem
+    protection_mode: 'MAXIMUM_PERFORMANCE'
+    transport_type: 'ASYNC'
+    creation_type: 'NewDbSystem'
     availability_domain: '{{ standby_availability_domain }}'
     display_name: '{{ workload_prefix }}{{ db_name }}'
     hostname: '{{ standby_hostname }}'

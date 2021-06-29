@@ -1,5 +1,4 @@
 
 # new database vars
-region: us-ashburn-1
-db_name: DB1
+db_name: 'DB1'
 shape: 'VM.Standard2.4'
