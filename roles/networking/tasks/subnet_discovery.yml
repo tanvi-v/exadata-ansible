@@ -1,7 +1,6 @@
 
 - name: Subnet discovery
   oci_network_subnet_facts:
-    region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ subnet_name }}'
     vcn_id: '{{ vcn_id }}'

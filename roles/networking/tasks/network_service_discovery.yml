@@ -1,7 +1,6 @@
 
 - name: List Oracle services
   oracle.oci.oci_network_service_facts:
-    region: '{{ region }}'
   register: result
 - debug:
     msg: '{{ result }}'

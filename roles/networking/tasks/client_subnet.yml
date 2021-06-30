@@ -15,7 +15,6 @@
   include_tasks: subnet_discovery.yml
   vars:
     subnet_name: '{{ workload_tag }}ClientSubnet'
-
 - assert: { that: subnet_id is not defined }
 
 # Create Networking for Private Client Subnet
@@ -51,7 +50,7 @@
   - set_fact:
       client_route_table_id: '{{ result.route_table.id }}'  
   
-  when: client_subnet_type is defined and client_subnet_type == 'private'
+  when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'true'
 
 # Create Networking for Public Client Subnet
 
@@ -84,7 +83,7 @@
   - set_fact:
       client_route_table_id: '{{ result.route_table.id }}'
   
-  when: client_subnet_type is defined and client_subnet_type == 'public'
+  when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'false'
 
 # Create Remaining Networking for Client Subnet
 
@@ -109,13 +108,13 @@
 - set_fact:
     client_security_list_id: '{{ result.security_list.id }}'
 
-- name: Create public client subnet
+- name: Create client subnet
   oci_network_subnet:
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ client_subnet_cidr_block }}'
     display_name: '{{ workload_tag }}ClientSubnet'
-    prohibit_public_ip_on_vnic: 'false'
+    prohibit_public_ip_on_vnic: '{{ prohibit_public_ip_on_vnic }}'
     dns_label: '{{ workload_tag }}CS'
     route_table_id: '{{ client_route_table_id }}'
     security_list_ids: 

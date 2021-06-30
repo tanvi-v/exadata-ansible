@@ -1,0 +1,12 @@
+# general
+region: 'us-ashburn-1'
+compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
+workload_tag: 'prv1'
+
+# networking
+prohibit_public_ip_on_vnic: 'true'      # public or private
+vcn_cidr_block: 10.3.0.0/16
+client_subnet_cidr_block: 10.3.0.0/24   # to host ExaCS VM Cluster
+backup_subnet_cidr_block: 10.3.1.0/24  # for ExaCS back-up
+
+# database

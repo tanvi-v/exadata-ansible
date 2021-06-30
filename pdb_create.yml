@@ -10,6 +10,8 @@
   
   tasks:
     
+    # Run Pip3 Install for DBaaS Operations
+
     - name: Create PDB
       include_role:
         name: pdb

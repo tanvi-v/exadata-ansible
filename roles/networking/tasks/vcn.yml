@@ -12,7 +12,6 @@
 
 - name: Create VCN
   oci_network_vcn:
-    # region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}VCN'
     cidr_block: '{{ vcn_cidr_block }}'

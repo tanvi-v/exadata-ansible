@@ -15,7 +15,6 @@
   include_tasks: subnet_discovery.yml
   vars:
     subnet_name: '{{ workload_tag }}BackupSubnet'
-
 - assert: { that: subnet_id is not defined }
 
 # Create Networking for Private Backup Subnet

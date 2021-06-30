@@ -1,6 +1,9 @@
 
 Code Development
-- Use Bastion Servers for DBs
+- PDB/DB Operations
+    - Use Bastion Server to access DB (for PDB)
+    - Set up group_vars/host variables for PDB
+    - DB Set-Up: pip3 install pexpect
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Additional Database/PDB Set-Up 
 - Playbook to call FPP
@@ -8,8 +11,7 @@ Code Development
 
 Santosh Questions
 - FPP
-- Bastion Servers?
-- AWX
+- Bastion Servers
 
 Code Organization
 - Dataguard: should remote peering be with initial network setup?

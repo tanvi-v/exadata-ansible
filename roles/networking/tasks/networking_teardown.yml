@@ -11,77 +11,8 @@
 
 - name: Update default route table to drop any gateways
   oci_network_route_table:
-    region: '{{ region }}'
     id: '{{ default_route_table_id }}'
     route_rules: []
-
-# Terminate Backup Networking Components
-
-- name: Backup subnet discovery
-  include_tasks: subnet_discovery.yml
-  vars:
-    subnet_name: '{{ workload_tag }}BackupSubnet'
-
-# Backup Gateways and Route Tables
-
-- name: Update backup route table to drop any gateways
-  when: subnet_route_table_id is defined
-  oci_network_route_table:
-    region: '{{ region }}'
-    id: '{{ subnet_route_table_id }}'
-    route_rules: []
-
-- name: Service GW discovery
-  oci_network_service_gateway_facts:
-    region: '{{ region }}'
-    compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_tag }}SG'
-    vcn_id: '{{ vcn_id }}'
-  register: result
-- debug:
-    msg: '{{ result }}'
-- set_fact: 
-    service_gateway_id: '{{ result.service_gateways[0].id}}'
-  when: result.service_gateways|length > 0 
-
-- name: Delete service gateway
-  when: service_gateway_id is defined
-  oci_network_service_gateway:
-    region: '{{ region }}'
-    id: '{{ service_gateway_id }}'
-    state: absent
-
-# Backup Subnet + Components
-
-- name: Delete backup subnet
-  when: subnet_id is defined
-  oci_network_subnet:
-    region: '{{ region }}'
-    id: '{{ subnet_id }}'
-    state: absent
-
-- name: Delete backup route table 
-  when: subnet_route_table_id is defined
-  oci_network_route_table:
-    region: '{{ region }}'
-    id: '{{ subnet_route_table_id }}'
-    state: absent
-
-- name: Delete backup security list 
-  oci_network_security_list:
-    region: '{{ region }}'
-    id: '{{ item }}'
-    state: absent
-  loop: '{{ subnet_security_list_ids }}'
-  when: subnet_security_list_ids is defined and item != default_security_list_id 
-
-# Clear discovered subnet values
-
-- set_fact: 
-    subnet_id: ''
-    subnet_route_table_id: ''
-    subnet_security_list_ids: []
-
 
 # Terminate Client Networking Components
 
@@ -93,15 +24,13 @@
 # Client Gateways and Route Tables
 
 - name: Update client route table to drop any gateways
-  when: subnet_route_table_id != ''
+  when: subnet_route_table_id is defined
   oci_network_route_table:
-    region: '{{ region }}'
     id: '{{ subnet_route_table_id }}'
     route_rules: []
 
 - name: NAT GW discovery
   oci_network_nat_gateway_facts:
-    region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}NG'
     vcn_id: '{{ vcn_id }}'
@@ -115,13 +44,11 @@
 - name: Delete nat gateway
   when: nat_gateway_id is defined
   oci_network_nat_gateway:
-    region: '{{ region }}'
     id: '{{ nat_gateway_id }}'
     state: absent
 
 - name: Internet GW discovery
   oci_network_internet_gateway_facts:
-    region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}IG'
     vcn_id: '{{ vcn_id }}'
@@ -135,103 +62,159 @@
 - name: Delete internet gateway
   when: internet_gateway_id is defined
   oci_network_internet_gateway:
-    region: '{{ region }}'
     id: '{{ internet_gateway_id }}'
     state: absent
 
 # Client Subnet + Components
 
 - name: Delete client subnet
-  when: subnet_id != ''
+  when: subnet_id is defined
   oci_network_subnet:
-    region: '{{ region }}'
     id: '{{ subnet_id }}'
     state: absent
 
 - name: Delete client route table 
-  when: subnet_route_table_id != '' and subnet_route_table_id != default_route_table_id
+  when: subnet_route_table_id is defined and subnet_route_table_id != default_route_table_id
   oci_network_route_table:
-    region: '{{ region }}'
     id: '{{ subnet_route_table_id }}'
     state: absent
 
 - name: Delete client security list 
   oci_network_security_list:
-    region: '{{ region }}'
     id: '{{ item }}'
     state: absent
   loop: '{{ subnet_security_list_ids }}'
-  when: item != default_security_list_id
+  when: subnet_security_list_ids is defined and item != default_security_list_id
 
-# Delete Remote Peering Components
+# Clear discovered subnet values
 
-- name: List DRG Facts
-  oci_network_drg_facts:
-    region: '{{ region }}'
+- set_fact: 
+    subnet_id: ''
+    subnet_route_table_id: ''
+    subnet_security_list_ids: []
+
+# Terminate Backup Networking Components
+
+- name: Backup subnet discovery
+  include_tasks: subnet_discovery.yml
+  vars:
+    subnet_name: '{{ workload_tag }}BackupSubnet'
+
+# Backup Gateways and Route Tables
+
+- name: Update backup route table to drop any gateways
+  when: subnet_route_table_id != ''
+  oci_network_route_table:
+    id: '{{ subnet_route_table_id }}'
+    route_rules: []
+
+- name: Service GW discovery
+  oci_network_service_gateway_facts:
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_tag }}DRG'
+    display_name: '{{ workload_tag }}SG'
+    vcn_id: '{{ vcn_id }}'
   register: result
 - debug:
     msg: '{{ result }}'
 - set_fact: 
-    drg_id: '{{ result.drgs[0].id}}'
-  when: result.drgs|length > 0 
+    service_gateway_id: '{{ result.service_gateways[0].id}}'
+  when: result.service_gateways|length > 0 
 
-- block:   # when drg_id is defined
+- name: Delete service gateway
+  when: service_gateway_id is defined
+  oci_network_service_gateway:
+    id: '{{ service_gateway_id }}'
+    state: absent
 
-  - name: List Remote Peering Facts
-    oci_network_remote_peering_connection_facts:
-      region: '{{ region }}'
-      compartment_id: '{{ compartment_id }}'
-      display_name: '{{ workload_tag }}RPC'
-      drg_id: '{{ drg_id }}'
-    register: result
-  - debug:
-      msg: '{{ result }}'
-  - set_fact: 
-      rpc_id: '{{ result.remote_peering_connections[0].id}}'
-    when: result.remote_peering_connections|length > 0 
+# Backup Subnet + Components
 
-  - name: Delete remote peering connection
-    when: rpc_id is defined
-    oci_network_remote_peering_connection:
-      region: '{{ region }}'
-      remote_peering_connection_id: '{{ rpc_id }}'
-      state: absent
+- name: Delete backup subnet
+  when: subnet_id != ''
+  oci_network_subnet:
+    id: '{{ subnet_id }}'
+    state: absent
 
-  - name: List DRG Attachment Facts
-    oci_network_drg_attachment_facts:
-      region: '{{ region }}'
-      compartment_id: '{{ compartment_id }}'
-      display_name: '{{ workload_tag }}DRGAttachment'
-      drg_id: '{{ drg_id }}'
-      network_id: '{{ vcn_id }}'
-    register: result
-  - debug:
-      msg: '{{ result }}'
-  - set_fact: 
-      drg_attachment_id: '{{ result.drg_attachments[0].id}}'
-    when: result.drg_attachments|length > 0 
+- name: Delete backup route table 
+  when: subnet_route_table_id != '' and subnet_route_table_id != default_route_table_id
+  oci_network_route_table:
+    id: '{{ subnet_route_table_id }}'
+    state: absent
 
-  - name: Delete drg_attachment
-    when: drg_attachment_id is defined
-    oci_network_drg_attachment:
-      region: '{{ region }}'
-      drg_attachment_id: '{{ drg_attachment_id }}'
-      state: absent
+- name: Delete backup security list 
+  oci_network_security_list:
+    id: '{{ item }}'
+    state: absent
+  loop: '{{ subnet_security_list_ids }}'
+  when: item != default_security_list_id 
 
-  - name: Delete drg
-    oci_network_drg: 
-      region: '{{ region }}'
-      drg_id: '{{ drg_id }}'
-      state: absent
+# # Delete Remote Peering Components
+
+# - name: List DRG Facts
+#   oci_network_drg_facts:
+#     region: '{{ region }}'
+#     compartment_id: '{{ compartment_id }}'
+#     display_name: '{{ workload_tag }}DRG'
+#   register: result
+# - debug:
+#     msg: '{{ result }}'
+# - set_fact: 
+#     drg_id: '{{ result.drgs[0].id}}'
+#   when: result.drgs|length > 0 
+
+# - block:   # when drg_id is defined
+
+#   - name: List Remote Peering Facts
+#     oci_network_remote_peering_connection_facts:
+#       region: '{{ region }}'
+#       compartment_id: '{{ compartment_id }}'
+#       display_name: '{{ workload_tag }}RPC'
+#       drg_id: '{{ drg_id }}'
+#     register: result
+#   - debug:
+#       msg: '{{ result }}'
+#   - set_fact: 
+#       rpc_id: '{{ result.remote_peering_connections[0].id}}'
+#     when: result.remote_peering_connections|length > 0 
+
+#   - name: Delete remote peering connection
+#     when: rpc_id is defined
+#     oci_network_remote_peering_connection:
+#       region: '{{ region }}'
+#       remote_peering_connection_id: '{{ rpc_id }}'
+#       state: absent
+
+#   - name: List DRG Attachment Facts
+#     oci_network_drg_attachment_facts:
+#       region: '{{ region }}'
+#       compartment_id: '{{ compartment_id }}'
+#       display_name: '{{ workload_tag }}DRGAttachment'
+#       drg_id: '{{ drg_id }}'
+#       network_id: '{{ vcn_id }}'
+#     register: result
+#   - debug:
+#       msg: '{{ result }}'
+#   - set_fact: 
+#       drg_attachment_id: '{{ result.drg_attachments[0].id}}'
+#     when: result.drg_attachments|length > 0 
+
+#   - name: Delete drg_attachment
+#     when: drg_attachment_id is defined
+#     oci_network_drg_attachment:
+#       region: '{{ region }}'
+#       drg_attachment_id: '{{ drg_attachment_id }}'
+#       state: absent
+
+#   - name: Delete drg
+#     oci_network_drg: 
+#       region: '{{ region }}'
+#       drg_id: '{{ drg_id }}'
+#       state: absent
   
-  when: drg_id is defined
+#   when: drg_id is defined
 
 # Terminate VCN
 
 - name: Delete the VCN
   oci_network_vcn:
-    region: '{{ region }}'
     id: '{{ vcn_id }}'
     state: absent
