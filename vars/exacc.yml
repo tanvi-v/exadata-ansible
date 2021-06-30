@@ -1,0 +1,39 @@
+# general
+compartment_id: 'ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq'
+exadata_type: 'exacc'
+workload_tag: 't1'
+
+# exacc vars
+exacc_name: 'tstExaInfra'
+exacc_shape: 'Exadata.Full2.336'
+time_zone: 'PST'
+cloud_control_plane_server1: '192.168.19.1'
+cloud_control_plane_server2: '192.168.19.2'
+netmask: '255.255.0.0'
+gateway: '192.168.20.1'
+admin_network_cidr: '192.168.19.2/16'
+infini_band_network_cidr: '10.172.19.1/24'
+corporate_proxy: '192.168.20.1'
+dns_server:
+- '192.168.10.10'
+ntp_server:
+- '192.168.10.20'
+
+# db backups
+auto_backup_enabled: 'true'
+auto_backup_window: 'SLOT_TWO'
+recovery_window_in_days: '30'
+
+backup_destination_type: 'NFS'
+backup_destination_id: 'ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq'
+local_mount_point_path: '/backup'
+
+# exadata components
+vm_cluster_id: 'ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq' 
+db_home_id: ocid1.dbhome.oc1.iad.abuwcljryudhho5srskufqzjzzikhfhkg4ravysjrfc52hz2swzcvuntrgbq'
+database_id: 'ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq'
+
+
+
+
+      

@@ -14,7 +14,7 @@
 - name: Subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: '{{ network_tag }}ClientSubnet'
+    subnet_name: '{{ workload_tag }}ClientSubnet'
 
 - assert: { that: subnet_id is not defined }
 
@@ -26,7 +26,7 @@
     oci_network_nat_gateway:
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
-      display_name: '{{ network_tag }}NG'
+      display_name: '{{ workload_tag }}NG'
     register: result
   - debug:
       msg: '{{ result }}'
@@ -37,7 +37,7 @@
     oci_network_route_table:
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
-      display_name: '{{ network_tag }}ClientRT'
+      display_name: '{{ workload_tag }}ClientRT'
       route_rules:
       - destination_type: CIDR_BLOCK
         destination: '0.0.0.0/0'
@@ -61,8 +61,8 @@
     oci_network_internet_gateway:
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
-      display_name: '{{ network_tag }}IG'
-      is_enabled: true
+      display_name: '{{ workload_tag }}IG'
+      is_enabled: 'true'
     register: result
   - debug:
       msg: '{{ result }}'
@@ -73,7 +73,7 @@
     oci_network_route_table:
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
-      display_name: '{{ network_tag }}ClientRT'
+      display_name: '{{ workload_tag }}ClientRT'
       route_rules:
       - destination_type: CIDR_BLOCK
         destination: '0.0.0.0/0'
@@ -92,7 +92,7 @@
   oci_network_security_list:
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
-    display_name: '{{ network_tag }}ClientSL'
+    display_name: '{{ workload_tag }}ClientSL'
     ingress_security_rules:
     - protocol: '6'
       source: '0.0.0.0/0'
@@ -114,9 +114,9 @@
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ client_subnet_cidr_block }}'
-    display_name: '{{ network_tag }}ClientSubnet'
+    display_name: '{{ workload_tag }}ClientSubnet'
     prohibit_public_ip_on_vnic: 'false'
-    dns_label: '{{ network_tag }}CS'
+    dns_label: '{{ workload_tag }}CS'
     route_table_id: '{{ client_route_table_id }}'
     security_list_ids: 
     - '{{ client_security_list_id }}'

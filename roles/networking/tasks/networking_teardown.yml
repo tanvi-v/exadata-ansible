@@ -20,7 +20,7 @@
 - name: Backup subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: '{{ network_tag }}BackupSubnet'
+    subnet_name: '{{ workload_tag }}BackupSubnet'
 
 # Backup Gateways and Route Tables
 
@@ -35,7 +35,7 @@
   oci_network_service_gateway_facts:
     region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ network_tag }}SG'
+    display_name: '{{ workload_tag }}SG'
     vcn_id: '{{ vcn_id }}'
   register: result
 - debug:
@@ -88,7 +88,7 @@
 - name: Client subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: '{{ network_tag }}ClientSubnet'
+    subnet_name: '{{ workload_tag }}ClientSubnet'
 
 # Client Gateways and Route Tables
 
@@ -103,7 +103,7 @@
   oci_network_nat_gateway_facts:
     region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ network_tag }}NG'
+    display_name: '{{ workload_tag }}NG'
     vcn_id: '{{ vcn_id }}'
   register: result
 - debug:
@@ -123,7 +123,7 @@
   oci_network_internet_gateway_facts:
     region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ network_tag }}IG'
+    display_name: '{{ workload_tag }}IG'
     vcn_id: '{{ vcn_id }}'
   register: result
 - debug:
@@ -169,7 +169,7 @@
   oci_network_drg_facts:
     region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ network_tag }}DRG'
+    display_name: '{{ workload_tag }}DRG'
   register: result
 - debug:
     msg: '{{ result }}'
@@ -183,7 +183,7 @@
     oci_network_remote_peering_connection_facts:
       region: '{{ region }}'
       compartment_id: '{{ compartment_id }}'
-      display_name: '{{ network_tag }}RPC'
+      display_name: '{{ workload_tag }}RPC'
       drg_id: '{{ drg_id }}'
     register: result
   - debug:
@@ -203,7 +203,7 @@
     oci_network_drg_attachment_facts:
       region: '{{ region }}'
       compartment_id: '{{ compartment_id }}'
-      display_name: '{{ network_tag }}DRGAttachment'
+      display_name: '{{ workload_tag }}DRGAttachment'
       drg_id: '{{ drg_id }}'
       network_id: '{{ vcn_id }}'
     register: result

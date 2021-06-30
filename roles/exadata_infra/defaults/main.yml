@@ -1,20 +1,3 @@
 
-# exacc vars
-exacc_name: tstExaInfra
-exacc_shape: Exadata.Full2.336
-time_zone: PST
-cloud_control_plane_server1: '192.168.19.1'
-cloud_control_plane_server2: '192.168.19.2'
-netmask: '255.255.0.0'
-gateway: '192.168.20.1'
-admin_network_cidr: '192.168.19.2/16'
-infini_band_network_cidr: '10.172.19.1/24'
-corporate_proxy: '192.168.20.1'
-dns_server:
-- '192.168.10.10'
-ntp_server:
-- '192.168.10.20'
 
-# exacs vars
-exacs_name: tstExaInfra
-exacs_shape: Exadata.X8M
+

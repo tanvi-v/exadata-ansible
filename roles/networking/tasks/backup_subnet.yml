@@ -14,7 +14,7 @@
 - name: Subnet discovery
   include_tasks: subnet_discovery.yml
   vars:
-    subnet_name: '{{ network_tag }}BackupSubnet'
+    subnet_name: '{{ workload_tag }}BackupSubnet'
 
 - assert: { that: subnet_id is not defined }
 
@@ -24,7 +24,7 @@
   oci_network_service_gateway:
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
-    display_name: '{{ network_tag }}SG'
+    display_name: '{{ workload_tag }}SG'
     services:
     - service_id: '{{ all_services_id }}'
   register: result
@@ -37,7 +37,7 @@
   oci_network_route_table:
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
-    display_name: '{{ network_tag }}BackupRT'
+    display_name: '{{ workload_tag }}BackupRT'
     route_rules:
     - destination_type: 'SERVICE_CIDR_BLOCK'
       destination: '{{ all_services_cidr }}'
@@ -52,7 +52,7 @@
   oci_network_security_list:
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
-    display_name: '{{ network_tag }}BackupSL'
+    display_name: '{{ workload_tag }}BackupSL'
     ingress_security_rules:
     - protocol: '6'
       source: '{{ vcn_cidr_block }}'
@@ -83,9 +83,9 @@
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ backup_subnet_cidr_block }}'
-    display_name: '{{ network_tag }}BackupSubnet'
+    display_name: '{{ workload_tag }}BackupSubnet'
     prohibit_public_ip_on_vnic: 'true'
-    dns_label: '{{ network_tag }}BU'
+    dns_label: '{{ workload_tag }}BU'
     route_table_id: '{{ backup_route_table_id }}'
     security_list_ids: 
     - '{{ backup_security_list_id }}'

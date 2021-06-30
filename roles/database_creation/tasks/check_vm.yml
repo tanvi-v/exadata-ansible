@@ -2,7 +2,6 @@
 - block:      # exadata type is exacs
   - name: Check ExaCS VM Cluster
     oci_database_cloud_vm_cluster:
-      region: '{{ region }}'
       cloud_vm_cluster_id: '{{ vm_cluster_id }}'
     register: result
   - set_fact:
@@ -12,7 +11,6 @@
 - block:      # exadata type is exacc
   - name: Check ExaCC VM Cluster
     oci_database_vm_cluster:
-      region: '{{ region }}'
       vm_cluster_id: '{{ vm_cluster_id }}'
     register: result
   - set_fact:

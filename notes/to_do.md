@@ -1,8 +1,5 @@
 
 Code Development
-- AWX
-    - See if we should use manual files?
-    - Fix dynamic inventory
 - Use Bastion Servers for DBs
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Additional Database/PDB Set-Up 

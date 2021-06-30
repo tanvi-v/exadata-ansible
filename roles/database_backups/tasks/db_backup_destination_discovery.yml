@@ -3,7 +3,7 @@
   when: backup_destination_type is defined and backup_destination_type == 'NFS'
   oci_database_backup_destination_facts:
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_prefix }}NFS'
+    display_name: '{{ workload_tag }}NFS'
     type: '{{ backup_destination_type }}'  
   register: result
 
@@ -11,7 +11,7 @@
   when: backup_destination_type is defined and backup_destination_type == 'RECOVERY_APPLICANCE'
   oci_database_backup_destination_facts:
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_prefix }}RA'
+    display_name: '{{ workload_tag }}RA'
     type: '{{ backup_destination_type }}'  
   register: result
 

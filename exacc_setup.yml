@@ -2,10 +2,6 @@
 # Playbook exacc_setup.yml creates an Exadata Cloud at Customer environment by calling the Exadata VM Cluster role,
 # Database Home role, and Database role. Assumes that the Exadata Infrastructure has already been provisioned by Oracle.
 
-# To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
-# the desired value under vars for each task. These variables will take precedence over the defaults.
-
-
 # Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
 # and db_admin_password (for the database creation):
 
@@ -15,17 +11,12 @@
 - name: ExaCC Set-Up
   hosts: localhost
   
-  vars:
-      exadata_type: exacc
-      workload_prefix: t1
-
-      vm_cluster_id: 'ocid1.vmcluster.oc1.iad.abuwcljrzcdgple4uivfe7gnqoq5gbu6oiljqzk3jl5p7ue3as2wzibuqwwq' 
-      compartment_id: 'ocid1.compartment.oc1..aaaaaaaazeugz2noyvztfhzqzrk7dwjhvu54v4z7av5tloeryz5pkq6oxgrq'
-  
   tasks:
 
+    - include_vars: './vars/{{ vars_file }}'
+    
     # TO DO: What other steps for ExaCC set-up? VM Cluster Network? 
-
+    
     # - name: Create VM Cluster for ExaCC
     #   include_role:
     #     name: exadata_vm_cluster
@@ -37,16 +28,8 @@
     - name: Create Database for ExaCC
       include_role:
         name: database_creation
-      vars:
-        db_home_id: ocid1.dbhome.oc1.iad.abuwcljryudhho5srskufqzjzzikhfhkg4ravysjrfc52hz2swzcvuntrgbq
  
     # - name: Add Backup Destination for ExaCC
     #   include_role:
     #     name: database_backups
-    #   vars:
-    #     database_id: 'ocid1.database.oc1.iad.abuwcljrxrqgn3yyo4vqaoabuj6fiwvoubanaayafhewzvuhvxv252xr27kq'
-    #     auto_backup_enabled: 'true'
-    #     backup_destination_type: 'NFS'
-    #     backup_destination_id: 'ocid1.backupdestination.oc1.iad.abuwcljtyotsjg4i33ez32wdncz37nzgo6u7hkqd2gss4rebqorrkwpdx6fq'
-
     

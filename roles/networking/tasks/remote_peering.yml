@@ -9,7 +9,7 @@
   include_tasks: vcn.yml
   vars:
     region: '{{ standby_region }}'
-    network_tag: '{{ standby_network_tag }}'
+    workload_tag: '{{ standby_workload_tag }}'
     vcn_cidr_block: '{{ standby_vcn_cidr_block }}'  
 
 - name: Create Client Security List for Standby
@@ -17,7 +17,7 @@
     region: '{{ standby_region }}'
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
-    display_name: '{{ standby_network_tag }}ClientSL'
+    display_name: '{{ standby_workload_tag }}ClientSL'
     ingress_security_rules:
     - protocol: '6'
       source: '{{ vcn_cidr_block }}'
@@ -44,9 +44,9 @@
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ standby_client_subnet_cidr_block }}'
-    display_name: '{{ standby_network_tag }}ClientSubnet'
+    display_name: '{{ standby_workload_tag }}ClientSubnet'
     prohibit_public_ip_on_vnic: 'false'
-    dns_label: '{{ standby_network_tag }}Pub'
+    dns_label: '{{ standby_workload_tag }}Pub'
     security_list_ids:
     - '{{ default_security_list_id }}'
     - '{{ client_security_list_id }}'
@@ -62,7 +62,7 @@
 - name: Create standby drg
   oci_network_drg:
     region: '{{ standby_region }}'
-    display_name: '{{ standby_network_tag }}DRG'
+    display_name: '{{ standby_workload_tag }}DRG'
     compartment_id: '{{ compartment_id }}'
   register: result
 - debug:
@@ -74,7 +74,7 @@
   oci_network_drg_attachment:
     region: '{{ standby_region }}'
     drg_id: '{{ standby_drg_id }}'
-    display_name: '{{ standby_network_tag }}DRGAttachment'
+    display_name: '{{ standby_workload_tag }}DRGAttachment'
     compartment_id: '{{ compartment_id }}'
     network_details:
       type: VCN
@@ -103,7 +103,7 @@
   oci_network_remote_peering_connection:
     region: '{{ standby_region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ standby_network_tag }}RPC'
+    display_name: '{{ standby_workload_tag }}RPC'
     drg_id: '{{ standby_drg_id }}'
   register: result
 - debug:
@@ -124,7 +124,7 @@
 - name: Create prod drg
   oci_network_drg:
     region: '{{ region }}'
-    display_name: '{{ network_tag }}DRG'
+    display_name: '{{ workload_tag }}DRG'
     compartment_id: '{{ compartment_id }}'
   register: result
 - debug:
@@ -136,7 +136,7 @@
   oci_network_drg_attachment:
     region: '{{ region }}'
     drg_id: '{{ prod_drg_id }}'
-    display_name: '{{ network_tag }}DRGAttachment'
+    display_name: '{{ workload_tag }}DRGAttachment'
     compartment_id: '{{ compartment_id }}'
     network_details:
       type: VCN
@@ -194,7 +194,7 @@
   oci_network_remote_peering_connection:
     region: '{{ region }}'
     compartment_id: '{{ compartment_id }}'
-    display_name: '{{ network_tag }}RPC'
+    display_name: '{{ workload_tag }}RPC'
     drg_id: '{{ prod_drg_id }}'
   register: result
 - debug:

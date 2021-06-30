@@ -6,7 +6,7 @@
 - name: Create new database backup
   oci_database_backup:
     database_id: '{{ database_id }}'
-    display_name: '{{ workload_prefix }}Bkup'
+    display_name: '{{ workload_tag }}Bkup'
   register: result
 - debug:
     msg: '{{ result }}'

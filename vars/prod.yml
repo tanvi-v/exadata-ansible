@@ -1,0 +1,15 @@
+# general
+region: 'us-phoenix-1'
+compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
+workload_tag: 't1'
+
+# networking
+client_subnet_type: 'public'      # public or private
+vcn_cidr_block: 10.5.0.0/16
+client_subnet_cidr_block: 10.5.0.0/24   # to host ExaCS VM Cluster
+backup_subnet_cidr_block: 10.5.1.0/24  # for ExaCS back-up
+
+# networking
+
+
+# database

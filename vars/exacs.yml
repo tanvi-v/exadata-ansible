@@ -1,0 +1,42 @@
+# general
+region: 'us-phoenix-1'
+exadata_type: 'exacs'       # exacs or exacc
+compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma'
+
+# exadata
+exacs_name: 'tstExaInfra'
+exacs_shape: 'Exadata.X8M'
+
+# vm cluster
+vm_cluster_name: 'tstExaVM'
+vm_cluster_network_id: 'ocid1.vmcluster'
+cpu_core_count: '4'
+memory_size_in_gbs: '30'
+db_node_storage_size_in_gbs: '60'
+data_storage_size_in_tbs: '84'
+license_model: 'LICENSE_INCLUDED'
+is_sparse_diskgroup_enabled: 'false'
+is_local_backup_enabled: 'true'
+time_zone: 'PST'
+gi_version: '19.1.0.0'
+vm_cluster_cpu_count: '56'
+vm_cluster_display_name: 'tstVMCluster'
+vm_cluster_hostname: 'tstcluster'
+gi_version: '19.0.0.0'
+
+# db_home
+db_home_name: 'anshome1'
+db_version: '19.0.0.0'
+
+# database
+db_name: 'DB1'
+shape: 'VM.Standard2.4'
+auto_backup_window: 'SLOT_TWO'
+recovery_window_in_days: '30'
+
+# exadata components
+vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
+db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a'
+
+
+      

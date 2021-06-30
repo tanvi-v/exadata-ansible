@@ -2,9 +2,6 @@
 # Playbook exacs_setup.yml creates an Exadata Cloud Service environment by calling the Exadata Infrastructure role, Exadata VM Cluster role,
 # Database Home role, and Database role. 
 
-# To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
-# the desired value under vars for each task. These variables will take precedence over the defaults.
-
 # Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
 # and db_admin_password (for the database creation):
 
@@ -13,18 +10,14 @@
 
 - name: ExaCS Set-Up
   hosts: localhost
-  
-  vars:
-      exadata_type: 'exacs'       # exacs or exacc
-      compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
-      
+    
   tasks:
+
+    - include_vars: './vars/{{ vars_file }}'
 
     - name: Create Networking for ExaCS
       include_role:
         name: networking
-      vars:
-        client_subnet_type: 'public'      # public or private
 
     # - name: Create Exadata Infrastructure for ExaCS
     #   include_role:
@@ -37,14 +30,7 @@
     # - name: Create Database Home for ExaCS
     #   include_role:
     #     name: database_home_creation
-    #   vars:
-    #     vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
-    #     compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma' 
-    
+ 
     # - name: Create Database for ExaCS
     #   include_role:
     #     name: database_creation
-    #   vars:
-    #     compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma' 
-    #     # db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a'
-      

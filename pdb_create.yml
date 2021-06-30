@@ -4,9 +4,9 @@
 #     ansible-playbook pdb_create.yml --extra-vars 'pdb_password=<pdb_password>'
 
 - hosts: 'server'
-  become: true
-  become_user: oracle
-  gather_facts: no
+  become: 'true'
+  become_user: 'oracle'
+  gather_facts: 'no'
   
   tasks:
     
@@ -14,14 +14,8 @@
       include_role:
         name: pdb
       vars:
-        db_name: TestCDB1
-        pdb_name: PDB3
-
-# Note: ran pip3 install pexpect from db node as root
-
-# - name: Installing pexpect python library using Ansible pip module?
-#   pip:
-#     name: pexpect
+        db_name: 'TestCDB1'
+        pdb_name: 'PDB3'
 
 #oracle_home: '/u02/app/oracle/product/19.0.0.0/dbhome_3/'
 #oracle_sid: 'TestCDB11'

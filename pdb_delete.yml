@@ -4,7 +4,7 @@
   become_user: 'oracle'
 
   tasks:
-    
+
     - name: Delete PDB
       include_role:
         name: pdb

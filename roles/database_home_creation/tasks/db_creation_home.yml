@@ -9,7 +9,7 @@
     compartment_id: '{{ compartment_id }}'
     source: 'VM_CLUSTER_NEW'
     vm_cluster_id: '{{ vm_cluster_id }}'
-    display_name: '{{ workload_prefix }}{{ db_home_name }}'
+    display_name: '{{ workload_tag }}{{ db_home_name }}'
     db_version: '{{ db_version }}'
   register: result
 - debug:

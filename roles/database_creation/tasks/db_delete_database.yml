@@ -11,7 +11,6 @@
 - name: Delete database
   when: database_id is defined
   oci_database_database:
-    region: '{{ region }}'
     database_id: '{{ database_id }}'
     state: absent
   

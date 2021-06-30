@@ -4,13 +4,11 @@
 
 - name: Networking teardown
   hosts: localhost
-
-  vars:
-    network_tag: 'var1'
-    compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
-    region: 'us-ashburn-1'
   
   tasks:
+
+    - include_vars: './vars/{{ vars_file }}'
+
     - name: Delete Networking Components
       include_role:
         name: networking
