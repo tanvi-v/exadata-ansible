@@ -6,7 +6,7 @@
 - name: DB Home Discovery
   when: db_home_id is not defined
   include_role:
-    name: database_home_creation
+    name: database_home
     tasks_from: db_home_discovery.yml
 
 - name: Create database

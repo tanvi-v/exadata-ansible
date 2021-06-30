@@ -4,20 +4,34 @@
       - exadata_type is defined
       - exadata_type == 'exacc' or exadata_type == 'exacs'
 
+# ExaCC Backups
+
 - name: Create Backup Destination
+  when: >
+    (exadata_type == 'exacc') and
+    (backup_destination_type is defined) and 
+    (backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS') and
+    (backup_destination_id is not defined)
   include_tasks: db_backup_destinations.yml
-  when: backup_destination_id is not defined and exadata_type == 'exacc'
 
 - name: Add Backup Destination to Database
-  include_tasks: db_add_backup_destination.yml and exadata_type == 'exacc'
+  when: exadata_type == 'exacc'
+  include_tasks: db_add_backup_destination.yml
 
-- name: Enable automatic backups
-  include_tasks: db_enable_automatic_backup.yml
-  when: auto_backup_enabled is defined and auto_backup_enabled == 'true'
+
+# ExaCS Backups
 
 - name: Create new backup
-  include_tasks: db_backup_new.yml
   when: exadata_type == 'exacs'
+  include_tasks: db_backup_new.yml
+
+
+# Automatic Backups
+
+- name: Enable automatic backups
+  when: auto_backup_enabled is defined and auto_backup_enabled == 'true'
+  include_tasks: db_enable_automatic_backup.yml
+  
 
 
   

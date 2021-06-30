@@ -2,9 +2,6 @@
 # Playbook enable_dataguard.yml creates a data guard standby database by setting up remote peering through the networking role, 
 # setting up the standby exadata and database, and then enabling dataguard. 
 
-# To ensure you are creating your environment with the correct values, please check the defaults/main.yml file within each role or pass in 
-# the desired value under vars for each task. These variables will take precedence over the defaults.
-
 # Run this playbook with the following command in order to set the variable db_admin_password:
 
 #     ansible-playbook dataguard_setup.yml --extra-vars 'db_admin_password=<db_admin_password>'
@@ -15,7 +12,7 @@
 
   tasks:
 
-    - include_vars: './vars/./vars/{{ vars_file }}'
+    - include_vars: './vars/{{ vars_file }}'
 
     - name: Create Remote Peering
       include_role:
@@ -32,15 +29,15 @@
     
     # - name: Create Database Home for ExaCS
     #   include_role:
-    #     name: database_home_creation
+    #     name: database_home
 
     # - name: Create Database for ExaCS
     #   include_role:
-    #     name: database_creation
+    #     name: database
 
     # - name: Enable DataGuard
     #   include_role:
-    #     name: database_creation
+    #     name: database
     #     tasks_from: dataguard.yml
 
 

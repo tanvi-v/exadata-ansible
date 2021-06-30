@@ -2,7 +2,7 @@
 
 - name: DB Home Discovery
   include_role:
-    name: database_home_creation
+    name: database_home
     tasks_from: db_home_discovery.yml
 
 - name: List DBs

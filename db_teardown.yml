@@ -10,11 +10,11 @@
     
     - name: Delete DBs
       include_role:
-        name: database_creation
+        name: database
         tasks_from: db_delete_database.yml
 
     - name: Delete DB Homes
       include_role:
-        name: database_home_creation
+        name: database_home
         tasks_from: db_delete_home.yml
     

@@ -1,0 +1,12 @@
+
+- name: ExaCS VM Cluster Discovery
+  oci_database_cloud_vm_cluster_facts:
+    compartment_id: "{{ compartment_id }}"
+    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
+  register: result
+- debug:
+    msg: '{{ result }}'
+- set_fact: 
+    vm_cluster_id: '{{ result.cloud_vm_clusters[0].id }}'
+    vm_cluster_lifecycle_state: '{{ result.cloud_vm_clusters[0].lifecycle_state }}'
+  when: result.cloud_vm_clusters|length > 0 

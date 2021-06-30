@@ -6,7 +6,7 @@
 - name: Database Discovery
   when: database_id is not defined
   include_role:
-    name: database_creation
+    name: database
     tasks_from: db_discovery.yml
 - assert: { that: database_id is defined }
 

@@ -1,4 +1,5 @@
-# TO DO: TEST 
+# TO DO: Figure out if can use the same module for exacc AND exacs. I.e. do we need to specify the backup destination details?
+# Commented out if we can use the same module. If can't, need a separate task for object storage/local (without id)
 
 - name: Check Exadata Infrastructure variables are defined.
   assert:
@@ -10,18 +11,17 @@
 - name: Database Discovery
   when: database_id is not defined
   include_role:
-    name: database_creation
+    name: database
     tasks_from: db_discovery.yml
 - assert: { that: database_id is defined }
 
 - block:      # exadata type is exacc
 
-  - assert: { that: backup_destination_type is defined }
-
-  - name: Backup Destination discovery
-    when: backup_destination_id is not defined and 
-    include_tasks: db_backup_destination_discovery.yml
-  - assert: { that: backup_destination_id is defined }
+  # - assert: { that: backup_destination_type is defined }
+  # - name: Backup Destination discovery
+  #   when: (backup_destination_id is not defined) and (backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS')
+  #   include_tasks: db_backup_destination_discovery.yml
+  # - assert: { that: backup_destination_id is defined }
 
   - name: Enable automatic database backups
     oci_database_database:
@@ -30,11 +30,13 @@
         auto_backup_enabled: '{{ auto_backup_enabled }}'
         auto_backup_window: '{{ auto_backup_window }}'
         recovery_window_in_days: '{{ recovery_window_in_days }}'
-        backup_destination_details:
-        - id: '{{ backup_destination_id }}'
-          type: '{{ backup_destination_type }}'
+        # backup_destination_details:
+        # - id: '{{ backup_destination_id }}'
+        #   type: '{{ backup_destination_type }}'
     register: result
+  
   when: exadata_type is defined and exadata_type == 'exacc'
+
 
 - name: Enable automatic database backups for ExaCS
   when: exadata_type is defined and exadata_type == 'exacs'

@@ -29,8 +29,8 @@
     
     # - name: Create Database Home for ExaCS
     #   include_role:
-    #     name: database_home_creation
+    #     name: database_home
  
     # - name: Create Database for ExaCS
     #   include_role:
-    #     name: database_creation
+    #     name: database
