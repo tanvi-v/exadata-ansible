@@ -1,16 +1,17 @@
 # TO DO: TEST
 
-- name: Check Exadata Infrastructure is defined and type exacc.
-  assert: { that: exadata_type is defined and exadata_type == 'exacc' }
+- name: Check Exadata Infrastructure variables are defined.
+  assert:
+    that:
+      - exadata_type is defined
+      - exadata_type == 'exacc'
+      - backup_destination_type is defined
+      - backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS'
+    fail_msg: >
+      Check to make sure variable exadata_type is defined as exacc. 
+      Check to make sure variable backup_destination_type is defined as RECOVERY_APPLIANCE or NFS.
 
-- name: Check Backup Destination type is defined.
-  assert: { that: backup_destination_type is defined }
-
-- name: Backup Destination discovery
-  include_tasks: db_backup_destination_discovery.yml
-- assert: { that: backup_destination_id is not defined }
-
-- name: Create backup_destination (NFS)
+- name: Create NFS backup_destination
   when: backup_destination_type == 'NFS'
   oci_database_backup_destination:
     compartment_id: '{{ compartment_id }}'
@@ -21,7 +22,7 @@
       local_mount_point_path: '{{ local_mount_point_path }}'
   register: result
 
-- name: Create backup_destination (Recovery Applicance)
+- name: Create Recovery Applicance backup_destination
   when: backup_destination_type == 'RECOVERY_APPLICANCE'
   oci_database_backup_destination:
     compartment_id: '{{ compartment_id }}'

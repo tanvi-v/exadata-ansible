@@ -1,20 +1,11 @@
 
-# Playbook exacs_setup.yml creates an Exadata Cloud Service environment by calling the Exadata Infrastructure role, Exadata VM Cluster role,
-# Database Home role, and Database role. 
-
-# Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
-# and db_admin_password (for the database creation):
-
-#     ansible-playbook exacs_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
-
-
 - name: Basic Test
   hosts: localhost
   gather_facts: no
 
   tasks:
   
-    - include_vars: './vars/./vars/{{ vars_file }}'
+    - include_vars: './vars/{{ vars_file }}'
 
     - name: Get Network Services
       include_role:

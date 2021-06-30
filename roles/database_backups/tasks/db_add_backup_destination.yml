@@ -1,18 +1,56 @@
 
-- name: Check Exadata Infrastructure is defined and type exacc.
-  assert: { that: exadata_type is defined and exadata_type == 'exacc' }
+- name: Check Exadata Infrastructure variables are defined.
+  assert:
+    that:
+      - exadata_type is defined
+      - exadata_type == 'exacc'
+      - backup_destination_type is defined
+      # Should I add in a check for type == recovery_appliance, nfs, object_store, or local?
+    fail_msg: 'Check to make sure variable exadata_type is defined as exacc. Check to make sure variable backup_destination_type is defined.'
+
+- name: Database Discovery
+  when: database_id is not defined
+  include_role:
+    name: database_creation
+    tasks_from: db_discovery.yml
+- assert: { that: database_id is defined }
+
+- name: Set database backup destination to Object Store or Local
+  when: backup_destination_type == 'OBJECT_STORE' or backup_destination_type == 'LOCAL'
+  oci_database_database:
+    database_id: '{{ database_id }}'
+    db_backup_config:
+      backup_destination_details:
+      - type: '{{ backup_destination_type }}'
+  register: result
 
 - name: Backup Destination discovery
+  when: (backup_destination_id is not defined) and (backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS')
   include_tasks: db_backup_destination_discovery.yml
 - assert: { that: backup_destination_id is defined }
 
-- name: Set database backup destination
+- name: Set database backup destination to NFS
   oci_database_database:
+    when: backup_destination_type == 'NFS'
     database_id: '{{ database_id }}'
     db_backup_config:
       backup_destination_details:
       - id: '{{ backup_destination_id }}'
         type: '{{ backup_destination_type }}'
   register: result
+
+- name: Set database backup destination to Recovery Appliance
+  oci_database_database:
+    when: backup_destination_type == 'Recovery_Appliance'
+    database_id: '{{ database_id }}'
+    db_backup_config:
+      backup_destination_details:
+      - id: '{{ backup_destination_id }}'
+        type: '{{ backup_destination_type }}'
+        vpc_user: '{{ vpc_user }}'
+        vpc_password: '{{ vpc_password }}'
+  register: result
+
 - debug:
     msg: '{{ result }}'
+

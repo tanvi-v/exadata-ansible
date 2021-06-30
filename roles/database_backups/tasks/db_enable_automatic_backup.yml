@@ -1,7 +1,28 @@
 # TO DO: TEST 
 
+- name: Check Exadata Infrastructure variables are defined.
+  assert:
+    that:
+      - exadata_type is defined
+      - exadata_type == 'exacc' or exadata_type == 'exacs'
+    fail_msg: 'Check to make sure variable exadata_type is defined.'
+
+- name: Database Discovery
+  when: database_id is not defined
+  include_role:
+    name: database_creation
+    tasks_from: db_discovery.yml
+- assert: { that: database_id is defined }
+
 - block:      # exadata type is exacc
-  - assert: {that: backup_destination_id is defined and backup_destination_type is defined}
+
+  - assert: { that: backup_destination_type is defined }
+
+  - name: Backup Destination discovery
+    when: backup_destination_id is not defined and 
+    include_tasks: db_backup_destination_discovery.yml
+  - assert: { that: backup_destination_id is defined }
+
   - name: Enable automatic database backups
     oci_database_database:
       database_id: '{{ database_id }}'
