@@ -3,7 +3,7 @@
 - name: 'Check Exadata Infrastructure is defined and type exacs.'
   assert: { that: exadata_type is defined and exadata_type == 'exacs' }
 
-- name: Database Discovery
+- name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
   include_role:
     name: database

@@ -8,7 +8,7 @@
       - exadata_type == 'exacc' or exadata_type == 'exacs'
     fail_msg: 'Check to make sure variable exadata_type is defined.'
 
-- name: Database Discovery
+- name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
   include_role:
     name: database
@@ -34,19 +34,21 @@
         # - id: '{{ backup_destination_id }}'
         #   type: '{{ backup_destination_type }}'
     register: result
+  - debug:
+      msg: '{{ result }}'
   
   when: exadata_type is defined and exadata_type == 'exacc'
 
-
-- name: Enable automatic database backups for ExaCS
+- block:
+  - name: Enable automatic database backups for ExaCS
+    oci_database_database:
+      database_id: '{{ database_id }}'
+      db_backup_config:
+        auto_backup_enabled: '{{ auto_backup_enabled }}'
+        auto_backup_window: '{{ auto_backup_window }}'
+        recovery_window_in_days: '{{ recovery_window_in_days }}'
+    register: result
+  - debug:
+      msg: '{{ result }}'
   when: exadata_type is defined and exadata_type == 'exacs'
-  oci_database_database:
-    database_id: '{{ database_id }}'
-    db_backup_config:
-      auto_backup_enabled: '{{ auto_backup_enabled }}'
-      auto_backup_window: '{{ auto_backup_window }}'
-      recovery_window_in_days: '{{ recovery_window_in_days }}'
-  register: result
   
-- debug:
-    msg: '{{ result }}'
