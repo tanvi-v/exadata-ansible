@@ -5,9 +5,8 @@
   when: db_home_id is not defined
   include_tasks: db_home_discovery.yml
 
-- assert: { that: db_home_id is defined }
-
 - name: Delete db home
+  when: db_home_id is defined
   oci_database_db_home:
     db_home_id: '{{ db_home_id }}'
     state: absent

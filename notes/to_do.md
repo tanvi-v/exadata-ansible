@@ -7,6 +7,7 @@ Code Development
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Additional Database/PDB Set-Up 
 - Playbook to call FPP
+- Should we have db_home_id refer to vm_cluster_id?
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard
 
 Santosh Questions
