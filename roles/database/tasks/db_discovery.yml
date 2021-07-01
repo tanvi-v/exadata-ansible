@@ -1,12 +1,12 @@
 
-- name: Discover DB Home for Database '{{ workload_tag }}{{ db_name }}'
+- name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
   when: db_home_id is not defined
   include_role:
     name: database_home
     tasks_from: db_home_discovery.yml
 - assert: { that: db_home_id is defined }
 
-- name: Discover Database '{{ workload_tag }}{{ db_name }}'
+- name: 'Discover Database {{ workload_tag }}{{ db_name }}'
   oci_database_database_facts:
     compartment_id: '{{ compartment_id }}'
     db_name: '{{ workload_tag }}{{ db_name }}'

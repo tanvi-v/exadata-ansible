@@ -1,19 +1,19 @@
 
 # Check VM Cluster state
 
-- name: Check ExaCC VM Cluster Lifecycle State
+- name: 'Check ExaCC VM Cluster Lifecycle State'
   when: exadata_type is defined and exadata_type == 'exacc'
   include_role:
     name: exacc_vm_cluster
     tasks_from: exacc_vm_cluster_discovery.yml
 
-- name: Check ExaCS VM Cluster Lifecycle State
+- name: 'Check ExaCS VM Cluster Lifecycle State'
   when: exadata_type is defined and exadata_type == 'exacs'
   include_role:
     name: exacs_vm_cluster
     tasks_from: exacs_vm_cluster_discovery.yml
 
-- name: Check that VM Cluster is available
+- name: 'Check that VM Cluster is available'
   assert:
     that:
       - vm_cluster_lifecycle_state is defined
@@ -22,7 +22,7 @@
 
 # Create Database Home
 
-- name: Create DB Home 
+- name: 'Create DB Home' 
   include_tasks: db_create_home.yml
     
     

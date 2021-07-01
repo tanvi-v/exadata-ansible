@@ -1,11 +1,11 @@
 
 # TO DO: TEST 
 
-- name: Get OCID for '{{ workload_tag }}{{ db_home_name }}' DB Home
+- name: 'Get OCID for {{ workload_tag }}{{ db_home_name }} DB Home'
   when: db_home_id is not defined
   include_tasks: db_home_discovery.yml
 
-- name: Delete db home with name '{{ workload_tag }}{{ db_home_name }}'
+- name: 'Delete db home with name {{ workload_tag }}{{ db_home_name }}'
   when: db_home_id is defined
   oci_database_db_home:
     db_home_id: '{{ db_home_id }}'

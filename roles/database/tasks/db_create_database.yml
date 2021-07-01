@@ -1,9 +1,9 @@
 
-- name: Check for existing DB with name '{{ workload_tag }}{{ db_name }}'
+- name: 'Check for existing DB with name {{ workload_tag }}{{ db_name }}'
   include_tasks: db_discovery.yml
 - assert: { that: database_id is not defined }
 
-- name: Create database with name '{{ workload_tag }}{{ db_name }}'
+- name: 'Create database with name {{ workload_tag }}{{ db_name }}'
   oci_database_database:
     compartment_id: '{{ compartment_id }}'
     source: 'NONE'

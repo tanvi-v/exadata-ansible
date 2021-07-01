@@ -1,11 +1,11 @@
-- name: Discover VM Cluster for DB Home '{{ workload_tag }}{{ db_home_name }}'
+- name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
   when: vm_cluster_id is not defined
   include_role:
     name: database_home
     tasks_from: db_home_discovery.yml
 - assert: { that: vm_cluster_id is defined }
 
-- name: Discover DB Home '{{ workload_tag }}{{ db_home_name }}'
+- name: 'Discover DB Home {{ workload_tag }}{{ db_home_name }}'
   oci_database_db_home_facts:
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
