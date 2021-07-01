@@ -1,10 +1,10 @@
 # TO DO: TEST
 
-- name: List DBs
+- name: Get OCID for '{{ workload_tag }}{{ db_name }}' DB
   when: database_id is not defined
   include_tasks: db_discovery.yml
 
-- name: Delete database
+- name: Delete database with name '{{ workload_tag }}{{ db_name }}'
   when: database_id is defined
   oci_database_database:
     database_id: '{{ database_id }}'

@@ -2,7 +2,11 @@
 region: 'us-phoenix-1'
 exadata_type: 'exacs'       # exacs or exacc
 compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma'
-workload_tag: 'ans'
+workload_tag: 'ans2'
+
+# exadata components
+vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
+db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsv4cyh2trvrwkx6nrh4a5hehgmqffonrqsmw2hnu4k2ozkanutwcq'
 
 # exadata
 exacs_name: 'tstExaInfra'
@@ -26,18 +30,14 @@ vm_cluster_hostname: 'tstcluster'
 gi_version: '19.0.0.0'
 
 # db_home
-db_home_name: 'home1'
+db_home_name: 'home2'
 db_version: '19.0.0.0'
 
 # database
-db_name: 'DB1'
+db_name: 'DB2'
 shape: 'VM.Standard2.4'
 auto_backup_window: 'SLOT_TWO'
 recovery_window_in_days: '30'
-
-# exadata components
-vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
-# db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a'
 
 
       

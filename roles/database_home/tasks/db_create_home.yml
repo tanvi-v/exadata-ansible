@@ -1,10 +1,9 @@
 
-- name: Check for existing DB Home
+- name: Check for existing DB Home with name '{{ workload_tag }}{{ db_home_name }}'
   include_tasks: db_home_discovery.yml
+- assert: { that: db_home_id is not defined }
 
-- assert: { that: vm_cluster_id is defined and db_home_id is not defined }
-
-- name: Create db home
+- name: Create db home with name '{{ workload_tag }}{{ db_home_name }}'
   oci_database_db_home:
     compartment_id: '{{ compartment_id }}'
     source: 'VM_CLUSTER_NEW'
