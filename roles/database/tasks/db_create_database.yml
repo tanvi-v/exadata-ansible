@@ -3,11 +3,11 @@
   include_tasks: db_discovery.yml
 - assert: { that: database_id is not defined }
 
-- name: DB Home Discovery
-  when: db_home_id is not defined
-  include_role:
-    name: database_home
-    tasks_from: db_home_discovery.yml
+# - name: DB Home Discovery
+#   when: db_home_id is not defined
+#   include_role:
+#     name: database_home
+#     tasks_from: db_home_discovery.yml
 
 - name: Create database
   oci_database_database:

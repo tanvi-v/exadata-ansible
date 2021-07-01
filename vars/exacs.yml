@@ -2,6 +2,7 @@
 region: 'us-phoenix-1'
 exadata_type: 'exacs'       # exacs or exacc
 compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma'
+workload_tag: 'ans'
 
 # exadata
 exacs_name: 'tstExaInfra'
@@ -25,7 +26,7 @@ vm_cluster_hostname: 'tstcluster'
 gi_version: '19.0.0.0'
 
 # db_home
-db_home_name: 'anshome1'
+db_home_name: 'home1'
 db_version: '19.0.0.0'
 
 # database
@@ -36,7 +37,7 @@ recovery_window_in_days: '30'
 
 # exadata components
 vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
-db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a'
+# db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsctnqkpksjxbiu7abdl2mujajupge7k3d2snk3whjczanpzjxjm6a'
 
 
       

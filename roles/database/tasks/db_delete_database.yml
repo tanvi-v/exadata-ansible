@@ -1,15 +1,12 @@
 # TO DO: TEST
 
-- name: DB Home Discovery
-  include_role:
-    name: database_home
-    tasks_from: db_home_discovery.yml
-
 - name: List DBs
+  when: database_id is not defined
   include_tasks: db_discovery.yml
 
+- assert: { that: database_id is defined }
+
 - name: Delete database
-  when: database_id is defined
   oci_database_database:
     database_id: '{{ database_id }}'
     state: absent
