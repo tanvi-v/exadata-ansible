@@ -1,6 +1,6 @@
 
 - name: Basic Test
-  hosts: localhost
+  hosts: '{{ hostgroup }}'
   gather_facts: no
 
   tasks:

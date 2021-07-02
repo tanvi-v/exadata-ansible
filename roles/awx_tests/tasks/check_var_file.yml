@@ -1,3 +1,6 @@
 - name: Get a specific compartment
   oci_identity_compartment_facts:
     compartment_id: '{{ compartment_id }}'
+  register: result
+- debug:
+    msg: '{{ result }}'

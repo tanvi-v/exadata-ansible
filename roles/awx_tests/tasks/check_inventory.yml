@@ -1,0 +1,6 @@
+- name: 'check path'
+  shell: |
+    pwd
+  register: result
+- debug:
+    msg: '{{ result }}'
