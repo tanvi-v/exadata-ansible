@@ -1,11 +1,11 @@
 
 Code Development
-- Region??
 - PDB/DB Operations
     - Use Bastion Server to access DB (for PDB)
     - Set up group_vars/host variables for PDB
     - DB Set-Up: pip3 install pexpect
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
+- Region??
 - Additional Database/PDB Set-Up 
 - Playbook to call FPP
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard
