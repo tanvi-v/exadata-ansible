@@ -7,8 +7,7 @@
   
     - include_vars: './vars/{{ vars_file }}'
 
-    - name: Get Network Services
+    - name: Basic Tests
       include_role:
-        name: networking
-        tasks_from: network_service_discovery.yml
+        name: awx_tests
   
