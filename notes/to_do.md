@@ -13,7 +13,9 @@ Code Development
 Santosh Questions
 - FPP
 - Bastion Servers
-- Should region be a field?
+- Using dynamic inventory: group names
+- Should region be a field? Cross region operations?
+
 
 Code Organization
 - Dataguard: should remote peering be with initial network setup?
