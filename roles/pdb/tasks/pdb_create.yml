@@ -1,7 +1,7 @@
 
 - name: 'create pdb'
   expect:
-    command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ db_name }}'
+    command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}'
     responses:
       \bpassword\b: '{{ pdb_password }}'
     echo: 'yes'

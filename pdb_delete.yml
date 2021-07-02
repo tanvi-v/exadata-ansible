@@ -1,14 +1,13 @@
 
-- hosts: 'server'
+- hosts: '{{ hostgroup }}'
   become: 'true'
   become_user: 'oracle'
 
   tasks:
 
+    - include_vars: './vars/{{ vars_file }}'
+
     - name: Delete PDB
       include_role:
         name: pdb
         tasks_from: pdb_delete.yml
-      vars:
-        db_name: 'TestCDB1'
-        pdb_name: 'PDB3'

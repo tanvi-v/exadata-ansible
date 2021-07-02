@@ -3,8 +3,12 @@ plugin: oracle.oci.oci
 regions: all
 fetch_db_hosts: 'true'
 compartments:
-- compartment_ocid: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
-  fetch_hosts_from_subcompartments': 'false'
+  - compartment_ocid: ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma
+  fetch_hosts_from_subcompartments': 'false'  
+  # - compartment_ocid: ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq
+hostnames:
+  - '129.146.63.183'
+  
 
 # [server]
 # 129.146.63.183 ansible_user=opc ansible_ssh_private_key_file=/Users/tvaradha/.ssh/idrsa.key ansible_python_interpreter=/usr/bin/python3

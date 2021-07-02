@@ -1,7 +1,7 @@
 
 - name: 'delete pdb'
   shell: |
-    dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ db_name }}
+    dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}
   register: result
 - debug:
     msg: '{{ result }}'

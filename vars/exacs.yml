@@ -40,5 +40,8 @@ auto_backup_enabled: 'true'
 auto_backup_window: 'SLOT_TWO'
 recovery_window_in_days: '30'
 
+# pdb
+pdb_name: 'PDB2'
+pdb_password: 'WelcomeDB12##'
 
       
