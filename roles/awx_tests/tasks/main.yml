@@ -4,8 +4,8 @@
 - name: 'Check Tenancy Connection'
   include_tasks: check_tenancy_connection.yml
 
-# - name: 'Check Var File'
-#   include_tasks: check_var_file.yml
+- name: 'Check Var File'
+  include_tasks: check_var_file.yml
 
 # - name: 'Check Inventory'
 #   include_tasks: check_inventory.yml    
