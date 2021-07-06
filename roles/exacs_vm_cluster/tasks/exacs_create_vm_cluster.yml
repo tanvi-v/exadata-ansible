@@ -17,8 +17,8 @@
     hostname: '{{ vm_cluster_hostname }}'
     ssh_public_keys: '{{ ssh_public_keys }}'
     gi_version: '{{ gi_version }}'
-  register: result
+  register: vm_cluster_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vm_cluster_create_result }}'
 - set_fact:
-    vm_cluster_id: '{{ result.cloud_vm_cluster.id }}'
+    vm_cluster_id: '{{ vm_cluster_create_result.cloud_vm_cluster.id }}'

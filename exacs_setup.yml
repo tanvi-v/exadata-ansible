@@ -15,17 +15,13 @@
 
     - include_vars: './vars/{{ vars_file }}'
 
-    # - name: 'Create Networking for ExaCS'
-    #   include_role:
-    #     name: networking
-
-    # - name: 'Create Exadata Infrastructure for ExaCS'
-    #   include_role:
-    #     name: exadata_infra
+    - name: 'Create Exadata Infrastructure for ExaCS'
+      include_role:
+        name: exadata_infra
     
-    # - name: 'Create VM Cluster for ExaCS'
-    #   include_role:
-    #     name: exadata_vm_cluster
+    - name: 'Create VM Cluster for ExaCS'
+      include_role:
+        name: exadata_vm_cluster
     
     - name: 'Create Database Home for ExaCS'
       include_role:

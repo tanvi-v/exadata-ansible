@@ -6,6 +6,6 @@
       \bpassword\b: '{{ pdb_password }}'
     echo: 'yes'
     timeout: '300'
-  register: result
+  register: pdb_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ pdb_create_result }}'

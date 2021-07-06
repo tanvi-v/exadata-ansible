@@ -4,17 +4,19 @@
   include_role:
     name: database_home
     tasks_from: db_home_discovery.yml
-- assert: { that: db_home_id is defined }
+- name: 'Assert that db_home_id is defined'
+  assert: { that: db_home_id is defined }
 
 - name: 'Discover Database {{ workload_tag }}{{ db_name }}'
   oci_database_database_facts:
     compartment_id: '{{ compartment_id }}'
     db_name: '{{ workload_tag }}{{ db_name }}'
     db_home_id: '{{ db_home_id }}'
-  register: result
-- debug:
-    msg: '{{ result }}'
+  register: db_discovery_result
+- name: 'Database Discovery Result'
+  debug:
+    msg: '{{ db_discovery_result }}'
 - set_fact: 
-    database_id: '{{ result.databases[0].id}}'
-    database_lifecycle_state: '{{ result.databases[0].lifecycle_state}}'
-  when: result.databases|length > 0 
+    database_id: '{{ db_discovery_result.databases[0].id}}'
+    database_lifecycle_state: '{{ db_discovery_result.databases[0].lifecycle_state}}'
+  when: db_discovery_result.databases|length > 0 

@@ -14,6 +14,6 @@
   oci_database_backup:
     database_id: '{{ database_id }}'
     display_name: '{{ workload_tag }}Bkup'
-  register: result
+  register: db_backup_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ db_backup_create_result }}'

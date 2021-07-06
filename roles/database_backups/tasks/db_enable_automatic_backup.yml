@@ -33,9 +33,9 @@
         # backup_destination_details:
         # - id: '{{ backup_destination_id }}'
         #   type: '{{ backup_destination_type }}'
-    register: result
+    register: enable_exacc_auto_backup_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ enable_exacc_auto_backup_result }}'
   
   when: exadata_type is defined and exadata_type == 'exacc'
 
@@ -47,8 +47,8 @@
         auto_backup_enabled: '{{ auto_backup_enabled }}'
         auto_backup_window: '{{ auto_backup_window }}'
         recovery_window_in_days: '{{ recovery_window_in_days }}'
-    register: result
+    register: enable_exacs_auto_backup_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ enable_exacs_auto_backup_result }}'
   when: exadata_type is defined and exadata_type == 'exacs'
   

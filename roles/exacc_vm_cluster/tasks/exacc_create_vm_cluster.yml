@@ -23,8 +23,8 @@
     is_local_backup_enabled: '{{ is_local_backup_enabled }}'
     time_zone: '{{ time_zone }}'
     gi_version: '{{ gi_version }}'
-  register: result
+  register: vm_cluster_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vm_cluster_create_result }}'
 - set_fact:
-    vm_cluster_id: '{{ result.vm_cluster.id }}'
+    vm_cluster_id: '{{ vm_cluster_create_result.vm_cluster.id }}'

@@ -1,0 +1,11 @@
+
+- name: Database Home Set-Up
+  hosts: localhost
+    
+  tasks:
+
+    - include_vars: './vars/{{ vars_file }}'
+    
+    - name: 'Create Database Home for ExaCS'
+      include_role:
+        name: database_home

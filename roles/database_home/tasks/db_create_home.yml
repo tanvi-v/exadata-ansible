@@ -10,8 +10,8 @@
     vm_cluster_id: '{{ vm_cluster_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
     db_version: '{{ db_version }}'
-  register: result
+  register: db_home_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ db_home_create_result }}'
 - set_fact:
-    db_home_id: '{{ result.db_home.id }}'
+    db_home_id: '{{ db_home_create_result.db_home.id }}'

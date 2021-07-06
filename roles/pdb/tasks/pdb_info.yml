@@ -2,6 +2,6 @@
 - name: 'pdb info'
   shell: |
     dbaascli pdb info --dbname {{ workload_tag }}{{ db_name }}
-  register: result
+  register: pdb_info_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ pdb_info_result }}'

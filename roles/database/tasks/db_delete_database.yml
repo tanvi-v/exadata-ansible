@@ -9,4 +9,8 @@
   oci_database_database:
     database_id: '{{ database_id }}'
     state: absent
+  register: db_deletion_result
+- name: 'DB Deletion Result'
+  debug:
+    msg: '{{ db_deletion_result }}'
   

@@ -9,10 +9,10 @@
   oci_database_db_home_facts:
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
-  register: result
+  register: db_home_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ db_home_discovery_result }}'
 - set_fact: 
-    db_home_id: '{{ result.db_homes[0].id}}'
-    db_home_lifecycle_state: '{{ result.db_homes[0].lifecycle_state}}'
-  when: result.db_homes|length > 0 
+    db_home_id: '{{ db_home_discovery_result.db_homes[0].id}}'
+    db_home_lifecycle_state: '{{ db_home_discovery_result.db_homes[0].lifecycle_state}}'
+  when: db_home_discovery_result.db_homes|length > 0 

@@ -5,6 +5,6 @@
   oci_database_vm_cluster:
     vm_cluster_id: '{{ vm_cluster_id }}'
     state: absent
-  register: result
+  register: vm_cluster_delete_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vm_cluster_delete_result }}'

@@ -1,5 +1,5 @@
 
-- name: Create data_guard_association for vm database
+- name: Create Data Guard Association for VM Database
   oci_database_data_guard_association:
     database_id: '{{ primary_database_id }}'
     database_admin_password: '{{ db_admin_password }}'
@@ -11,7 +11,7 @@
     hostname: '{{ standby_hostname }}'
     subnet_id: '{{ standby_subnet_id }}'
     shape: '{{ shape }}'
-  register: result
+  register: dataguard_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ dataguard_result }}'
 

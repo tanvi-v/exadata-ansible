@@ -6,8 +6,8 @@
     shape: '{{ exacs_shape }}'
     compute_count: '2'
     storage_count: '3'
-  register: result
+  register: exacs_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ exacs_create_result }}'
 - set_fact:
-    exadata_infrastructure_id: '{{ result.cloud_exadata_infrastructure.id }}'
+    exadata_infrastructure_id: '{{ exacs_create_result.cloud_exadata_infrastructure.id }}'
