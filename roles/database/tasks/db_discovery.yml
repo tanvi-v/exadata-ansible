@@ -16,4 +16,5 @@
     msg: '{{ result }}'
 - set_fact: 
     database_id: '{{ result.databases[0].id}}'
+    database_lifecycle_state: '{{ result.databases[0].lifecycle_state}}'
   when: result.databases|length > 0 

@@ -14,4 +14,5 @@
     msg: '{{ result }}'
 - set_fact: 
     db_home_id: '{{ result.db_homes[0].id}}'
+    db_home_lifecycle_state: '{{ result.db_homes[0].lifecycle_state}}'
   when: result.db_homes|length > 0 

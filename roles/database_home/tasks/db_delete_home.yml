@@ -6,7 +6,7 @@
   include_tasks: db_home_discovery.yml
 
 - name: 'Delete db home with name {{ workload_tag }}{{ db_home_name }}'
-  when: db_home_id is defined
+  when: db_home_id is defined and db_home_lifecycle_state == 'AVAILABLE'
   oci_database_db_home:
     db_home_id: '{{ db_home_id }}'
     state: absent

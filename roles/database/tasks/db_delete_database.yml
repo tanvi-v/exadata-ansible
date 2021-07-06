@@ -5,7 +5,7 @@
   include_tasks: db_discovery.yml
 
 - name: 'Delete database with name {{ workload_tag }}{{ db_name }}'
-  when: database_id is defined
+  when: database_id is defined and database_lifecycle_state == 'AVAILABLE'
   oci_database_database:
     database_id: '{{ database_id }}'
     state: absent
