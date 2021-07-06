@@ -1,0 +1,15 @@
+
+# Playbook networking_setup.yml creates a networking for Exadata Cloud Service environment by calling network role.
+
+
+
+- name: Networking Set-Up
+  hosts: localhost
+    
+  tasks:
+
+    - include_vars: './vars/{{ vars_file }}'
+
+    - name: 'Create Networking for ExaCS'
+      include_role:
+        name: networking

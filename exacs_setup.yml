@@ -27,14 +27,14 @@
     #   include_role:
     #     name: exadata_vm_cluster
     
-    # - name: 'Create Database Home for ExaCS'
-    #   include_role:
-    #     name: database_home
- 
-    # - name: 'Create Database for ExaCS'
-    #   include_role:
-    #     name: database
-
-    - name: 'Create Database Backup'
+    - name: 'Create Database Home for ExaCS'
       include_role:
-        name: database_backups
+        name: database_home
+ 
+    - name: 'Create Database for ExaCS'
+      include_role:
+        name: database
+
+    # - name: 'Create Database Backup'
+    #   include_role:
+    #     name: database_backups

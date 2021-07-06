@@ -21,9 +21,9 @@
     #   include_role:
     #     name: exadata_vm_cluster
     
-    # - name: Create Database Home for ExaCC
-    #   include_role:
-    #     name: database_home
+    - name: Create Database Home for ExaCC
+      include_role:
+        name: database_home
     
     - name: Create Database for ExaCC
       include_role:

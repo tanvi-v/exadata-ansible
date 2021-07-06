@@ -2,7 +2,7 @@
 Code Development
 - PDB/DB Operations
     - Use Bastion Server to access DB (for PDB)
-    - Set up group_vars/host variables for PDB
+    - Set up group_vars/host variables for PDB --> currently running into an issue with using group in ansible. Can;t ssh into node, trying to add a second credential to template
     - DB Set-Up: pip3 install pexpect
 - ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
 - Region??
@@ -11,6 +11,7 @@ Code Development
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard
 
 Santosh Questions
+- split playbook and then use workflow instead of just one job?
 - FPP
 - Bastion Servers
 - Using dynamic inventory: group names
