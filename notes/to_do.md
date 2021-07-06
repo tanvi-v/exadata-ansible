@@ -22,7 +22,6 @@ Code Organization
 Ansible Best Practices / Clean-Up
 - All code should be validated to actually be idempotent
 - Define names better + add names to side tasks (asserts, debugs)
-- Name results
 - Add More Comments
 - Follow Style Guide: https://confluence.oraclecorp.com/confluence/display/CDO/Ansible+Guidelines
 - Remove blocks when possible

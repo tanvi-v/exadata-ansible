@@ -26,11 +26,11 @@
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}NG'
-    register: result
+    register: nat_gw_create_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ nat_gw_create_result }}'
   - set_fact:
-      nat_gateway_id: '{{ result.nat_gateway.id }}'
+      nat_gateway_id: '{{ nat_gw_create_result.nat_gateway.id }}'
       
   - name: Create client route table
     oci_network_route_table:
@@ -44,11 +44,11 @@
       - destination_type: SERVICE_CIDR_BLOCK
         destination: '{{ all_services_cidr }}'
         network_entity_id: '{{ service_gateway_id }}'
-    register: result
+    register: client_rt_create_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ client_rt_create_result }}'
   - set_fact:
-      client_route_table_id: '{{ result.route_table.id }}'  
+      client_route_table_id: '{{ client_rt_create_result.route_table.id }}'  
   
   when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'true'
 
@@ -62,11 +62,11 @@
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}IG'
       is_enabled: 'true'
-    register: result
+    register: internet_gw_create_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ internet_gw_create_result }}'
   - set_fact:
-      internet_gateway_id: '{{ result.internet_gateway.id }}'
+      internet_gateway_id: '{{ internet_gw_create_result.internet_gateway.id }}'
   
   - name: Create client route table
     oci_network_route_table:
@@ -77,11 +77,11 @@
       - destination_type: CIDR_BLOCK
         destination: '0.0.0.0/0'
         network_entity_id: '{{ internet_gateway_id }}'
-    register: result
+    register: client_rt_create_result
   - debug:
-      msg: '{{ result }}'
+      msg: '{{ client_rt_create_result }}'
   - set_fact:
-      client_route_table_id: '{{ result.route_table.id }}'
+      client_route_table_id: '{{ client_rt_create_result.route_table.id }}'
   
   when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'false'
 
@@ -102,11 +102,11 @@
     egress_security_rules:
     - protocol: 'all'
       destination: '0.0.0.0/0'
-  register: result
+  register: client_sl_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ client_sl_create_result }}'
 - set_fact:
-    client_security_list_id: '{{ result.security_list.id }}'
+    client_security_list_id: '{{ client_sl_create_result.security_list.id }}'
 
 - name: Create client subnet
   oci_network_subnet:
@@ -120,9 +120,9 @@
     security_list_ids: 
     - '{{ client_security_list_id }}'
     - '{{ default_security_list_id }}'
-  register: result
+  register: client_subnet_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ client_subnet_create_result }}'
 - set_fact:
-    client_subnet_id: '{{ result.subnet.id }}'
+    client_subnet_id: '{{ client_subnet_create_result.subnet.id }}'
       
