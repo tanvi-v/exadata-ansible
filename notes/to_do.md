@@ -1,30 +1,23 @@
 
 Code Development
-- PDB/DB Operations
-    - Use Bastion Server to access DB (for PDB)
-    - Set up group_vars/host variables for PDB --> currently running into an issue with using group in ansible. Can;t ssh into node, trying to add a second credential to template
-    - DB Set-Up: pip3 install pexpect
-- ExaCC provisioning: Network config (VM Cluster network difference from ExaCS? Connect to customer network?)
-- Region??
-- Additional Database/PDB Set-Up 
-- Playbook to call FPP
-- See if we can find a way to make PDB without dbaascli --> DBCA
+- Bastion
+    - Set up Bastion Server for ExaCC final and ExaCS testing
+    - Consider using Bastion SERVICE instead?
+- Set up group_vars for host based operations (such as PDB)... consider moving other variables to that location as well
+- ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
+- Additional Database/PDB Set-Up
+- Playbook to call FPP --> Depends on how FPP is set-up
+- Make PDB without dbaascli --> DBCA
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard 
+- Region??
 
 Santosh Questions
-- split playbook and then use workflow instead of just one job (done)
-    - then can do an existing db home, new db home, custom db home
-    - cdb creation --> afterwards can change OCPU from command line (dbaascli), resource constraints. Needs to be a part of the creation flow (first from localhost to provision, second to specify the host)
-- FPP (done)
-- Bastion Servers
 - Using dynamic inventory: DB nodes??
 - Should region be a field? Cross region operations?
-
 
 Code Organization
 - Dataguard: should remote peering be with initial network setup?
 - Backup: Should exacc backup destination be with initial database creation or afterwards?
-
 
 Ansible Best Practices / Clean-Up
 - All code should be validated to actually be idempotent

@@ -2,6 +2,8 @@
 - name: 'delete pdb'
   shell: |
     dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}
+  become: 'true'
+  become_user: 'oracle'
   register: pdb_delete_result
 - debug:
     msg: '{{ pdb_delete_result }}'

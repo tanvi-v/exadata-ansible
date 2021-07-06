@@ -2,6 +2,8 @@
 - name: 'pdb info'
   shell: |
     dbaascli pdb info --dbname {{ workload_tag }}{{ db_name }}
+  become: 'true'
+  become_user: 'oracle'
   register: pdb_info_result
 - debug:
     msg: '{{ pdb_info_result }}'

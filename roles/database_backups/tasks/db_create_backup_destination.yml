@@ -21,11 +21,11 @@
       mount_type_details:
         mount_type: 'SELF_MOUNT'
         local_mount_point_path: '{{ local_mount_point_path }}'
-    register: backup_dest_create_result
+    register: backup_destination_create_result
   - debug:
-      msg: '{{ backup_dest_create_result }}'
+      msg: '{{ backup_destination_create_result }}'
   - set_fact:
-      backup_destination_id: '{{ backup_dest_create_result.backup_destination.id }}'
+      backup_destination_id: '{{ backup_destination_create_result.backup_destination.id }}'
 
   when: backup_destination_type == 'NFS'
 
@@ -40,10 +40,10 @@
       connection_string: '{{ connection_string }}'
       vpc_users:
         -  '{{ vpc_user }}'
-    register: backup_dest_create_result
+    register: backup_destination_create_result
   - debug:
-      msg: '{{ backup_dest_create_result }}'
+      msg: '{{ backup_destination_create_result }}'
   - set_fact:
-      backup_destination_id: '{{ backup_dest_create_result.backup_destination.id }}'
+      backup_destination_id: '{{ backup_destination_create_result.backup_destination.id }}'
 
   when: backup_destination_type == 'RECOVERY_APPLICANCE'

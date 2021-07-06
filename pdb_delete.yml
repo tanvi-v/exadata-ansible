@@ -1,7 +1,6 @@
 
-- hosts: '{{ hostgroup }}'
-  become: 'true'
-  become_user: 'oracle'
+- name: PDB Delete
+  hosts: '{{ hostgroup }}'
 
   tasks:
 

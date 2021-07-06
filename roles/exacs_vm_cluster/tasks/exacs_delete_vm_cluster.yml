@@ -7,4 +7,4 @@
     state: absent
   register: vm_cluster_delete_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vm_cluster_delete_result }}'

@@ -3,14 +3,11 @@
 
 #     ansible-playbook pdb_create.yml --extra-vars 'pdb_password=<pdb_password>'
 
-- hosts: '{{ hostgroup }}'
-  become: 'true'
-  become_user: 'oracle'
-  gather_facts: 'no'
+- name: PDB Create
+  hosts: '{{ hostgroup }}'
   
   tasks:
     
-    # Run Pip3 Install for DBaaS Operations
     - include_vars: './vars/{{ vars_file }}'
     
     - name: Create PDB

@@ -13,7 +13,7 @@
     db_name: '{{ workload_tag }}{{ db_name }}'
     db_home_id: '{{ db_home_id }}'
   register: db_discovery_result
-- name: 'Database Discovery Result'
+- name: 'Database Discovery Output'
   debug:
     msg: '{{ db_discovery_result }}'
 - set_fact: 

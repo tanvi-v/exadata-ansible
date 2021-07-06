@@ -11,7 +11,7 @@
     hostname: '{{ standby_hostname }}'
     subnet_id: '{{ standby_subnet_id }}'
     shape: '{{ shape }}'
-  register: dataguard_result
+  register: dataguard_create_result
 - debug:
-    msg: '{{ dataguard_result }}'
+    msg: '{{ dataguard_create_result }}'
 

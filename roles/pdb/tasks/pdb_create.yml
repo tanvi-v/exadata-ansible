@@ -6,6 +6,8 @@
       \bpassword\b: '{{ pdb_password }}'
     echo: 'yes'
     timeout: '300'
+  become: 'true'
+  become_user: 'oracle'
   register: pdb_create_result
 - debug:
     msg: '{{ pdb_create_result }}'
