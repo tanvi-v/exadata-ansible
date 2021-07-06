@@ -7,38 +7,38 @@
 #     ansible-playbook dataguard_setup.yml --extra-vars 'db_admin_password=<db_admin_password>'
 
 
-- name: Dataguard
-  hosts: localhost
+- name: 'Dataguard'
+  hosts: 'localhost'
 
   tasks:
 
     - include_vars: './vars/{{ vars_file }}'
 
-    - name: Create Remote Peering
+    - name: 'Create Remote Peering'
       include_role:
-        name: networking
-        tasks_from: remote_peering.yml
+        name: 'networking'
+        tasks_from: 'remote_peering.yml'
        
-    # - name: Create Exadata Infrastructure for ExaCS
+    # - name: 'Create Exadata Infrastructure for ExaCS'
     #   include_role:
-    #     name: exadata_infra
+    #     name: 'exadata_infra'
     
-    # - name: Create VM Cluster for ExaCS
+    # - name: 'Create VM Cluster for ExaCS'
     #   include_role:
-    #     name: exadata_vm_cluster
+    #     name: 'exadata_vm_cluster'
     
-    # - name: Create Database Home for ExaCS
+    # - name: 'Create Database Home for ExaCS'
     #   include_role:
-    #     name: database_home
+    #     name: 'database_home'
 
-    # - name: Create Database for ExaCS
+    # - name: 'Create Database for ExaCS'
     #   include_role:
-    #     name: database
+    #     name: 'database'
 
-    # - name: Enable DataGuard
+    # - name: 'Enable DataGuard'
     #   include_role:
-    #     name: database
-    #     tasks_from: dataguard.yml
+    #     name: 'database'
+    #     tasks_from: 'dataguard.yml'
 
 
 

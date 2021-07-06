@@ -1,11 +1,11 @@
 
 - name: List Oracle services
   oracle.oci.oci_network_service_facts:
-  register: result
+  register: network_service_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ network_service_discovery_result }}'
 - set_fact:
-    oci_object_storage_id: '{{ result.services[0].id }}'
-    oci_object_storage_cidr: '{{ result.services[0].cidr_block }}'
-    all_services_id: '{{ result.services[1].id }}'
-    all_services_cidr: '{{ result.services[1].cidr_block }}'
+    oci_object_storage_id: '{{ network_service_discovery_result.services[0].id }}'
+    oci_object_storage_cidr: '{{ network_service_discovery_result.services[0].cidr_block }}'
+    all_services_id: '{{ network_service_discovery_result.services[1].id }}'
+    all_services_cidr: '{{ network_service_discovery_result.services[1].cidr_block }}'

@@ -29,35 +29,70 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 ## Playbooks
 
 basic_test.yml
-- Function
+- Description
 - Required Variables
+    - vars_file
+    - hostgroup
 
 dataguard_setup.yml
+- Description
+- Required Variables
+    - vars_file
+    - db_admin_password
 
 db_backup.yml
+- Description
+- Required Variables
+    - vars_file
 
 db_create.yml
+- Description
+- Required Variables
+    - vars_file
+    - db_admin_password
 
 db_home_create.yml
+- Description
+- Required Variables
+    - vars_file
 
 db_teardown.yml
+- Description
+- Required Variables
+    - vars_file
 
 exacc_setup.yml
-- Function
+- Description
 - Required Variables
+    - vars_file
 
 exacs_setup.yml
-- Function
+- Description
 - Required Variables
+    - vars_file
 
 networking_setup.yml
+- Description
+- Required Variables
+    - vars_file
 
 networking_teardown.yml
+- Description
+- Required Variables
+    - vars_file
 
 pdb_create.yml
+- Description
+- Required Variables
+    - vars_file
+    - hostgroup
+    - pdb_password
 
 pdb_delete.yml
-
+- Description
+- Required Variables
+    - vars_file
+    - hostgroup
 
 
 ## Roles

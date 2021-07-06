@@ -16,10 +16,10 @@
     display_name: '{{ workload_tag }}VCN'
     cidr_block: '{{ vcn_cidr_block }}'
     dns_label: '{{ workload_tag }}VCN'
-  register: result
+  register: vcn_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vcn_create_result }}'
 - set_fact:
-    vcn_id: '{{ result.vcn.id }}'
-    default_route_table_id: '{{ result.vcn.default_route_table_id }}'
-    default_security_list_id: '{{ result.vcn.default_security_list_id }}'
+    vcn_id: '{{ vcn_create_result.vcn.id }}'
+    default_route_table_id: '{{ vcn_create_result.vcn.default_route_table_id }}'
+    default_security_list_id: '{{ vcn_create_result.vcn.default_security_list_id }}'

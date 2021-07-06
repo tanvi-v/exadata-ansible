@@ -3,8 +3,8 @@
 #     ansible-playbook exacs_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
 
 
-- name: Database Set-Up
-  hosts: localhost
+- name: 'Database Set-Up'
+  hosts: 'localhost'
     
   tasks:
 
@@ -12,8 +12,4 @@
  
     - name: 'Create Database for ExaCS'
       include_role:
-        name: database
-
-    # - name: 'Create Database Backup'
-    #   include_role:
-    #     name: database_backups
+        name: 'database'

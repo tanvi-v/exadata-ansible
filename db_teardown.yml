@@ -1,20 +1,20 @@
 
 # Playbook db_teardown.yml terminates several databases and db homes by looping through a list of OCIDs. 
 
-- name: DB Teardown For Testing
-  hosts: localhost
+- name: 'DB Teardown For Testing'
+  hosts: 'localhost'
   
   tasks:
 
     - include_vars: './vars/{{ vars_file }}'
     
-    - name: Delete DBs
+    - name: 'Delete DBs'
       include_role:
-        name: database
-        tasks_from: db_delete_database.yml
+        name: 'database'
+        tasks_from: 'db_delete_database.yml'
 
-    - name: Delete DB Homes
+    - name: 'Delete DB Homes'
       include_role:
-        name: database_home
-        tasks_from: db_delete_home.yml
+        name: 'database_home'
+        tasks_from: 'db_delete_home.yml'
     

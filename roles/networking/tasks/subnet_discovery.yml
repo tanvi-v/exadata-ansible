@@ -4,11 +4,11 @@
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ subnet_name }}'
     vcn_id: '{{ vcn_id }}'
-  register: result
+  register: subnet_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ subnet_discovery_result }}'
 - set_fact: 
-    subnet_id: '{{ result.subnets[0].id }}'
-    subnet_route_table_id: '{{ result.subnets[0].route_table_id }}'
-    subnet_security_list_ids: '{{ result.subnets[0].security_list_ids }}'
-  when: result.subnets|length > 0 
+    subnet_id: '{{ subnet_discovery_result.subnets[0].id }}'
+    subnet_route_table_id: '{{ subnet_discovery_result.subnets[0].route_table_id }}'
+    subnet_security_list_ids: '{{ subnet_discovery_result.subnets[0].security_list_ids }}'
+  when: subnet_discovery_result.subnets|length > 0 

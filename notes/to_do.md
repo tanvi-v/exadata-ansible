@@ -3,33 +3,32 @@ Code Development
 - Bastion
     - Set up Bastion Server for ExaCC final and ExaCS testing
     - Consider using Bastion SERVICE instead?
-- Set up group_vars for host based operations (such as PDB)... consider moving other variables to that location as well
+- Make PDB without dbaascli --> DBCA
 - ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
 - Additional Database/PDB Set-Up
 - Playbook to call FPP --> Depends on how FPP is set-up
-- Make PDB without dbaascli --> DBCA
-- DataGuard (low priority) - ExaCC/ExaCS Dataguard 
-- Region??
+- DataGuard (low priority) - ExaCC/ExaCS Dataguard, change from single job to workflow, broken up
+- Add Loops??? To run for multiple variable files? Unsure
 
 Santosh Questions
-- Using dynamic inventory: DB nodes??
+- Using dynamic inventory: DB nodes?
 - Should region be a field? Cross region operations?
 
 Code Organization
+- Set up group_vars for host based operations (such as PDB)... consider moving other variables to that location as well
 - Dataguard: should remote peering be with initial network setup?
 - Backup: Should exacc backup destination be with initial database creation or afterwards?
 
 Ansible Best Practices / Clean-Up
 - All code should be validated to actually be idempotent
+- Define names better + add names to side tasks (asserts, debugs)
+- Name results
 - Add More Comments
 - Follow Style Guide: https://confluence.oraclecorp.com/confluence/display/CDO/Ansible+Guidelines
-- Should define names better + add names to assert/debug
 - Remove blocks when possible
-- when - should use when: > (strip of new lines and space)
-- if a variable is being used in a when statement, should be testing to exist before used (item.changed is defined and item.changed is false)
+- when - should use when: > (strip of new lines and space); if a variable is being used in a when statement, should be testing to exist before used (item.changed is defined and item.changed is false)
 - Single quotes on all parameters
 - Parameters should be alphabetical
-
 
 PDB NOTES (SANTOSH)
 (always assume need to reset everything for each shell command. Always use absolute paths!)

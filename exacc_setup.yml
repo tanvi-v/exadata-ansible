@@ -8,28 +8,17 @@
 #     ansible-playbook exacc_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
 
 
-- name: ExaCC Set-Up
-  hosts: localhost
+- name: 'ExaCC Set-Up'
+  hosts: 'localhost'
   
   tasks:
 
     - include_vars: './vars/{{ vars_file }}'
     
-    # TO DO: What other steps for ExaCC set-up? VM Cluster Network? 
+    # TO DO: Set-Up VM Cluster Network
     
-    # - name: Create VM Cluster for ExaCC
-    #   include_role:
-    #     name: exadata_vm_cluster
-    
-    - name: Create Database Home for ExaCC
+    - name: 'Create VM Cluster for ExaCC'
       include_role:
-        name: database_home
+        name: 'exacc_vm_cluster'
     
-    - name: Create Database for ExaCC
-      include_role:
-        name: database
- 
-    # - name: Add Backup Destination for ExaCC
-    #   include_role:
-    #     name: database_backups
     

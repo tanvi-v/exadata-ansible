@@ -1,6 +1,6 @@
 
-- name: Database Home Set-Up
-  hosts: localhost
+- name: 'Database Home Set-Up'
+  hosts: 'localhost'
     
   tasks:
 
@@ -8,4 +8,4 @@
     
     - name: 'Create Database Home for ExaCS'
       include_role:
-        name: database_home
+        name: 'database_home'

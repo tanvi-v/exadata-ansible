@@ -3,16 +3,16 @@
 
 #     ansible-playbook pdb_create.yml --extra-vars 'pdb_password=<pdb_password>'
 
-- name: PDB Create
+- name: 'PDB Create'
   hosts: '{{ hostgroup }}'
   
   tasks:
     
     - include_vars: './vars/{{ vars_file }}'
     
-    - name: Create PDB
+    - name: 'Create PDB'
       include_role:
-        name: pdb
+        name: 'pdb'
 
 #oracle_home: '/u02/app/oracle/product/19.0.0.0/dbhome_3/'
 #oracle_sid: 'TestCDB11'

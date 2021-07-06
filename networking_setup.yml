@@ -3,8 +3,8 @@
 
 
 
-- name: Networking Set-Up
-  hosts: localhost
+- name: 'Networking Set-Up'
+  hosts: 'localhost'
     
   tasks:
 
@@ -12,4 +12,4 @@
 
     - name: 'Create Networking for ExaCS'
       include_role:
-        name: networking
+        name: 'networking'

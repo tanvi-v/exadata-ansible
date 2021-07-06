@@ -3,11 +3,11 @@
   oci_network_vcn_facts:
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}VCN'
-  register: result
+  register: vcn_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ vcn_discovery_result }}'
 - set_fact: 
-    vcn_id: '{{ result.vcns[0].id}}'
-    default_route_table_id: '{{ result.vcns[0].default_route_table_id}}'
-    default_security_list_id: '{{ result.vcns[0].default_security_list_id}}'
-  when: result.vcns|length > 0 
+    vcn_id: '{{ vcn_discovery_result.vcns[0].id}}'
+    default_route_table_id: '{{ vcn_discovery_result.vcns[0].default_route_table_id}}'
+    default_security_list_id: '{{ vcn_discovery_result.vcns[0].default_security_list_id}}'
+  when: vcn_discovery_result.vcns|length > 0 

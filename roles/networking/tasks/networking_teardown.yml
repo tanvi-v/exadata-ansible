@@ -34,12 +34,12 @@
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}NG'
     vcn_id: '{{ vcn_id }}'
-  register: result
+  register: nat_gw_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ nat_gw_discovery_result }}'
 - set_fact: 
-    nat_gateway_id: '{{ result.nat_gateways[0].id}}'
-  when: result.nat_gateways|length > 0 
+    nat_gateway_id: '{{ nat_gw_discovery_result.nat_gateways[0].id}}'
+  when: nat_gw_discovery_result.nat_gateways|length > 0 
 
 - name: Delete nat gateway
   when: nat_gateway_id is defined
@@ -52,12 +52,12 @@
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}IG'
     vcn_id: '{{ vcn_id }}'
-  register: result
+  register: internet_gw_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ internet_gw_discovery_result }}'
 - set_fact: 
-    internet_gateway_id: '{{ result.internet_gateways[0].id}}'
-  when: result.internet_gateways|length > 0 
+    internet_gateway_id: '{{ internet_gw_discovery_result.internet_gateways[0].id}}'
+  when: internet_gw_discovery_result.internet_gateways|length > 0 
 
 - name: Delete internet gateway
   when: internet_gateway_id is defined
@@ -113,12 +113,12 @@
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}SG'
     vcn_id: '{{ vcn_id }}'
-  register: result
+  register: service_gw_discovery_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ service_gw_discovery_result }}'
 - set_fact: 
-    service_gateway_id: '{{ result.service_gateways[0].id}}'
-  when: result.service_gateways|length > 0 
+    service_gateway_id: '{{ service_gw_discovery_result.service_gateways[0].id}}'
+  when: service_gw_discovery_result.service_gateways|length > 0 
 
 - name: Delete service gateway
   when: service_gateway_id is defined

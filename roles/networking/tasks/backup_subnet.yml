@@ -26,11 +26,11 @@
     display_name: '{{ workload_tag }}SG'
     services:
     - service_id: '{{ all_services_id }}'
-  register: result
+  register: service_gw_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ service_gw_create_result }}'
 - set_fact:
-    service_gateway_id: '{{ result.service_gateway.id }}'
+    service_gateway_id: '{{ service_gw_create_result.service_gateway.id }}'
     
 - name: Create backup route table
   oci_network_route_table:
@@ -41,11 +41,11 @@
     - destination_type: 'SERVICE_CIDR_BLOCK'
       destination: '{{ all_services_cidr }}'
       network_entity_id: '{{ service_gateway_id }}'
-  register: result
+  register: backup_rt_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ backup_rt_create_result }}'
 - set_fact:
-    backup_route_table_id: '{{ result.route_table.id }}'
+    backup_route_table_id: '{{ backup_rt_create_result.route_table.id }}'
     
 - name: Create backup security list
   oci_network_security_list:
@@ -71,11 +71,11 @@
     egress_security_rules:
     - protocol: 'all'
       destination: '0.0.0.0/0'
-  register: result
+  register: backup_sl_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ backup_sl_create_result }}'
 - set_fact:
-    backup_security_list_id: '{{ result.security_list.id }}'
+    backup_security_list_id: '{{ backup_sl_create_result.security_list.id }}'
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
@@ -88,11 +88,11 @@
     route_table_id: '{{ backup_route_table_id }}'
     security_list_ids: 
     - '{{ backup_security_list_id }}'
-  register: result
+  register: backup_subnet_create_result
 - debug:
-    msg: '{{ result }}'
+    msg: '{{ backup_subnet_create_result }}'
 - set_fact:
-    backup_subnet_id: '{{ result.subnet.id }}'
+    backup_subnet_id: '{{ backup_subnet_create_result.subnet.id }}'
       
       
       

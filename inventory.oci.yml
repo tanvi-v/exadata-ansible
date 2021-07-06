@@ -1,6 +1,6 @@
 
 plugin: oracle.oci.oci
-regions: all
+regions: 'all'
 fetch_db_hosts: 'true'
 compartments:
 - compartment_ocid: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnjt7vdys4p3qalmzo3yfma'

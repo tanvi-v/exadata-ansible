@@ -1,13 +1,13 @@
 
-- name: Basic Test
+- name: 'Basic Test'
   hosts: '{{ hostgroup }}'
-  gather_facts: no
+  gather_facts: 'no'
 
   tasks:
   
     - include_vars: './vars/{{ vars_file }}'
 
-    - name: Basic Tests
+    - name: 'Basic Tests'
       include_role:
-        name: awx_tests
+        name: 'awx_tests'
   

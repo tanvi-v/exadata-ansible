@@ -6,7 +6,6 @@ workload_tag: 'ans'
 
 # exadata components
 vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
-# db_home_id: 'ocid1.dbhome.oc1.phx.abyhqljsv4cyh2trvrwkx6nrh4a5hehgmqffonrqsmw2hnu4k2ozkanutwcq'
 
 # exadata
 exacs_name: 'tstExaInfra'

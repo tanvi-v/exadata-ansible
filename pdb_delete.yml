@@ -1,12 +1,12 @@
 
-- name: PDB Delete
+- name: 'PDB Delete'
   hosts: '{{ hostgroup }}'
 
   tasks:
 
     - include_vars: './vars/{{ vars_file }}'
 
-    - name: Delete PDB
+    - name: 'Delete PDB'
       include_role:
-        name: pdb
-        tasks_from: pdb_delete.yml
+        name: 'pdb'
+        tasks_from: 'pdb_delete.yml'
