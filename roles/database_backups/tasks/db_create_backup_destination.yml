@@ -11,29 +11,39 @@
       Check to make sure variable exadata_type is defined as exacc. 
       Check to make sure variable backup_destination_type is defined as RECOVERY_APPLIANCE or NFS.
 
-- name: Create NFS backup_destination
+- block:    # when backup_destination_type == 'NFS'
+
+  - name: Create NFS backup_destination
+    oci_database_backup_destination:
+      compartment_id: '{{ compartment_id }}'
+      display_name: '{{ workload_tag }}NFS'
+      type: '{{ backup_destination_type }}'
+      mount_type_details:
+        mount_type: 'SELF_MOUNT'
+        local_mount_point_path: '{{ local_mount_point_path }}'
+    register: result
+  - debug:
+      msg: '{{ result }}'
+  - set_fact:
+      backup_destination_id: '{{ result.backup_destination.id }}'
+
   when: backup_destination_type == 'NFS'
-  oci_database_backup_destination:
-    compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_tag }}NFS'
-    type: '{{ backup_destination_type }}'
-    mount_type_details:
-      mount_type: 'SELF_MOUNT'
-      local_mount_point_path: '{{ local_mount_point_path }}'
-  register: result
 
-- name: Create Recovery Applicance backup_destination
+
+- block:    # when backup_destination_type == 'RECOVERY_APPLICANCE'
+
+  - name: Create Recovery Applicance backup_destination
+    oci_database_backup_destination:
+      compartment_id: '{{ compartment_id }}'
+      display_name: '{{ workload_tag }}RA'
+      type: '{{ backup_destination_type }}'
+      connection_string: '{{ connection_string }}'
+      vpc_users:
+        -  '{{ vpc_user }}'
+    register: result
+  - debug:
+      msg: '{{ result }}'
+  - set_fact:
+      backup_destination_id: '{{ result.backup_destination.id }}'
+
   when: backup_destination_type == 'RECOVERY_APPLICANCE'
-  oci_database_backup_destination:
-    compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_tag }}RA'
-    type: '{{ backup_destination_type }}'
-    connection_string: '{{ connection_string }}'
-    vpc_users:
-      -  '{{ vpc_user }}'
-  register: result
-
-- debug:
-    msg: '{{ result }}'
-- set_fact:
-    backup_destination_id: '{{ result.backup_destination.id }}'

@@ -23,6 +23,8 @@
       backup_destination_details:
       - type: '{{ backup_destination_type }}'
   register: result
+- debug:
+    msg: '{{ result }}'
 
 - name: Backup Destination discovery
   when: (backup_destination_id is not defined) and (backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS')
@@ -38,6 +40,8 @@
       - id: '{{ backup_destination_id }}'
         type: '{{ backup_destination_type }}'
   register: result
+- debug:
+    msg: '{{ result }}'
 
 - name: Set database backup destination to Recovery Appliance
   oci_database_database:
@@ -50,7 +54,8 @@
         vpc_user: '{{ vpc_user }}'
         vpc_password: '{{ vpc_password }}'
   register: result
-
 - debug:
     msg: '{{ result }}'
+
+
 
