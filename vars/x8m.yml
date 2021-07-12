@@ -5,7 +5,7 @@ compartment_id: 'ocid1.compartment.oc1..aaaaaaaaukmxzkrg53zvf3d7bjpnzdrt2qb3snnj
 workload_tag: 'ans'
 
 # exadata components
-vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6ju3knvmr3w2mi2yz56a' 
+vm_cluster_id: 'ocid1.cloudvmcluster.oc1.phx.abyhqljt7dxhqiwx65zrxpmjf5rhp4yqopbp2ttpef3ybguhsql3q3nytyva' 
 
 # # exadata
 # exacs_name: 'Exa1'
