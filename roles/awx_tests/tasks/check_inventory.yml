@@ -1,6 +1,0 @@
-- name: 'check path'
-  shell: |
-    pwd
-  register: pwd_result
-- debug:
-    msg: '{{ pwd_result }}'

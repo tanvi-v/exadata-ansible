@@ -1,0 +1,10 @@
+- name: Create PDB Using DBCA Silent Mode
+  shell: 'dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name}} -createPDBFrom {{db_pdb_prefix}} -pdbAdminUserName pdbadmin -pdbAdminPassword {{db_pdb_admin_password}} -createUserTableSpace true'
+  become: yes
+  become_user: oracle
+  become_method: sudo
+  environment:
+      ORACLE_HOME: "{{ oracle_home }}"
+      PATH: "{{ ansible_env.PATH }}:{{ oracle_home }}/bin"
+      TZ: "america/new_york"
+  register: pdb_creation_output

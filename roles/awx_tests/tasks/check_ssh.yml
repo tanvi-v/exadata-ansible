@@ -1,0 +1,6 @@
+- name: 'check path'
+  shell: |
+    hostname
+  register: hostname_result
+- debug:
+    msg: '{{ hostname_result }}'

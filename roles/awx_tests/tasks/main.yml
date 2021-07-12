@@ -9,7 +9,7 @@
   when: hostgroup == 'localhost'
   include_tasks: check_var_file.yml
 
-- name: 'Check Inventory'
+- name: 'Check SSH'
   when: hostgroup != 'localhost'
-  include_tasks: check_inventory.yml    
+  include_tasks: check_ssh.yml    
     

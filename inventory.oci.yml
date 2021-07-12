@@ -8,7 +8,6 @@ compartments:
 - compartment_ocid: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
   fetch_hosts_from_subcompartments': 'false'
 
-# hostnames:
-# - '129.146.63.183'
+
 # [server]
 # 129.146.63.183 ansible_user=opc ansible_ssh_private_key_file=/Users/tvaradha/.ssh/idrsa.key ansible_python_interpreter=/usr/bin/python3
