@@ -4,6 +4,9 @@
 - name: 'Assert that database_id is not defined'
   assert: { that: database_id is not defined }
 
+- name: 'Assert that db_home_id is defined'
+  assert: { that: db_home_id is defined }
+
 - name: 'Create {{ workload_tag }}{{ db_name }} database'
   oci_database_database:
     compartment_id: '{{ compartment_id }}'
