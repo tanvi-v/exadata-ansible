@@ -2,9 +2,11 @@
 # Check VM Cluster state
 
 - name: 'Check Tenancy Connection'
+  when: hostgroup == 'localhost'
   include_tasks: 'check_tenancy_connection.yml'
 
 - name: 'Check Var File'
+  when: hostgroup == 'localhost'
   include_tasks: 'check_var_file.yml'
 
 - name: 'Check SSH'
