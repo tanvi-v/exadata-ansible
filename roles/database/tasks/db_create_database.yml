@@ -13,9 +13,9 @@
     database:
       admin_password: '{{ db_admin_password }}'
       character_set: '{{ character_set }}'
-      database_software_image_id: null
+      # database_software_image_id: null
       db_name: '{{ workload_tag }}{{ db_name }}'
-      db_unique_name: null
+      # db_unique_name: null
       db_workload: '{{ db_workload }}'
       defined_tags: null
       freeform_tags: null
