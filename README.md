@@ -9,9 +9,9 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 1. Provision AWX on a Compute Instance
 
 2. Create credentials
-    1. Github credentials
-    2. OCI credentials (New Credential Type)
-    3. SSH Keys (Machine) 
+    - Github credentials
+    - OCI credentials (New Credential Type)
+    - SSH Keys (Machine) 
 
 2. Set-Up Project
     - Sync Git Repo
@@ -21,28 +21,31 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     - Create Groups
     - Add ssh variables
 
+
 ## Using Ansible with AWX
 
 ### Running a Playbook
  
-    1. Create a Job Template
-    
-    2. Define Variables
-        - vars_file: File name for variables to be used for that playbook. Workload specfic. Be sure to edit these files to set variables such as workload_tag (used for naming resources) and database parameters. Path to the vars_file has already been included in the code, just have to provide the actual file name. 
-        - hostgroup: Host group to run DB operations on. Currently only required for PDB operations (other playbooks are for provisioning so use localhost).
-        - additional variables: These variables are only defined at runtime, not stored in a file. Check out the Playbooks below for instructions on which plays require additional variables.
+1. Create a Job Template
+
+2. Define Variables
+    - vars_file: File name for variables to be used for that playbook. Workload specfic. Be sure to edit these files to set variables such as workload_tag (used for naming resources) and database parameters. Path to the vars_file has already been included in the code, just have to provide the actual file name. 
+    - hostgroup: Host group to run DB operations on. Currently only required for PDB operations (other playbooks are for provisioning so use localhost).
+    - additional variables: These variables are only defined at runtime, not stored in a file. Check out the Playbooks below for instructions on which plays require additional variables.
 
 ### Creating a Workflow
+
+Creating a workflow instead of running an individual job allows you to automate a longer process. For example, linking together ExaCS Set-Up + DB Home Set-Up + Database Set-Up. These playbooks are individual since as a user, you might often want to set-up just a database on an existing home, but you might want to automate the initial creation.
+
 
 ## Ansible Codebase
 
 This codebase contains a set of playbooks that can be used individually or combined into a workflow for ExaCS and ExaCC Set-up. Each playbook references ansible roles (an ansible file structure used to group reusable components). Each ansible role folder contains three subdirectories - tasks, defaults, and meta. 
 
-Tasks: Contains a main.yml file that will be automatically called if the role is invoked along with individual tasks to be reused.
+- Tasks: Contains a main.yml file that will be automatically called if the role is invoked along with individual tasks to be reused.
+- Defaults: Default variable values for the tasks in that role. These variables have the least precedence and will be overrided by any variables defined in the included variable file or in the ansible job template. 
+- Meta: Sets collection oracle.oci
 
-Defaults: Default variable values for the tasks in that role. These variables have the least precedence and will be overrided by any variables defined in the included variable file or in the ansible job template. 
-
-Meta: Sets collection oracle.oci
 
 
 ### Playbooks
@@ -118,11 +121,19 @@ Meta: Sets collection oracle.oci
 ### Roles
 
 awx_tests
+
 database
+
 database_backups
+
 database_home
+
 exacc_vm_cluster
+
 exacs_infra
+
 exacs_vm_cluster
+
 networking
+
 pdb

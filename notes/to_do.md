@@ -1,16 +1,13 @@
 
 Code Development
+- Add Variables to default and add a comment showing required
+- Add ALL fields to oci modules!! and then just use defaults!!!!!
+
 - Make PDB without dbaascli --> DBCA or wait until July 15th for new Service
 - ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
 - Additional Database/PDB Set-Up
 - Playbook to call FPP --> Depends on how FPP is set-up
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard, change from single job to workflow, broken up
-- Add Loops??? To run for multiple variable files? Unsure
-
-Code Organization
-- Set up group_vars for host based operations (such as PDB)... consider moving other variables to that location as well
-- Dataguard: should remote peering be with initial network setup?
-- Backup: Should exacc backup destination be with initial database creation or afterwards?
 
 Ansible Best Practices / Clean-Up
 - All code should be validated to actually be idempotent
@@ -21,6 +18,9 @@ Ansible Best Practices / Clean-Up
 - when - should use when: > (strip of new lines and space); if a variable is being used in a when statement, should be testing to exist before used (item.changed is defined and item.changed is false)
 - Single quotes on all parameters
 - Parameters should be alphabetical
+
+
+
 
 PDB NOTES (SANTOSH)
 (always assume need to reset everything for each shell command. Always use absolute paths!)
