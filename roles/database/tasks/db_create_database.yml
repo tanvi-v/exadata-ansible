@@ -17,21 +17,21 @@
       db_name: '{{ workload_tag }}{{ db_name }}'
       # db_unique_name: null
       db_workload: '{{ db_workload }}'
-      defined_tags: null
-      freeform_tags: null
+      # defined_tags: null
+      # freeform_tags: null
       ncharacter_set: '{{ ncharacter_set }}'
-      pdb_name: null
-      tde_wallet_password: null 
+      # pdb_name: null
+      # tde_wallet_password: null 
     db_home_id: '{{ db_home_id }}'
-    db_version: null
+    # db_version: null
     key_by:
       - 'db_name'
-    kms_key_id: null
-    kms_key_version_id: null
-    region: null
+    # kms_key_id: null
+    # kms_key_version_id: null
+    # region: null
     source: 'NONE'
     wait: 'yes'
-    wait_timeout: null
+    # wait_timeout: null
   register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:
