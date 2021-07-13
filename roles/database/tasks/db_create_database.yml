@@ -1,9 +1,4 @@
 
-# - name: 'Check for existing DB with name {{ workload_tag }}{{ db_name }}'
-#   include_tasks: 'db_discovery.yml'
-# - name: 'Assert that database_id is not defined'
-#   assert: { that: database_id is not defined }
-
 - name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
   when: db_home_id is not defined
   include_role:
@@ -20,6 +15,8 @@
     database:
       admin_password: '{{ db_admin_password }}'
       db_name: '{{ workload_tag }}{{ db_name }}'
+      pdb_name: null
+      tde_wallet_password: null
     key_by: ['db_home_id', 'db_name']
   register: 'db_creation_result'
 - name: 'DB Creation Output'
