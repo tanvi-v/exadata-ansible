@@ -1,4 +1,8 @@
 # Database Creation
 character_set: 'AL32UTF8'
+database_software_image_id: null
 db_workload: 'OLTP'
-ncharacter_set: 'AL16UTF16ß'
+kms_key_id: null
+kms_key_version_id: null
+ncharacter_set: null
+tde_wallet_password: null

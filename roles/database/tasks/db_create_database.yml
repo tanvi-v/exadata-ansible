@@ -14,10 +14,13 @@
     db_home_id: '{{ db_home_id }}'
     database:
       admin_password: '{{ db_admin_password }}'
+      character_set: '{{ character_set }}'
+      database_software_image_id: '{{ database_software_image_id }}'
       db_name: '{{ workload_tag }}{{ db_name }}'
-      pdb_name: null
-      tde_wallet_password: null
+      tde_wallet_password: 'tde_wallet_password'
     key_by: ['db_home_id', 'db_name']
+    kms_key_id: 'kms_key_id'
+    kms_key_version_id: 'kms_key_version_id'
   register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:
