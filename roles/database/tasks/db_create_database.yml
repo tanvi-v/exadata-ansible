@@ -16,12 +16,7 @@
     db_home_id: '{{ db_home_id }}'
     database:
       admin_password: '{{ db_admin_password }}'
-      character_set: '{{ character_set }}'
       db_name: '{{ workload_tag }}{{ db_name }}'
-      db_workload: '{{ db_workload }}'
-      ncharacter_set: '{{ ncharacter_set }}'
-    key_by: ['db_name']
-    wait: 'yes'
   register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:
