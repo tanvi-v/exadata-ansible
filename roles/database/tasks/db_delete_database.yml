@@ -2,14 +2,14 @@
 
 - name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
-  include_tasks: db_discovery.yml
+  include_tasks: 'db_discovery.yml'
 
 - name: 'Delete database with name {{ workload_tag }}{{ db_name }}'
   when: database_id is defined and database_lifecycle_state == 'AVAILABLE'
   oci_database_database:
     database_id: '{{ database_id }}'
-    state: absent
-  register: db_deletion_result
+    state: 'absent'
+  register: 'db_deletion_result'
 - name: 'DB Deletion Output'
   debug:
     msg: '{{ db_deletion_result }}'

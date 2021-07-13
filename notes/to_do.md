@@ -2,12 +2,12 @@
 Code Development
 - Add Variables to default and add a comment showing required
 - Add ALL fields to oci modules!! and then just use defaults!!!!!
+- Make Networking Set-Up more dynamic
 
-- Make PDB without dbaascli --> DBCA or wait until July 15th for new Service
+- PDB without dbaascli - DBCA or wait for Ansible update
 - ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
-- Additional Database/PDB Set-Up
-- Playbook to call FPP --> Depends on how FPP is set-up
-- DataGuard (low priority) - ExaCC/ExaCS Dataguard, change from single job to workflow, broken up
+- Playbook to call FPP - Depends on how FPP is set-up
+- DataGuard (low priority) - ExaCC/ExaCS Dataguard
 
 Ansible Best Practices / Clean-Up
 - All code should be validated to actually be idempotent
@@ -19,6 +19,17 @@ Ansible Best Practices / Clean-Up
 - Single quotes on all parameters
 - Parameters should be alphabetical
 
+
+Roles to clean
+- awx_tests
+- database
+- database_backups
+- database_home
+- exacc_vm_cluster
+- exacs_infra
+- exacs_vm_cluster
+- networking
+- pdb
 
 
 

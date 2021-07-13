@@ -6,14 +6,14 @@
 - name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
   include_role:
-    name: database
-    tasks_from: db_discovery.yml
+    name: 'database'
+    tasks_from: 'db_discovery.yml'
 - assert: { that: database_id is defined }
 
-- name: Create new database backup
+- name: 'Create new database backup'
   oci_database_backup:
     database_id: '{{ database_id }}'
     display_name: '{{ workload_tag }}Bkup'
-  register: db_backup_create_result
+  register: 'db_backup_create_result'
 - debug:
     msg: '{{ db_backup_create_result }}'

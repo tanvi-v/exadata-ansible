@@ -2,10 +2,6 @@
 # Playbook enable_dataguard.yml creates a data guard standby database by setting up remote peering through the networking role, 
 # setting up the standby exadata and database, and then enabling dataguard. 
 
-# Run this playbook with the following command in order to set the variable db_admin_password:
-
-#     ansible-playbook dataguard_setup.yml --extra-vars 'db_admin_password=<db_admin_password>'
-
 
 - name: 'Dataguard'
   hosts: 'localhost'

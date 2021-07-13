@@ -1,8 +1,4 @@
 
-
-#     ansible-playbook exacs_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
-
-
 - name: 'Database Set-Up'
   hosts: 'localhost'
     

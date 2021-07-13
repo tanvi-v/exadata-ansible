@@ -1,20 +1,39 @@
 
 - name: 'Check for existing DB with name {{ workload_tag }}{{ db_name }}'
-  include_tasks: db_discovery.yml
+  include_tasks: 'db_discovery.yml'
 - name: 'Assert that database_id is not defined'
   assert: { that: database_id is not defined }
 
-- name: 'Create database with name {{ workload_tag }}{{ db_name }}'
+- name: 'Create {{ workload_tag }}{{ db_name }} database'
   oci_database_database:
     compartment_id: '{{ compartment_id }}'
-    source: 'NONE'
-    db_home_id: '{{ db_home_id }}'
     database:
       admin_password: '{{ db_admin_password }}'
+      character_set: '{{ character_set }}'
+      database_software_image_id: null
       db_name: '{{ workload_tag }}{{ db_name }}'
-  register: db_creation_result
+      db_unique_name: null
+      db_workload: '{{ db_workload }}'
+      defined_tags: null
+      freeform_tags: null
+      ncharacter_set: '{{ ncharacter_set }}'
+      pdb_name: null
+      tde_wallet_password: null 
+    db_home_id: '{{ db_home_id }}'
+    db_version: null
+    key_by:
+      - 'db_name'
+    kms_key_id: null
+    kms_key_version_id: null
+    region: null
+    source: 'NONE'
+    wait: 'yes'
+    wait_timeout: null
+  register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:
     msg: '{{ db_creation_result }}'
 - set_fact:
     database_id: '{{ db_creation_result.database.id }}'
+
+# TO DO: Create database from backup

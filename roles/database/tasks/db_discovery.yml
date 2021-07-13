@@ -2,8 +2,8 @@
 - name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
   when: db_home_id is not defined
   include_role:
-    name: database_home
-    tasks_from: db_home_discovery.yml
+    name: 'database_home'
+    tasks_from: 'db_home_discovery.yml'
 - name: 'Assert that db_home_id is defined'
   assert: { that: db_home_id is defined }
 
@@ -12,7 +12,7 @@
     compartment_id: '{{ compartment_id }}'
     db_name: '{{ workload_tag }}{{ db_name }}'
     db_home_id: '{{ db_home_id }}'
-  register: db_discovery_result
+  register: 'db_discovery_result'
 - name: 'Database Discovery Output'
   debug:
     msg: '{{ db_discovery_result }}'

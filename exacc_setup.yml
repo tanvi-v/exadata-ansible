@@ -2,12 +2,6 @@
 # Playbook exacc_setup.yml creates an Exadata Cloud at Customer environment by calling the Exadata VM Cluster role,
 # Database Home role, and Database role. Assumes that the Exadata Infrastructure has already been provisioned by Oracle.
 
-# Run this playbook with the following command in order to set the variables ssh_public_keys (for the vm_cluster creation)
-# and db_admin_password (for the database creation):
-
-#     ansible-playbook exacc_setup.yml --extra-vars 'db_admin_password=<db_admin_password> ssh_public_keys=<ssh_public_keys>'
-
-
 - name: 'ExaCC Set-Up'
   hosts: 'localhost'
   

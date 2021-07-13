@@ -1,2 +1,2 @@
 collections:
-  - name: oracle.oci
+  - name: 'oracle.oci'

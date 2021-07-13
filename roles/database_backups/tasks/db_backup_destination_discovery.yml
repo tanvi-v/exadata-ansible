@@ -1,12 +1,12 @@
 
 - block:      # when backup_destination_type == 'NFS'
 
-  - name: List backup_destinations of type NFS
+  - name: 'List backup_destinations of type NFS'
     oci_database_backup_destination_facts:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}NFS'
       type: '{{ backup_destination_type }}'  
-    register: backup_destination_discovery_result
+    register: 'backup_destination_discovery_result'
   - name: 'NFS Backup Destination Discovery Output'
     debug:
       msg: '{{ backup_destination_discovery_result }}'
@@ -19,12 +19,12 @@
 
 - block:      # when backup_destination_type == 'RECOVERY_APPLICANCE'
 
-  - name: List backup_destinations of type Recovery Appliance
+  - name: 'List backup_destinations of type Recovery Appliance'
     oci_database_backup_destination_facts:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}RA'
       type: '{{ backup_destination_type }}'  
-    register: backup_destination_discovery_result
+    register: 'backup_destination_discovery_result'
   - name: 'Recovery Appliance Backup Destination Discovery Output'
     debug:
       msg: '{{ backup_destination_discovery_result }}'

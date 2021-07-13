@@ -1,6 +1,6 @@
 # TO DO: TEST
 
-- name: Check Exadata Infrastructure variables are defined.
+- name: 'Check Exadata Infrastructure variables are defined.'
   assert:
     that:
       - exadata_type is defined
@@ -13,7 +13,7 @@
 
 - block:    # when backup_destination_type == 'NFS'
 
-  - name: Create NFS backup_destination
+  - name: 'Create NFS backup_destination'
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}NFS'
@@ -32,7 +32,7 @@
 
 - block:    # when backup_destination_type == 'RECOVERY_APPLICANCE'
 
-  - name: Create Recovery Applicance backup_destination
+  - name: 'Create Recovery Applicance backup_destination'
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}RA'
@@ -40,7 +40,7 @@
       connection_string: '{{ connection_string }}'
       vpc_users:
         -  '{{ vpc_user }}'
-    register: backup_destination_create_result
+    register: 'backup_destination_create_result'
   - debug:
       msg: '{{ backup_destination_create_result }}'
   - set_fact:

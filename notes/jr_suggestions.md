@@ -1,18 +1,15 @@
 https://confluence.oraclecorp.com/confluence/display/CDO/Ansible+Guidelines
 
-
 Inventory
 - Maintain at least 2 inventory, each split to a singular purpose. e.g. Inventory 1 = OCI, Inventory 2 = Linux & Windows OS
-- AWX can use the OCI inventory discovery tool from the OCI Ansible Collections. https://blogs.oracle.com/cloud-infrastructure/using-oracle-cloud-infrastructure-with-ansible-tower-and-awx
 
 AWX
-- One thing you will need to consider : AWX requires that you use the 'OPC' user account as the service account for Ansible to make change. This means all servers must use a SINGLE SSH KEY.
+- One thing you will need to consider: AWX requires that you use the 'OPC' user account as the service account for Ansible to make change. This means all servers must use a SINGLE SSH KEY.
 
-Pulling Data! 
-- Avoid using lineinfile, need to do Discovery!! Ansible Tower won't persist data. 
-- When writing Ansible there are a few things you should think about that are very old styles of thinking that if applied, you will get some fun behaviors. Inventory abuse is one of them. When you name objects, consider what everyone, including OCI documentation) considers to be bad form, and put the object type in the name of the object. Then make that object name, your inventory item as well. Now with your playbook run, you can use the regex feature to match the variable inventory_hostname against your tasks. Side effect : Automatic parallelization of your workload. Data structures are simplified to be only for the single object. Now you can treat the contents of your playbook as if you are operating a state machine on that single object. Role order in your playbook becomes your dependency chain enforcement.
+Pulling Data
+- When writing Ansible there are a few things you should think about that are very old styles of thinking that if applied, you will get some fun behaviors. Inventory abuse is one of them. When you name objects, consider what everyone, including OCI documentation) considers to be bad form, and put the object type in the name of the object. Then make that object name, your inventory item as well. Now with your playbook run, you can use the regex feature to match the variable inventory_hostname against your tasks. Side effect: Automatic parallelization of your workload. Data structures are simplified to be only for the single object. Now you can treat the contents of your playbook as if you are operating a state machine on that single object. Role order in your playbook becomes your dependency chain enforcement.
     - Every task bootstrap itself into discovery, determine if requirements exists, validate configuration is safe, and then and only then make the one change you need.
-    - Take VCN Local Peering into account you would use the following logic :
+    - Take VCN Local Peering into account you would use the following logic:
         look for VCN A by Name, discover OCID
         look for VCN B by Name, discover OCID
         Look for VCN A LPG by Name, idempotent assert it will exists

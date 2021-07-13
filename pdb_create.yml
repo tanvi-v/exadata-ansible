@@ -1,5 +1,4 @@
 
-
 - name: 'PDB Create'
   hosts: '{{ hostgroup }}'
   
@@ -10,7 +9,3 @@
     - name: 'Create PDB'
       include_role:
         name: 'pdb'
-
-#oracle_home: '/u02/app/oracle/product/19.0.0.0/dbhome_3/'
-#oracle_sid: 'TestCDB11'
-#oracle_unique_name: 'TestCDB1_phx249'

@@ -12,7 +12,9 @@ vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6
 # exacs_shape: 'Exadata.X8M'
 
 # # vm cluster
-# vm_cluster_name: 'tstExaVM'
+# vm_cluster_name: 'VM1'
+# vm_cluster_hostname: 'tstcluster'
+
 # vm_cluster_network_id: 'ocid1.vmcluster'
 # cpu_core_count: '4'
 # memory_size_in_gbs: '30'
@@ -24,8 +26,6 @@ vm_cluster_id: 'ocid1.dbsystem.oc1.phx.abyhqljsocyxodibkxdqsnkx3z5gu2lvjczhseei6
 # time_zone: 'PST'
 # gi_version: '19.1.0.0'
 # vm_cluster_cpu_count: '56'
-# vm_cluster_display_name: 'tstVMCluster'
-# vm_cluster_hostname: 'tstcluster'
 # gi_version: '19.0.0.0'
 
 # db_home

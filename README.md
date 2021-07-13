@@ -56,12 +56,6 @@ This codebase contains a set of playbooks that can be used individually or combi
     - vars_file
     - hostgroup (localhost or the name of a group from your inventory)
 
-**dataguard_setup.yml**
-- Description
-- Job Template Variables
-    - vars_file
-    - db_admin_password
-
 **db_backup.yml**
 - Description
 - Job Template Variables

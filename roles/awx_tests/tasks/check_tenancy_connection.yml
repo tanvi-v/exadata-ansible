@@ -1,4 +1,4 @@
 - name: 'Check Tenancy Connection'
   include_role:
-    name: networking
-    tasks_from: network_service_discovery.yml
+    name: 'networking'
+    tasks_from: 'network_service_discovery.yml'

@@ -1,5 +1,5 @@
 
-- name: Check Exadata Infrastructure variables are defined.
+- name: 'Check Exadata Infrastructure variables are defined.'
   assert:
     that:
       - exadata_type is defined
@@ -8,33 +8,33 @@
       # Should I add in a check for type == recovery_appliance, nfs, object_store, or local?
     fail_msg: 'Check to make sure variable exadata_type is defined as exacc. Check to make sure variable backup_destination_type is defined.'
 
-- name: Database Discovery
+- name: 'Database Discovery'
   when: database_id is not defined
   include_role:
-    name: database
-    tasks_from: db_discovery.yml
+    name: 'database'
+    tasks_from: 'db_discovery.yml'
 - name: 'Assert that database_id is defined'
   assert: { that: database_id is defined }
 
-- name: Set database backup destination to Object Store or Local
+- name: 'Set database backup destination to Object Store or Local'
   when: backup_destination_type == 'OBJECT_STORE' or backup_destination_type == 'LOCAL'
   oci_database_database:
     database_id: '{{ database_id }}'
     db_backup_config:
       backup_destination_details:
       - type: '{{ backup_destination_type }}'
-  register: backup_destination_add_result
+  register: 'backup_destination_add_result'
 - name: 'Backup Destination Output - Object Store or Local'
   debug:
     msg: '{{ backup_destination_add_result }}'
 
-- name: Backup Destination discovery
+- name: 'Backup Destination discovery'
   when: (backup_destination_id is not defined) and (backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS')
-  include_tasks: db_backup_destination_discovery.yml
+  include_tasks: 'db_backup_destination_discovery.yml'
 - name: 'Assert that backup_destination_id is defined for Recovery Appliance or NFS backups'
   assert: { that: backup_destination_id is defined }
 
-- name: Set database backup destination to NFS
+- name: 'Set database backup destination to NFS'
   oci_database_database:
     when: backup_destination_type == 'NFS'
     database_id: '{{ database_id }}'
@@ -42,12 +42,12 @@
       backup_destination_details:
       - id: '{{ backup_destination_id }}'
         type: '{{ backup_destination_type }}'
-  register: backup_destination_add_result
+  register: 'backup_destination_add_result'
 - name: 'Backup Destination Output - NFS'
   debug:
     msg: '{{ backup_destination_add_result }}'
 
-- name: Set database backup destination to Recovery Appliance
+- name: 'Set database backup destination to Recovery Appliance'
   oci_database_database:
     when: backup_destination_type == 'Recovery_Appliance'
     database_id: '{{ database_id }}'
@@ -57,7 +57,7 @@
         type: '{{ backup_destination_type }}'
         vpc_user: '{{ vpc_user }}'
         vpc_password: '{{ vpc_password }}'
-  register: backup_destination_add_result
+  register: 'backup_destination_add_result'
 - name: 'Backup Destination Output - Recovery Appliance'
   debug:
     msg: '{{ backup_destination_add_result }}'
