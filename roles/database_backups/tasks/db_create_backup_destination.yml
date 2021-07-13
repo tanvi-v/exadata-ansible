@@ -17,6 +17,7 @@
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}NFS'
+      key_by: ['compartment_id', display_name']
       type: '{{ backup_destination_type }}'
       mount_type_details:
         mount_type: 'SELF_MOUNT'
@@ -36,6 +37,7 @@
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}RA'
+      key_by: ['compartment_id', display_name']
       type: '{{ backup_destination_type }}'
       connection_string: '{{ connection_string }}'
       vpc_users:

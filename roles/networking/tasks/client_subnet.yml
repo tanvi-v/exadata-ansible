@@ -9,20 +9,13 @@
       - default_security_list_id is defined
     fail_msg: 'VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs.'
 
-# Check to make sure Subnet has not already been created / no Subnet exists with the same name
-
-- name: Subnet discovery
-  include_tasks: subnet_discovery.yml
-  vars:
-    subnet_name: '{{ workload_tag }}ClientSubnet'
-- assert: { that: subnet_id is not defined }
-
 # Create Networking for Private Client Subnet
 
 - block:      # client subnet type is private
   
   - name: Create nat gateway
     oci_network_nat_gateway:
+      key_by: ['vcn_id', 'display_name']
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}NG'
@@ -34,6 +27,7 @@
       
   - name: Create client route table
     oci_network_route_table:
+      key_by: ['vcn_id', 'display_name']
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}ClientRT'
@@ -58,6 +52,7 @@
 
   - name: Create internet gateway
     oci_network_internet_gateway:
+      key_by: ['vcn_id', 'display_name']
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}IG'
@@ -70,6 +65,7 @@
   
   - name: Create client route table
     oci_network_route_table:
+      key_by: ['vcn_id', 'display_name']
       compartment_id: '{{ compartment_id }}'
       vcn_id: '{{ vcn_id }}'
       display_name: '{{ workload_tag }}ClientRT'
@@ -89,6 +85,7 @@
 
 - name: Create client security list
   oci_network_security_list:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     display_name: '{{ workload_tag }}ClientSL'
@@ -110,6 +107,7 @@
 
 - name: Create client subnet
   oci_network_subnet:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ client_subnet_cidr_block }}'

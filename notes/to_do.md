@@ -32,7 +32,7 @@ Roles to clean
 - pdb
 
 
-Tuesday: Fix Error, make sure key_by works, see if "null" works
+Tuesday: see if "null" works as a variable being passed in
 Wednesday: Add in the additional fields to be null
 
 

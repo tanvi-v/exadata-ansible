@@ -1,6 +1,7 @@
 
 - name: Create cloud exadata infrastructure
   oci_database_cloud_exadata_infrastructure:
+    key_by: ['compartment_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ exacs_name }}'
     shape: '{{ exacs_shape }}'

@@ -9,18 +9,11 @@
       - default_security_list_id is defined
     fail_msg: 'VCN values not defined. Please run vcn_subnets.yml and pass in vcn, route table, and security list OCIDs.'
 
-# Check to make sure Subnet has not already been created / no Subnet exists with the same name
-
-- name: Subnet discovery
-  include_tasks: subnet_discovery.yml
-  vars:
-    subnet_name: '{{ workload_tag }}BackupSubnet'
-- assert: { that: subnet_id is not defined }
-
 # Create Networking for Private Backup Subnet
 
 - name: Create service gateway
   oci_network_service_gateway:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     display_name: '{{ workload_tag }}SG'
@@ -34,6 +27,7 @@
     
 - name: Create backup route table
   oci_network_route_table:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     display_name: '{{ workload_tag }}BackupRT'
@@ -49,6 +43,7 @@
     
 - name: Create backup security list
   oci_network_security_list:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     display_name: '{{ workload_tag }}BackupSL'
@@ -79,6 +74,7 @@
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
+    key_by: ['vcn_id', 'display_name']
     compartment_id: '{{ compartment_id }}'
     vcn_id: '{{ vcn_id }}'
     cidr_block: '{{ backup_subnet_cidr_block }}'
