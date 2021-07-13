@@ -17,8 +17,7 @@
     vm_cluster_id: '{{ vm_cluster_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
     db_version: '{{ db_version }}'
-    key_by:
-      - 'display_name'
+    key_by: ['vm_cluster_id', 'display_name']
   register: db_home_create_result
 - debug:
     msg: '{{ db_home_create_result }}'
