@@ -1,6 +1,6 @@
 
 # Playbook networking_teardown.yml terminates a basic database network by calling the individual task networking_teardown from the networking role.
-# Assumes that you used the networking role to set-up the environment and pulls generated OCIDs from vars/networking_ocids.yml
+# Assumes that you used the networking role to set-up the environment.
 
 - name: 'Networking teardown'
   hosts: 'localhost'

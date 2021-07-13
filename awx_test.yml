@@ -1,5 +1,5 @@
 
-- name: 'Basic Test'
+- name: 'AWX Test'
   hosts: '{{ hostgroup }}'
   gather_facts: 'no'
 

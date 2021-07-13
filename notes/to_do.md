@@ -1,18 +1,11 @@
 
 Code Development
-- Bastion
-    - Set up Bastion Server for ExaCC final and ExaCS testing
-    - Consider using Bastion SERVICE instead?
-- Make PDB without dbaascli --> DBCA
+- Make PDB without dbaascli --> DBCA or wait until July 15th for new Service
 - ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
 - Additional Database/PDB Set-Up
 - Playbook to call FPP --> Depends on how FPP is set-up
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard, change from single job to workflow, broken up
 - Add Loops??? To run for multiple variable files? Unsure
-
-Santosh Questions
-- Using dynamic inventory: DB nodes?
-- Should region be a field? Cross region operations?
 
 Code Organization
 - Set up group_vars for host based operations (such as PDB)... consider moving other variables to that location as well

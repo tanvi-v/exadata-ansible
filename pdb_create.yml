@@ -1,7 +1,4 @@
 
-# Run this playbook with the following command in order to set the variable pdb_password:
-
-#     ansible-playbook pdb_create.yml --extra-vars 'pdb_password=<pdb_password>'
 
 - name: 'PDB Create'
   hosts: '{{ hostgroup }}'
