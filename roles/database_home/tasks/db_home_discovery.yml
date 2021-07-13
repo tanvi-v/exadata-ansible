@@ -1,8 +1,8 @@
 - name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
   when: vm_cluster_id is not defined
   include_role:
-    name: database_home
-    tasks_from: db_home_discovery.yml
+    name: exacs_vm_cluster
+    tasks_from: exacs_vm_cluster_discovery.yml
 - assert: { that: vm_cluster_id is defined }
 
 - name: 'Discover DB Home {{ workload_tag }}{{ db_home_name }}'

@@ -1,13 +1,13 @@
 
-- name: 'Check for existing DB Home with name {{ workload_tag }}{{ db_home_name }}'
-  include_tasks: db_home_discovery.yml
-- assert: { that: db_home_id is not defined }
+# - name: 'Check for existing DB Home with name {{ workload_tag }}{{ db_home_name }}'
+#   include_tasks: db_home_discovery.yml
+# - assert: { that: db_home_id is not defined }
 
 - name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
   when: vm_cluster_id is not defined
   include_role:
-    name: database_home
-    tasks_from: db_home_discovery.yml
+    name: exacs_vm_cluster
+    tasks_from: exacs_vm_cluster_discovery.yml
 - assert: { that: vm_cluster_id is defined }
 
 - name: 'Create db home with name {{ workload_tag }}{{ db_home_name }}'
@@ -17,6 +17,8 @@
     vm_cluster_id: '{{ vm_cluster_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
     db_version: '{{ db_version }}'
+    key_by:
+      - 'display_name'
   register: db_home_create_result
 - debug:
     msg: '{{ db_home_create_result }}'
