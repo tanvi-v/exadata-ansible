@@ -9,6 +9,7 @@
   oci_database_db_home_facts:
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
+    vm_cluster_id: '{{ vm_cluster_id }}'
   register: db_home_discovery_result
 - debug:
     msg: '{{ db_home_discovery_result }}'
