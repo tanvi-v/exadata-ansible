@@ -6,6 +6,8 @@
 
 - name: 'Assert that db_home_id is defined'
   assert: { that: db_home_id is defined }
+  debug:
+    msg: '{{ db_home_id }}'
 
 - name: 'Create {{ workload_tag }}{{ db_name }} database'
   oci_database_database:
