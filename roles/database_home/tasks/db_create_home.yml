@@ -12,6 +12,8 @@
     db_version: '{{ db_version }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
     key_by: ['vm_cluster_id', 'display_name']
+    kms_key_id: '{{ kms_key_id }}'
+    kms_key_version_id: '{{ kms_key_version_id }}'
     source: 'VM_CLUSTER_NEW'
     vm_cluster_id: '{{ vm_cluster_id }}'
   register: db_home_create_result
