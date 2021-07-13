@@ -1,8 +1,8 @@
 
-- name: 'Check for existing DB with name {{ workload_tag }}{{ db_name }}'
-  include_tasks: 'db_discovery.yml'
-- name: 'Assert that database_id is not defined'
-  assert: { that: database_id is not defined }
+# - name: 'Check for existing DB with name {{ workload_tag }}{{ db_name }}'
+#   include_tasks: 'db_discovery.yml'
+# - name: 'Assert that database_id is not defined'
+#   assert: { that: database_id is not defined }
 
 - name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
   when: db_home_id is not defined
@@ -11,8 +11,6 @@
     tasks_from: 'db_home_discovery.yml'
 - name: 'Assert that db_home_id is defined'
   assert: { that: db_home_id is defined }
-- debug:
-    msg: '{{ db_home_id }}'
 
 - name: 'Create {{ workload_tag }}{{ db_name }} database'
   oci_database_database:
@@ -22,6 +20,7 @@
     database:
       admin_password: '{{ db_admin_password }}'
       db_name: '{{ workload_tag }}{{ db_name }}'
+    key_by: ['db_home_id', 'db_name']
   register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:
