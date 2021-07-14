@@ -1,16 +1,11 @@
 
-# Set-Up Exadata Infrastructure
+# Set-Up Exadata cloud Service Infrastructure
 
 - name: 'Check Exadata Type variable.'
   assert:
     that:
-      - exadata_type is defined
-      - exadata_type == 'exacs' or exadata_type == 'exacs'
-    fail_msg: 'Define variable exadata_type to be exacc or exacs.'
-
-- name: Create ExaCC Infrastructure
-  include_tasks: exacc_create_infra.yml
-  when: exadata_type == 'exacc'
+      - exadata_type is defined and exadata_type == 'exacs'
+    fail_msg: 'Define variable exadata_type to be exacs.'
 
 - name: Create ExaCS Infrastructure
   include_tasks: exacs_create_infra.yml
