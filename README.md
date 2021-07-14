@@ -20,6 +20,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 3. Set-Up Inventory
     - Create Groups
     - Add ssh variables
+    
 
 
 ## Using Ansible with AWX
@@ -56,8 +57,24 @@ This codebase contains a set of playbooks that can be used individually or combi
     - vars_file
     - hostgroup (localhost or the name of a group from your inventory)
 
-**db_backup.yml**
-- Description
+**networking_setup.yml**
+- Creates a network for Exadata Cloud Service environment by calling the networking role. Includes a public subnet option (for testing) and a private subnet option (for production), defined by the variable prohibit_public_ip_on_vnic.
+- Job Template Variables
+    - vars_file
+
+**networking_teardown.yml**
+- Terminates a basic ExaCS network by calling the individual task networking_teardown from the networking role. Assumes that you used the networking role to set-up the environment.
+- Job Template Variables
+    - vars_file
+
+**exacs_setup.yml**
+- Creates an Exadata Cloud Service environment by spinning up the ExaCS Infrastructure and ExaCS VM Cluster. 
+- Job Template Variables
+    - vars_file
+    - ssh_public_keys (for VM Cluster creation)
+
+**exacc_setup.yml**
+- Creates an Exadata Cloud at Customer environment by calling the Exadata VM Cluster role. Assumes that the Exadata Infrastructure has already been provisioned by Oracle.
 - Job Template Variables
     - vars_file
 
@@ -77,24 +94,8 @@ This codebase contains a set of playbooks that can be used individually or combi
 - Job Template Variables
     - vars_file
 
-**exacc_setup.yml**
-- Creates an Exadata Cloud at Customer environment by calling the Exadata VM Cluster role. Assumes that the Exadata Infrastructure has already been provisioned by Oracle.
-- Job Template Variables
-    - vars_file
-
-**exacs_setup.yml**
-- Creates an Exadata Cloud Service environment by spinning up the ExaCS Infrastructure and ExaCS VM Cluster. 
-- Job Template Variables
-    - vars_file
-    - ssh_public_keys (for VM Cluster creation)
-
-**networking_setup.yml**
-- Creates a network for Exadata Cloud Service environment by calling the networking role. Includes a public subnet option (for testing) and a private subnet option (for production), defined by the variable prohibit_public_ip_on_vnic.
-- Job Template Variables
-    - vars_file
-
-**networking_teardown.yml**
-- Terminates a basic ExaCS network by calling the individual task networking_teardown from the networking role. Assumes that you used the networking role to set-up the environment.
+**db_backup.yml**
+- Description
 - Job Template Variables
     - vars_file
 

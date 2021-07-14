@@ -1,8 +1,15 @@
 # Database Creation
 character_set: 'AL32UTF8'
 database_software_image_id: null
+db_backup_config: null
 db_workload: 'OLTP'
+defined_tags: null
+freeform_tags: null
+ncharacter_set: null
+pdb_name: null
+tde_wallet_password: null
+db_version: null
 kms_key_id: null
 kms_key_version_id: null
-ncharacter_set: null
-tde_wallet_password: null
+source: 'NONE'
+    

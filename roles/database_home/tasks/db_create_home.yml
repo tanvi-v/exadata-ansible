@@ -15,10 +15,12 @@
     key_by: ['vm_cluster_id', 'display_name']
     kms_key_id: '{{ kms_key_id }}'
     kms_key_version_id: '{{ kms_key_version_id }}'
-    source: 'VM_CLUSTER_NEW'
+    source: '{{ source }}'
     vm_cluster_id: '{{ vm_cluster_id }}'
   register: db_home_create_result
 - debug:
     msg: '{{ db_home_create_result }}'
 - set_fact:
     db_home_id: '{{ db_home_create_result.db_home.id }}'
+
+# TO DO: DIFFERENT SOURCE
