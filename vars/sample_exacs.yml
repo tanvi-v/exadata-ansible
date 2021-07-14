@@ -1,0 +1,16 @@
+# GENERAL REQUIRED VARIABLES
+exadata_type: 'exacs'                 # exacs, exacc
+compartment_id: 'ocid...'
+workload_tag: 'tag1'
+
+# EXACS INFRA REQUIRED VARIABLES
+exacs_name: 'Exa1'
+
+# DATABASE REQUIRED VARIABLES
+db_name: 'DB1'
+
+# DATABASE HOME REQUIRED VARIABLES
+db_home_name: 'home1'
+
+# PDB REQUIRED VARIABLES
+pdb_name: 'PDB2'

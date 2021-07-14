@@ -1,0 +1,12 @@
+# BACKUP DESTINATIONS REQUIRED VARIABLES
+backup_destination_type: 'OBJECT_STORE'             # OBJECT_STORE, LOCAL, NFS, RECOVERY_APPLIANCE
+
+# backup_destination_type is NFS
+mount_type: 'SELF_MOUNT'                            # SELF_MOUNT, AUTOMATED_MOUNT
+local_mount_point_path: 'local_mount_point_path'    # required when mount_type is SELF_MOUNT
+nfs_server: 'nfs_server'                            # required when mount_type is AUTOMATED_MOUNT
+nfs_server_export: 'nfs_server_export'              # required when mount_type is AUTOMATED_MOUNT
+
+# backup_destination_type is RECOVERY_APPLIANCE
+connection_string: 'connection_string'
+vpc_users: ['vpc_user1', 'vpc_user2']

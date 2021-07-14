@@ -11,4 +11,4 @@
     subnet_id: '{{ subnet_discovery_result.subnets[0].id }}'
     subnet_route_table_id: '{{ subnet_discovery_result.subnets[0].route_table_id }}'
     subnet_security_list_ids: '{{ subnet_discovery_result.subnets[0].security_list_ids }}'
-  when: subnet_discovery_result.subnets|length > 0 
+  when: subnet_discovery_result.subnets|length == 1 

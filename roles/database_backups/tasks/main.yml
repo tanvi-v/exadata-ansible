@@ -1,8 +1,5 @@
 - name: 'Check Exadata Infrastructure variable.'
-  assert:
-    that:
-      - exadata_type is defined
-      - exadata_type == 'exacc' or exadata_type == 'exacs'
+  assert: { that: exadata_type is defined and (exadata_type == 'exacc' or exadata_type == 'exacs') }
 
 # ExaCC Backups
 
@@ -29,7 +26,7 @@
 
 - name: Enable automatic backups
   when: auto_backup_enabled is defined and auto_backup_enabled == 'true'
-  include_tasks: db_enable_automatic_backup.yml
+  include_tasks: 'db_enable_automatic_backup.yml'
   
 
 

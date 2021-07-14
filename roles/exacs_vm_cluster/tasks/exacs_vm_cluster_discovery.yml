@@ -21,6 +21,6 @@
   - set_fact: 
       vm_cluster_id: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].id }}'
       vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].lifecycle_state }}'
-    when: vm_cluster_discovery_result.cloud_vm_clusters|length > 0
+    when: vm_cluster_discovery_result.cloud_vm_clusters|length == 1
   when: vm_cluster_id is not defined 
 

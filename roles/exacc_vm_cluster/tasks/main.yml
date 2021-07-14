@@ -9,5 +9,4 @@
 
 - name: Create ExaCC VM Cluster
   include_tasks: exacc_create_vm_cluster.yml
-  when: exadata_type == 'exacc'
     

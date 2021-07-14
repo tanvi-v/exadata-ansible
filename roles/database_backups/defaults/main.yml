@@ -1,0 +1,17 @@
+# optional variables for add backup destination
+internet_proxy: null
+
+# create backup destination defaults
+mount_type: 'SELF_MOUNT'
+local_mount_point_path: null
+nfs_server: null
+nfs_server_export: null
+
+# optional variables for create backup destination
+backup_destination_freeform_tags: null
+
+# optional variables for automatic backups
+auto_backup_window: null
+recovery_window_in_days: null
+
+

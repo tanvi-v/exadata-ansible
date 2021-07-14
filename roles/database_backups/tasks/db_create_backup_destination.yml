@@ -1,28 +1,32 @@
-# TO DO: TEST
+# Check variable backup_destination_type
 
-- name: 'Check Exadata Infrastructure variables are defined.'
+- name: 'Check Backup Destination Type is defined.'
   assert:
     that:
-      - exadata_type is defined
-      - exadata_type == 'exacc'
       - backup_destination_type is defined
-      - backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS'
-    fail_msg: >
-      Check to make sure variable exadata_type is defined as exacc. 
-      Check to make sure variable backup_destination_type is defined as RECOVERY_APPLIANCE or NFS.
+      - backup_destination_type == 'OBJECT_STORE' or backup_destination_type == 'LOCAL' or backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS'
+    fail_msg: 'Check to make sure variable backup_destination_type is defined correctly.'
 
-- block:    # when backup_destination_type == 'NFS'
+
+# Create Backup Destination Type NFS
+# If mount type is 'SELF_MOUNT', local_mount_point_path should be defined.
+# If mount type is 'AUTOMATED_MOUNT', nfs_server and nfs_server_export should be defined.
+
+- block:
 
   - name: 'Create NFS backup_destination'
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       display_name: '{{ workload_tag }}NFS'
+      freeform_tags: '{{ backup_destination_freeform_tags }}'
       key_by: ['compartment_id', display_name']
       type: '{{ backup_destination_type }}'
       mount_type_details:
-        mount_type: 'SELF_MOUNT'
+        mount_type: '{{ mount_type }}'
         local_mount_point_path: '{{ local_mount_point_path }}'
-    register: backup_destination_create_result
+        nfs_server: '{{ nfs_server }}'
+        nfs_server_export: '{{ nfs_server_export }}'
+    register: 'backup_destination_create_result'
   - debug:
       msg: '{{ backup_destination_create_result }}'
   - set_fact:
@@ -31,17 +35,19 @@
   when: backup_destination_type == 'NFS'
 
 
-- block:    # when backup_destination_type == 'RECOVERY_APPLICANCE'
+# Create Backup Destination Type RECOVERY_APPLIANCE
+
+- block:
 
   - name: 'Create Recovery Applicance backup_destination'
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
+      connection_string: '{{ connection_string }}'
       display_name: '{{ workload_tag }}RA'
+      freeform_tags: '{{ backup_destination_freeform_tags }}'
       key_by: ['compartment_id', display_name']
       type: '{{ backup_destination_type }}'
-      connection_string: '{{ connection_string }}'
-      vpc_users:
-        -  '{{ vpc_user }}'
+      vpc_users: '{{ vpc_users }}'
     register: 'backup_destination_create_result'
   - debug:
       msg: '{{ backup_destination_create_result }}'

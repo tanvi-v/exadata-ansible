@@ -10,4 +10,4 @@
     vcn_id: '{{ vcn_discovery_result.vcns[0].id}}'
     default_route_table_id: '{{ vcn_discovery_result.vcns[0].default_route_table_id}}'
     default_security_list_id: '{{ vcn_discovery_result.vcns[0].default_security_list_id}}'
-  when: vcn_discovery_result.vcns|length > 0 
+  when: vcn_discovery_result.vcns|length == 1 

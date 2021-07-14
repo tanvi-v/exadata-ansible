@@ -1,4 +1,7 @@
-# Database Creation
+# database creation default
+source: 'NONE'
+
+# optional variables for database creation
 character_set: 'AL32UTF8'
 database_software_image_id: null
 db_backup_config: null
@@ -11,5 +14,5 @@ tde_wallet_password: null
 db_version: null
 kms_key_id: null
 kms_key_version_id: null
-source: 'NONE'
+
     

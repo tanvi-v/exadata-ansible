@@ -1,5 +1,15 @@
+# Check Backup Destination Type variable
 
-- block:      # when backup_destination_type == 'NFS'
+- name: 'Check Backup Destination Type is defined.'
+  assert:
+    that:
+      - backup_destination_type is defined
+      - backup_destination_type == 'RECOVERY_APPLIANCE' or backup_destination_type == 'NFS'
+    fail_msg: 'Check to make sure variable backup_destination_type is defined correctly.'
+
+# Discover Backup Destination Type NFS
+
+- block:
 
   - name: 'List backup_destinations of type NFS'
     oci_database_backup_destination_facts:
@@ -12,12 +22,14 @@
       msg: '{{ backup_destination_discovery_result }}'
   - set_fact: 
       backup_destination_id: '{{ backup_destination_discovery_result.backup_destinations[0].id}}'
-    when: backup_destination_discovery_result.backup_destinations|length > 0 
+    when: backup_destination_discovery_result.backup_destinations|length == 1 
   
   when: backup_destination_type is defined and backup_destination_type == 'NFS'
 
 
-- block:      # when backup_destination_type == 'RECOVERY_APPLICANCE'
+# Discover Backup Destination Type RECOVERY_APPLIANCE
+
+- block:
 
   - name: 'List backup_destinations of type Recovery Appliance'
     oci_database_backup_destination_facts:
@@ -30,6 +42,6 @@
       msg: '{{ backup_destination_discovery_result }}'
   - set_fact: 
       backup_destination_id: '{{ backup_destination_discovery_result.backup_destinations[0].id}}'
-    when: backup_destination_discovery_result.backup_destinations|length > 0 
+    when: backup_destination_discovery_result.backup_destinations|length == 1 
   
   when: backup_destination_type is defined and backup_destination_type == 'RECOVERY_APPLICANCE'

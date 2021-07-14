@@ -39,7 +39,7 @@
     msg: '{{ nat_gw_discovery_result }}'
 - set_fact: 
     nat_gateway_id: '{{ nat_gw_discovery_result.nat_gateways[0].id}}'
-  when: nat_gw_discovery_result.nat_gateways|length > 0 
+  when: nat_gw_discovery_result.nat_gateways|length == 1 
 
 - name: Delete nat gateway
   when: nat_gateway_id is defined
@@ -57,7 +57,7 @@
     msg: '{{ internet_gw_discovery_result }}'
 - set_fact: 
     internet_gateway_id: '{{ internet_gw_discovery_result.internet_gateways[0].id}}'
-  when: internet_gw_discovery_result.internet_gateways|length > 0 
+  when: internet_gw_discovery_result.internet_gateways|length == 1 
 
 - name: Delete internet gateway
   when: internet_gateway_id is defined
@@ -118,7 +118,7 @@
     msg: '{{ service_gw_discovery_result }}'
 - set_fact: 
     service_gateway_id: '{{ service_gw_discovery_result.service_gateways[0].id}}'
-  when: service_gw_discovery_result.service_gateways|length > 0 
+  when: service_gw_discovery_result.service_gateways|length == 1 
 
 - name: Delete service gateway
   when: service_gateway_id is defined
@@ -159,7 +159,7 @@
 #     msg: '{{ result }}'
 # - set_fact: 
 #     drg_id: '{{ result.drgs[0].id}}'
-#   when: result.drgs|length > 0 
+#   when: result.drgs|length == 1 
 
 # - block:   # when drg_id is defined
 
@@ -174,7 +174,7 @@
 #       msg: '{{ result }}'
 #   - set_fact: 
 #       rpc_id: '{{ result.remote_peering_connections[0].id}}'
-#     when: result.remote_peering_connections|length > 0 
+#     when: result.remote_peering_connections|length == 1 
 
 #   - name: Delete remote peering connection
 #     when: rpc_id is defined
@@ -195,7 +195,7 @@
 #       msg: '{{ result }}'
 #   - set_fact: 
 #       drg_attachment_id: '{{ result.drg_attachments[0].id}}'
-#     when: result.drg_attachments|length > 0 
+#     when: result.drg_attachments|length == 1 
 
 #   - name: Delete drg_attachment
 #     when: drg_attachment_id is defined

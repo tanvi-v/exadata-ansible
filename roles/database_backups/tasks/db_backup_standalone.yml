@@ -1,7 +1,3 @@
-# TO DO: TEST 
-
-- name: 'Check Exadata Infrastructure is defined and type exacs.'
-  assert: { that: exadata_type is defined and exadata_type == 'exacs' }
 
 - name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
@@ -14,6 +10,7 @@
   oci_database_backup:
     database_id: '{{ database_id }}'
     display_name: '{{ workload_tag }}Bkup'
+    key_by: ['database_id', 'display_name']
   register: 'db_backup_create_result'
 - debug:
     msg: '{{ db_backup_create_result }}'

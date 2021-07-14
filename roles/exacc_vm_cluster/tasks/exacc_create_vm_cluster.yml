@@ -5,7 +5,7 @@
   assert:
     that:
       - exadata_infrastructure_id is defined
-    fail_msg: 'exadata_infrastructure_id value not defined. Please run create_exacc.yml and pass in ExaCC OCID.'
+    fail_msg: 'exadata_infrastructure_id value not defined.'
 
 - name: Create vm cluster
   oci_database_vm_cluster:
