@@ -1,6 +1,4 @@
 
-# Check VM Cluster state
-
 - name: 'Check Tenancy Connection'
   when: hostgroup == 'localhost'
   include_tasks: 'check_tenancy_connection.yml'

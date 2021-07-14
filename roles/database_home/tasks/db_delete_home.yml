@@ -9,7 +9,7 @@
   when: db_home_id is defined and db_home_lifecycle_state == 'AVAILABLE'
   oci_database_db_home:
     db_home_id: '{{ db_home_id }}'
-    state: absent
-  register: db_home_delete_result
+    state: 'absent'
+  register: 'db_home_delete_result'
 - debug:
     msg: '{{ db_home_delete_result }}'

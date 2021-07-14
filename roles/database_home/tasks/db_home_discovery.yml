@@ -1,8 +1,8 @@
 - name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
-  when: vm_cluster_id is not defined
+  when: vm_cluster_id is not defined and exadata_type is defined
   include_role:
-    name: exacs_vm_cluster
-    tasks_from: exacs_vm_cluster_discovery.yml
+    name: '{{ exadata_type }}_vm_cluster'
+    tasks_from: '{{ exadata_type }}_vm_cluster_discovery.yml'
 - assert: { that: vm_cluster_id is defined }
 
 - name: 'Discover DB Home {{ workload_tag }}{{ db_home_name }}'
@@ -10,7 +10,7 @@
     compartment_id: '{{ compartment_id }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
     vm_cluster_id: '{{ vm_cluster_id }}'
-  register: db_home_discovery_result
+  register: 'db_home_discovery_result'
 - debug:
     msg: '{{ db_home_discovery_result }}'
 - set_fact: 

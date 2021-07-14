@@ -1,28 +1,32 @@
 
 # Check VM Cluster state
 
-- name: 'Check ExaCC VM Cluster Lifecycle State'
-  when: exadata_type is defined and exadata_type == 'exacc'
-  include_role:
-    name: exacc_vm_cluster
-    tasks_from: exacc_vm_cluster_discovery.yml
+# - name: 'Check ExaCC VM Cluster Lifecycle State'
+#   when: exadata_type is defined and exadata_type == 'exacc'
+#   include_role:
+#     name: exacc_vm_cluster
+#     tasks_from: exacc_vm_cluster_discovery.yml
 
-- name: 'Check ExaCS VM Cluster Lifecycle State'
-  when: exadata_type is defined and exadata_type == 'exacs'
+# - name: 'Check ExaCS VM Cluster Lifecycle State'
+#   when: exadata_type is defined and exadata_type == 'exacs'
+#   include_role:
+#     name: exacs_vm_cluster
+#     tasks_from: exacs_vm_cluster_discovery.yml
+
+- name: 'Check VM Cluster Lifecycle State'
+  when: exadata_type is defined
   include_role:
-    name: exacs_vm_cluster
-    tasks_from: exacs_vm_cluster_discovery.yml
+    name: '{{ exadata_type }}_vm_cluster'
+    tasks_from: '{{ exadata_type }}_vm_cluster_discovery.yml'
 
 - name: 'Check that VM Cluster is available'
   assert:
-    that:
-      - vm_cluster_lifecycle_state is defined
-      - vm_cluster_lifecycle_state == 'AVAILABLE'
+    that: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == 'AVAILABLE'
     fail_msg: 'VM Cluster is not in AVAILABLE state. Please run playbook again once running vm task has finished.'
 
 # Create Database Home
 
 - name: 'Create DB Home' 
-  include_tasks: db_create_home.yml
+  include_tasks: 'db_create_home.yml'
     
     
