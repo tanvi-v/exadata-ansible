@@ -15,9 +15,11 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 
 2. Set-Up Project
     - Sync Git Repo
-    - Sync Dynamic Inventory
+    - Set-up basic inventory
+    - Run install_python_sdk.yml playbook
 
 3. Set-Up Inventory
+    - Sync Dynamic Inventory
     - Create Groups
     - Add ssh variables
     
@@ -30,7 +32,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 1. Create a Job Template
 
 2. Define Variables
-    - vars_file: File name for variables to be used for that playbook. Workload specfic. Be sure to edit these files to set variables such as workload_tag (used for naming resources) and database parameters. Path to the vars_file has already been included in the code, just have to provide the actual file name. 
+    - vars_file: File name for variables to be used for that playbook. Workload specfic. Be sure to edit these files to set variables such as workload_tag (used for naming resources) and database parameters. Path to the vars_file has already been included in the code, just have to provide the actual file name (ex: sample_exacs.yml). 
     - hostgroup: Host group to run DB operations on. Currently only required for PDB operations (other playbooks are for provisioning so use localhost).
     - additional variables: These variables are only defined at runtime, not stored in a file. Check out the Playbooks below for instructions on which plays require additional variables.
 
@@ -43,22 +45,21 @@ Creating a workflow instead of running an individual job allows you to automate 
 
 This codebase contains a set of playbooks that can be used individually or combined into a workflow for ExaCS and ExaCC Set-up. Each playbook references ansible roles (an ansible file structure used to group reusable components). Each ansible role folder contains three subdirectories - tasks, defaults, and meta. 
 
-- Tasks: Contains a main.yml file that will be automatically called if the role is invoked along with individual tasks to be reused.
-- Defaults: Default variable values for the tasks in that role. These variables have the least precedence and will be overrided by any variables defined in the included variable file or in the ansible job template. 
+- Tasks: Contains a main.yml file that will be automatically called if the role is invoked. Also contains reusable standalone tasks.
+- Defaults: Default variable values for the tasks in that role. These variables have the least precedence and will be overrided by any variables defined in the included variable file (vars_file) or in the ansible job template. Many of these variables are set as null as they are optional variables for the oci tasks and it is your choice whether to define them. For required variables, check the comments on the sample vars_files or the oracle.oci ansible documentation. 
 - Meta: Sets collection oracle.oci
-
 
 
 ### Playbooks
 
 **awx_test.yml**
-- This playbook checks to see if your ansible environment has been set-up correctly. First pulls information about Network services to ensure your OCI credentials are working, then it pulls information about your compartment to ensure your variable file was defined, and then finally (if a group with hosts is defined) runs a simple shell command to make sure the inventory has been set-up correctly.
+- Tests if your ansible environment has been set-up correctly. If running from localhost, pulls Network services information to check if your OCI credentials are working and pulls compartment information to check if your variable file was defined. If running from a host, runs a simple shell command to make sure the inventory has been set-up correctly.
 - Job Template Variables
     - vars_file
     - hostgroup (localhost or the name of a group from your inventory)
 
 **networking_setup.yml**
-- Creates a network for Exadata Cloud Service environment by calling the networking role. Includes a public subnet option (for testing) and a private subnet option (for production), defined by the variable prohibit_public_ip_on_vnic.
+- Creates a network for Exadata Cloud Service environment by calling the networking role. Two options for primary ExaCS subnet: a public subnet for testing instances and a private subnet for production instances, defined by the variable prohibit_public_ip_on_vnic.
 - Job Template Variables
     - vars_file
 
@@ -79,13 +80,13 @@ This codebase contains a set of playbooks that can be used individually or combi
     - vars_file
 
 **db_create.yml**
-- Description
+- Creates a new database. Assumes that the database home has already been created.
 - Job Template Variables
     - vars_file
     - db_admin_password
 
 **db_home_create.yml**
-- Description
+- Creates a new database home. Assumes that the VM cluster has already been created.
 - Job Template Variables
     - vars_file
 
@@ -100,35 +101,14 @@ This codebase contains a set of playbooks that can be used individually or combi
     - vars_file
 
 **pdb_create.yml**
-- Description
+- Creates a new pdb. Assumes that the database has already been created.
 - Job Template Variables
     - vars_file
     - hostgroup
     - pdb_password
 
 **pdb_delete.yml**
-- Description
+- Deletes the pdb.
 - Job Template Variables
     - vars_file
     - hostgroup
-
-
-### Roles
-
-awx_tests
-
-database
-
-database_backups
-
-database_home
-
-exacc_vm_cluster
-
-exacs_infra
-
-exacs_vm_cluster
-
-networking
-
-pdb

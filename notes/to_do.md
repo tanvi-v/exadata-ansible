@@ -21,18 +21,11 @@ Ansible Best Practices / Clean-Up
 
 
 Roles to clean (comments, names, alphabetical, single parameters)
-- database_backups
-- database_home
 - exacc_vm_cluster
 - exacs_infra
 - exacs_vm_cluster
 - networking
 - pdb
-
-
-Tuesday: see if "null" works as a variable being passed in
-Wednesday: Add in the additional fields to be null
-
 
 PDB NOTES (SANTOSH)
 (always assume need to reset everything for each shell command. Always use absolute paths!)
