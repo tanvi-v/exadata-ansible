@@ -15,9 +15,7 @@
 
 - name: 'Check that VM Cluster is available'
   assert:
-    that:
-      - vm_cluster_lifecycle_state is defined
-      - vm_cluster_lifecycle_state == 'AVAILABLE'
+    that: vm_cluster_lifecycle_state is defined and vm_cluster_lifecycle_state == 'AVAILABLE'
     fail_msg: 'VM Cluster is not in AVAILABLE state. Please run playbook again once current vm task has finished.'
 
 # Create Database

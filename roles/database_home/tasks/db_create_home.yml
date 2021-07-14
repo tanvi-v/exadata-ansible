@@ -6,6 +6,8 @@
     tasks_from: exacs_vm_cluster_discovery.yml
 - assert: { that: vm_cluster_id is defined }
 
+# Source is VM_CLUSTER_NEW (default)
+
 - name: 'Create db home with name {{ workload_tag }}{{ db_home_name }}'
   oci_database_db_home:
     compartment_id: '{{ compartment_id }}'

@@ -16,4 +16,4 @@
 - set_fact: 
     db_home_id: '{{ db_home_discovery_result.db_homes[0].id}}'
     db_home_lifecycle_state: '{{ db_home_discovery_result.db_homes[0].lifecycle_state}}'
-  when: db_home_discovery_result.db_homes|length > 0 
+  when: db_home_discovery_result.db_homes|length == 1 

@@ -1,7 +1,11 @@
 
+# Find Database ID to terminate correct database
+
 - name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
   when: database_id is not defined
   include_tasks: 'db_discovery.yml'
+
+# Terminate Database
 
 - name: 'Delete database with name {{ workload_tag }}{{ db_name }}'
   when: database_id is defined and database_lifecycle_state == 'AVAILABLE'

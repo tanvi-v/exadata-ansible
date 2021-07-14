@@ -1,4 +1,6 @@
 
+# Discover DB Home for Database
+
 - name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
   when: db_home_id is not defined
   include_role:
@@ -7,11 +9,13 @@
 - name: 'Assert that db_home_id is defined'
   assert: { that: db_home_id is defined }
 
+# Discover Database 
+
 - name: 'Discover Database {{ workload_tag }}{{ db_name }}'
   oci_database_database_facts:
     compartment_id: '{{ compartment_id }}'
-    db_name: '{{ workload_tag }}{{ db_name }}'
     db_home_id: '{{ db_home_id }}'
+    db_name: '{{ workload_tag }}{{ db_name }}'
   register: 'db_discovery_result'
 - name: 'Database Discovery Output'
   debug:
@@ -19,4 +23,4 @@
 - set_fact: 
     database_id: '{{ db_discovery_result.databases[0].id}}'
     database_lifecycle_state: '{{ db_discovery_result.databases[0].lifecycle_state}}'
-  when: db_discovery_result.databases|length > 0 
+  when: db_discovery_result.databases|length == 1 

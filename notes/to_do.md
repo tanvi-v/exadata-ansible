@@ -20,7 +20,7 @@ Ansible Best Practices / Clean-Up
 - Parameters should be alphabetical
 
 
-Roles to clean
+Roles to clean (comments, names, alphabetical, single parameters)
 - awx_tests
 - database
 - database_backups
