@@ -1,12 +1,30 @@
 
-- name: 'delete pdb'
+- name: 'Delete PDB Using DBCA Silent Mode'
   shell:  |
-    dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}
+    dbca -silent -deletePluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }}
   become: 'true'
   become_user: 'oracle'
-  register: pdb_delete_result
+  become_method: 'sudo'
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    PATH: '{{ ansible_env.PATH }}:{{ oracle_home }}/bin'
+  register: pdb_deletion_result
+  failed_when: pdb_deletion_result.stdout.find('100% complete') == -1
 - debug:
-    msg: '{{ pdb_delete_result }}'
+    msg: '{{ pdb_deletion_result }}'
 
-- name: PDB Info
-  include_tasks: pdb_info.yml
+# OTHER METHODS
+
+# DBCLI Method
+
+# - name: 'delete pdb'
+#   shell:  |
+#     dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}
+#   become: 'true'
+#   become_user: 'oracle'
+#   register: pdb_delete_result
+# - debug:
+#     msg: '{{ pdb_delete_result }}'
+
+# - name: PDB Info
+#   include_tasks: pdb_info.yml
