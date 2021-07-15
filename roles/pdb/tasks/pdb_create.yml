@@ -14,7 +14,7 @@
     defined_tags: '{{ defined_tags }}'
     freeform_tags: '{{ freeform_tags }}'
     key_by: ['container_database_id', 'pdb_name']
-    pdb_admin_password: '{{ pdb_password }}'
+    pdb_admin_password: '{{ pdb_admin_password }}'
     pdb_name: '{{ pdb_name }}'
     tde_wallet_password: '{{ tde_wallet_password }}'
 
@@ -24,7 +24,7 @@
 #   expect:
 #     command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}'
 #     responses:
-#       \bpassword\b: '{{ pdb_password }}'
+#       \bpassword\b: '{{ pdb_admin_password }}'
 #     echo: 'yes'
 #     timeout: '300'
 #   become: 'true'
