@@ -14,6 +14,7 @@
 - debug:
     msg: '{{ db_home_discovery_result }}'
 - set_fact: 
-    db_home_id: '{{ db_home_discovery_result.db_homes[0].id}}'
-    db_home_lifecycle_state: '{{ db_home_discovery_result.db_homes[0].lifecycle_state}}'
+    db_home_id: '{{ db_home_discovery_result.db_homes[0].id }}'
+    db_home_lifecycle_state: '{{ db_home_discovery_result.db_homes[0].lifecycle_state }}'
+    oracle_home: '{{ db_home_discovery_result.db_homes[0].db_home_location }}'
   when: db_home_discovery_result.db_homes|length == 1 
