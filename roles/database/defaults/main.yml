@@ -9,7 +9,7 @@ db_workload: 'OLTP'
 defined_tags: null
 freeform_tags: null
 ncharacter_set: null
-pdb_name: null
+initial_pdb_name: null
 tde_wallet_password: null
 db_version: null
 kms_key_id: null

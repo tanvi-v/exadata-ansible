@@ -14,6 +14,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     - SSH Keys (Machine) 
 
 2. Set-Up Project
+    - Set-up Organization (ansible galaxy)
     - Sync Git Repo
     - Set-up basic inventory
     - Run install_python_sdk.yml playbook
@@ -108,7 +109,7 @@ This codebase contains a set of playbooks that can be used individually or combi
     - pdb_password
 
 **pdb_delete.yml**
-- Deletes the pdb.
+- Deletes the pdb. Assumes that the database has already been created.
 - Job Template Variables
     - vars_file
     - hostgroup
