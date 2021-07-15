@@ -13,20 +13,10 @@
 # - debug:
 #     msg: '{{ pdb_creation_result }}'
 
-- name: Create temporary TDE file
-  ansible.builtin.tempfile:
-    state: file
-    prefix: 'SetTDEforPDB'
-    suffix: 'sql'
-  register: tde_file_result
-- debug:
-    msg: '{{ tde_file_result }}'
-- set_fact: 
-    tde_sql_path: '{{ tde_file_result.path }}'
-
 - name: 'Create Set TDE for PDB sql'
   copy:
-    dest: '{{ tde_sql_path }}'
+    # dest: '{{ ansible_workdir }}/SetTDEforPDB.sql'
+    dest: 'SetTDEforPDB.sql'
     content: |
       ALTER SESSION SET CONTAINER = {{ pdb_name }};
       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
@@ -42,7 +32,6 @@
 - name: Set TDE Key for PDB
   shell: |
       . /home/oracle/{{ db_unique_name }}.env
-      cd {{ ansible_workdir }}
       {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
   become: yes
   become_user: oracle
@@ -50,6 +39,18 @@
   register: set_tde_result
 - debug:
     msg: '{{ set_tde_result }}'
+
+# - name: Set TDE Key for PDB
+#   shell: |
+#       . /home/oracle/{{ db_unique_name }}.env
+#       cd {{ ansible_workdir }}
+#       {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
+#   become: yes
+#   become_user: oracle
+#   become_method: sudo
+#   register: set_tde_result
+# - debug:
+#     msg: '{{ set_tde_result }}'
 
 
 # OTHER CREATE PDB METHODS
