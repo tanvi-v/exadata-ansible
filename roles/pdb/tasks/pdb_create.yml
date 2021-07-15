@@ -1,4 +1,44 @@
 
+- name: Create PDB Using DBCA Silent Mode
+    shell: |
+      dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }} -createPDBFrom {{ db_pdb_prefix }} -pdbAdminUserName pdbadmin -pdbAdminPassword {{ pdb_admin_password }} -createUserTableSpace true
+    become: 'true'
+    become_user: 'oracle'
+    become_method: 'sudo'
+    environment:
+       ORACLE_HOME: '{{ oracle_home }}'
+       PATH: '{{ ansible_env.PATH }}:{{ oracle_home }}/bin'
+       TZ: 'america/new_york'
+    register: pdb_creation_result
+    failed_when: pdb_creation_result.stdout.find('100% complete') == -1
+
+# - name: Set TDE Key for PDB
+#     shell: |
+#         . /home/oracle/{{ db_unique_name }}.env
+#         cd {{ ansible_workdir }}
+#         {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
+#     become: yes
+#     become_user: oracle
+#     become_method: sudo
+
+
+
+# OTHER CREATE PDB METHODS
+
+# DBCLI Method
+
+# - name: 'create pdb'
+#   expect:
+#     command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}'
+#     responses:
+#       \bpassword\b: '{{ pdb_admin_password }}'
+#     echo: 'yes'
+#     timeout: '300'
+#   become: 'true'
+#   become_user: 'oracle'
+#   register: pdb_create_result
+# - debug:
+#     msg: '{{ pdb_create_result }}'
 
 # PDB Management Service (not yet available for ExaCS/ExaCC)
 
@@ -21,20 +61,4 @@
 #     pdb_name: '{{ pdb_name }}'
 #     tde_wallet_password: '{{ tde_wallet_password }}'
 
-# DBCLI Method
-
-# - name: 'create pdb'
-#   expect:
-#     command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}'
-#     responses:
-#       \bpassword\b: '{{ pdb_admin_password }}'
-#     echo: 'yes'
-#     timeout: '300'
-#   become: 'true'
-#   become_user: 'oracle'
-#   register: pdb_create_result
-# - debug:
-#     msg: '{{ pdb_create_result }}'
-
-# DBCA Method
 

@@ -85,7 +85,6 @@ This codebase contains a set of playbooks that can be used individually or combi
 - Job Template Variables
     - vars_file
     - db_admin_password
-    - tde_wallet_password
 
 **db_home_create.yml**
 - Creates a new database home. Assumes that the VM cluster has already been created.
@@ -108,7 +107,6 @@ This codebase contains a set of playbooks that can be used individually or combi
     - vars_file
     - hostgroup
     - pdb_admin_password
-    - tde_wallet_password (of container database)
 
 **pdb_delete.yml**
 - Deletes the pdb. Assumes that the database has already been created.

@@ -1,6 +1,6 @@
 
 - name: 'PDB Create'
-  hosts: 'localhost'
+  hosts: '{{ hostgroup }}'
   
   tasks:
     
