@@ -1,0 +1,10 @@
+- name: 'Shell Command'
+  hosts: '{{ hostgroup }}'
+
+  tasks:
+
+    - include_vars: './vars/{{ vars_file }}'
+
+    - name: 'Running Shell Command'
+      include_role:
+        name: 'pdb'
