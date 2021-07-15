@@ -10,7 +10,7 @@ defined_tags: null
 freeform_tags: null
 ncharacter_set: null
 initial_pdb_name: null
-tde_wallet_password: null
+# tde_wallet_password: '{{ tde_wallet_password }}'        # Specifing TDE wallet password is currently not supported for Exadata Cloud Service and Exadata Cloud@Customer instances.
 db_version: null
 kms_key_id: null
 kms_key_version_id: null
