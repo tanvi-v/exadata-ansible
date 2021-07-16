@@ -1,17 +1,17 @@
 
-# - name: 'Create PDB Using DBCA Silent Mode'
-#   shell:  |
-#     dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }} -pdbAdminUserName pdbadmin -pdbAdminPassword {{ pdb_admin_password }} -createUserTableSpace true
-#   become: 'true'
-#   become_user: 'oracle'
-#   become_method: 'sudo'
-#   environment:
-#     ORACLE_HOME: '{{ oracle_home }}'
-#     PATH: '{{ ansible_env.PATH }}:{{ oracle_home }}/bin'
-#   register: pdb_creation_result
-#   failed_when: pdb_creation_result.stdout.find('100% complete') == -1
-# - debug:
-#     msg: '{{ pdb_creation_result }}'
+- name: 'Create PDB Using DBCA Silent Mode'
+  shell:  |
+    dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }} -pdbAdminUserName pdbadmin -pdbAdminPassword {{ pdb_admin_password }} -createUserTableSpace true
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    PATH: '{{ ansible_env.PATH }}:{{ oracle_home }}/bin'
+  register: pdb_creation_result
+  failed_when: pdb_creation_result.stdout.find('100% complete') == -1
+- debug:
+    msg: '{{ pdb_creation_result }}'
 
 - name: 'Create Set TDE for PDB sql'
   copy:
@@ -28,10 +28,9 @@
 - debug:
     msg: '{{ create_tde_sql_result }}'
 
-
 - name: Set TDE Key for PDB
   shell: |
-      {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
+    {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
   become: yes
   become_user: oracle
   become_method: sudo
@@ -41,18 +40,6 @@
   register: set_tde_result
 - debug:
     msg: '{{ set_tde_result }}'
-
-# - name: Set TDE Key for PDB
-#   shell: |
-#       . /home/oracle/{{ db_unique_name }}.env
-#       cd {{ ansible_workdir }}
-#       {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
-#   become: yes
-#   become_user: oracle
-#   become_method: sudo
-#   register: set_tde_result
-# - debug:
-#     msg: '{{ set_tde_result }}'
 
 
 # OTHER CREATE PDB METHODS
