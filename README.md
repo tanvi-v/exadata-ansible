@@ -106,15 +106,12 @@ This codebase contains a set of playbooks that can be used individually or combi
 - Job Template Variables
     - vars_file
     - hostgroup
-    - pdb_admin_password
-    - oracle_home
-    - db_unique_name
     - oracle_sid
+    - pdb_admin_password
+    
 
 **pdb_delete.yml**
 - Deletes the pdb. Assumes that the database has already been created.
 - Job Template Variables
     - vars_file
     - hostgroup
-    - oracle_home
-    - db_unique_name

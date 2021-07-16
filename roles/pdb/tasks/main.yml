@@ -3,6 +3,3 @@
 
 - name: Create PDB
   include_tasks: pdb_create.yml
-
-# - name: PDB Info
-#   include_tasks: pdb_info.yml
