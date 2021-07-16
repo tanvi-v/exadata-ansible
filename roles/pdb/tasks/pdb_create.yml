@@ -1,14 +1,16 @@
 
 - name: 'Discover Database {{ workload_tag }}{{ db_home_name }} Unique Name'
   when: db_unique_name is not defined
-  include_role:
+  delegate_to: localhost
+  import_role:
     name: 'database'
     tasks_from: 'db_discovery.yml'
 - assert: { that: db_unique_name is defined }
 
 - name: 'Discover Oracle Home'
   when: oracle_home is not defined
-  include_role:
+  delegate_to: localhost
+  import_role:
     name: 'database_home'
     tasks_from: 'db_home_discovery.yml'
 - assert: { that: oracle_home is defined }
