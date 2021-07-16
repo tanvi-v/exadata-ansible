@@ -1,7 +1,6 @@
 
 - name: 'Discover Database {{ workload_tag }}{{ db_home_name }} Unique Name'
   when: db_unique_name is not defined
-  delegate_to: localhost
   include_role:
     name: 'database'
     tasks_from: 'db_discovery.yml'
@@ -9,7 +8,6 @@
 
 - name: 'Discover Oracle Home'
   when: oracle_home is not defined
-  delegate_to: localhost
   include_role:
     name: 'database_home'
     tasks_from: 'db_home_discovery.yml'
