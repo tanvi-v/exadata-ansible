@@ -13,7 +13,6 @@
 - debug:
     msg: '{{ pdb_deletion_result }}'
 
-# OTHER METHODS
 
 # DBCLI Method
 

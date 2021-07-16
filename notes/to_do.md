@@ -3,8 +3,7 @@ Code Development
 - Add Variables to default and add a comment showing required
 - Add ALL fields to oci modules!! and then just use defaults!!!!!
 - Make Networking Set-Up more dynamic
-
-- PDB without dbaascli - DBCA or wait for Ansible update
+- PDB: pull oracle_sid, oracle_home, db_unique_name automatically. Pick a different directory
 - ExaCC provisioning: Network config (VM Cluster network different than ExaCS)
 - Playbook to call FPP - Depends on how FPP is set-up
 - DataGuard (low priority) - ExaCC/ExaCS Dataguard

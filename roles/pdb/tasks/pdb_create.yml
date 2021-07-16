@@ -13,15 +13,27 @@
 - debug:
     msg: '{{ pdb_creation_result }}'
 
+- name: 'Create temporary file'
+  ansible.builtin.tempfile:
+    state: 'file'
+    suffix: 'sql'
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
+  register: 'sqltemp_file_result'
+- debug:
+    msg: '{{ sqltemp_file_result }}'
+- set_fact:
+    sqltemp_path: "{{ sqltemp_file_result.path }}"
+
 - name: 'Create Set TDE for PDB sql'
   copy:
-    # dest: '{{ ansible_workdir }}/SetTDEforPDB.sql'
-    dest: 'SetTDEforPDB.sql'
+    dest: '{{ sqltemp_path }}'      # TO DO: pick a different directory. '{{ ansible_workdir }}/SetTDEforPDB.sql'
     content: |
       ALTER SESSION SET CONTAINER = {{ pdb_name }};
       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
       QUIT;
-  become: yes
+  become: 'true'
   become_user: oracle
   become_method: sudo
   register: create_tde_sql_result
@@ -30,7 +42,7 @@
 
 - name: Set TDE Key for PDB
   shell: |
-    {{ oracle_home }}/bin/sqlplus / as sysdba @SetTDEforPDB.sql
+    {{ oracle_home }}/bin/sqlplus / as sysdba @{{ sqltemp_path }}
   become: yes
   become_user: oracle
   become_method: sudo
@@ -41,8 +53,6 @@
 - debug:
     msg: '{{ set_tde_result }}'
 
-
-# OTHER CREATE PDB METHODS
 
 # DBCLI Method
 
@@ -58,26 +68,5 @@
 #   register: pdb_create_result
 # - debug:
 #     msg: '{{ pdb_create_result }}'
-
-# PDB Management Service (not yet available for ExaCS/ExaCC)
-
-# - name: 'Database Discovery'
-#   when: database_id is not defined
-#   include_role:
-#     name: 'database'
-#     tasks_from: 'db_discovery.yml'
-# - name: 'Assert that database_id is defined'
-#   assert: { that: database_id is defined }
-
-# - name: Create pluggable_database
-#   oci_database_pluggable_database:
-#     compartment_id: '{{ compartment_id }}'
-#     container_database_id: '{{ database_id }}'
-#     defined_tags: '{{ defined_tags }}'
-#     freeform_tags: '{{ freeform_tags }}'
-#     key_by: ['container_database_id', 'pdb_name']
-#     pdb_admin_password: '{{ pdb_admin_password }}'
-#     pdb_name: '{{ pdb_name }}'
-#     tde_wallet_password: '{{ tde_wallet_password }}'
 
 
