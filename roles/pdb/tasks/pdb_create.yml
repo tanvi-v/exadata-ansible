@@ -13,7 +13,7 @@
 - debug:
     msg: '{{ pdb_creation_result }}'
 
-- name: 'Create temporary file'
+- name: 'Create temporary sql file'
   ansible.builtin.tempfile:
     state: 'file'
     suffix: 'sql'
@@ -28,7 +28,7 @@
 
 - name: 'Create Set TDE for PDB sql'
   copy:
-    dest: '{{ sqltemp_path }}'      # TO DO: pick a different directory. '{{ ansible_workdir }}/SetTDEforPDB.sql'
+    dest: '{{ sqltemp_path }}'
     content: |
       ALTER SESSION SET CONTAINER = {{ pdb_name }};
       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
