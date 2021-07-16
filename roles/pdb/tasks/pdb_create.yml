@@ -31,11 +31,13 @@
 
 - name: Set TDE Key for PDB
   shell: |
-      . /home/oracle/{{ db_unique_name }}.env
-      pwd
+      {{ oracle_home }}/bin/sqlplus -s "/ as sysdba" @SetTDEforPDB.sql
   become: yes
   become_user: oracle
   become_method: sudo
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    ORACLE_SID: '{{ db_unique_name }}'
   register: set_tde_result
 - debug:
     msg: '{{ set_tde_result }}'
