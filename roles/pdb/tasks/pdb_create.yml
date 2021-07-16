@@ -13,22 +13,9 @@
 - debug:
     msg: '{{ pdb_creation_result }}'
 
-- name: 'Create temporary sql file'
-  ansible.builtin.tempfile:
-    state: 'file'
-    suffix: 'sql'
-  become: 'true'
-  become_user: 'oracle'
-  become_method: 'sudo'
-  register: 'sqltemp_file_result'
-- debug:
-    msg: '{{ sqltemp_file_result }}'
-- set_fact:
-    sqltemp_path: "{{ sqltemp_file_result.path }}"
-
 - name: 'Create Set TDE for PDB sql'
   copy:
-    dest: '{{ sqltemp_path }}'
+    dest: '/tmp/SetTDEforPDB.sql'
     content: |
       ALTER SESSION SET CONTAINER = {{ pdb_name }};
       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
@@ -42,7 +29,7 @@
 
 - name: Set TDE Key for PDB
   shell: |
-    {{ oracle_home }}/bin/sqlplus / as sysdba @{{ sqltemp_path }}
+    {{ oracle_home }}/bin/sqlplus / as sysdba @/tmp/SetTDEforPDB.sql
   become: yes
   become_user: oracle
   become_method: sudo
@@ -52,6 +39,46 @@
   register: set_tde_result
 - debug:
     msg: '{{ set_tde_result }}'
+
+# - name: 'Create temporary sql file'
+#   ansible.builtin.tempfile:
+#     state: 'file'
+#     suffix: 'sql'
+#   become: 'true'
+#   become_user: 'oracle'
+#   become_method: 'sudo'
+#   register: 'sqltemp_file_result'
+# - debug:
+#     msg: '{{ sqltemp_file_result }}'
+# - set_fact:
+#     sqltemp_path: "{{ sqltemp_file_result.path }}"
+
+# - name: 'Create Set TDE for PDB sql'
+#   copy:
+#     dest: '{{ sqltemp_path }}'
+#     content: |
+#       ALTER SESSION SET CONTAINER = {{ pdb_name }};
+#       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
+#       QUIT;
+#   become: 'true'
+#   become_user: oracle
+#   become_method: sudo
+#   register: create_tde_sql_result
+# - debug:
+#     msg: '{{ create_tde_sql_result }}'
+
+# - name: Set TDE Key for PDB
+#   shell: |
+#     {{ oracle_home }}/bin/sqlplus / as sysdba @{{ sqltemp_path }}
+#   become: yes
+#   become_user: oracle
+#   become_method: sudo
+#   environment:
+#     ORACLE_HOME: '{{ oracle_home }}'
+#     ORACLE_SID: '{{ oracle_sid }}'
+#   register: set_tde_result
+# - debug:
+#     msg: '{{ set_tde_result }}'
 
 
 # DBCLI Method
