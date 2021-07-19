@@ -8,13 +8,15 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 
 1. Provision AWX on an OCI Instance: Follow the steps from https://github.com/oracle-quickstart/oci-ansible-awx.
 
+
 2. Create Organization: Go to **Organizations** under the **Access** section, and then click on the blue **Add** button on top to create a new organization. Fill out the name of the Organization you would like to use for this project. 
 
     ![img](./images/organization.png)
 
+
 3. Create OCI Credential Type: Go to **Credentials Types** under the **Administration** section, and then click on the blue **Add** button on top to create the OCI Credential Type. 
 
-    Add the following fields to the **Input Configuration**.
+    Add the following code to the **Input Configuration**.
     ```
     fields:
     - id: user_ocid
@@ -42,7 +44,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     - private_user_key
     ```
 
-    Add the following configuration to the **Injector Configuration**. 
+    Add the following code to the **Injector Configuration**. 
 
     ```
     env:
@@ -63,40 +65,41 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 
 3. Create credentials: Go to **Credentials** under the **Resources** section, and then click on the blue **Add** button on top to create the following Credentials.
 
-    Ansible Galaxy - Ansible Galaxy/Automation Hub API Token Credential Type. Be sure to input the Organization created in step 2 and https://galaxy.ansible.com/ as the Galaxy Server URL.
+    - Ansible Galaxy - **Ansible Galaxy/Automation Hub API Token**  Credential Type. Be sure to input the Organization created in step 2 and https://galaxy.ansible.com/ as the Galaxy Server URL.
 
-    ![img](./images/ansible_galaxy_cred.png)
+        ![img](./images/ansible_galaxy_cred.png)
 
-    - Github credentials - Source Control Credential Type. Enter your github username and then create a Personal Access Token in Github and enter it as your password. As you can see, it will be encrypted. 
+    - Github credentials - **Source Control** Credential Type. Enter your github username and then create a Personal Access Token in Github and enter it as your password. Your personal access token will be encrypted for security. 
     
-    ![img](./images/github_cred.png)
+        ![img](./images/github_cred.png)
 
-    - OCI credentials - OCI Credential Type (custom type created in the previous step). Enter all the required informtation. Although not known in this screenshot, as with the github access token, your private key will be automatically encrypted as well. 
+    - OCI credentials - **Custom OCI** Credential Type. Enter all the required information. Although not shown in this screenshot, as with the github access token, your private key will be automatically encrypted as well. 
 
-    ![img](./images/oci_cred.png)
+        ![img](./images/oci_cred.png)
 
-    - SSH Keys - Machine Credential Type. Enter any SSH Keys to be used in your environment. 
+    - SSH Keys - **Machine** Credential Type. Enter any SSH Keys to be used in your environment. 
 
-    ![img](./images/ssh_cred.png)
+        ![img](./images/ssh_cred.png)
 
 
 4. Set-Up Project: Go to **Projects** under the **Resources** section, and then click on the blue **Add** button on top to create a new project. Add your Organization, Github Credential, and your Github URL.
 
     ![img](./images/project.png)
 
-Any changes you make to your project can be updated in AWX from the **Projects** tab by choosing **Sync Project**.
+    Any changes you make to your project can be updated in AWX from the **Projects** tab by choosing **Sync Project**.
 
-    ![img](./images/sync_project.png)
+    ![img](./images/project.png)
+
 
 5. Set-Up Inventory: Go to **Inventories** under the **Resources** section, and then click on the blue **Add** button on top to create a new inventory. Add your Organization from step 2.
 
     ![img](./images/inventory.png)
 
-To add an inventory source, select the **Sources** tab from your newly created inventory and then the blue **Add** button. Source the inventory from your project as shown below and be sure to input your oci credential. This project's inventory.oci.yml file contains details for the oci inventory plugin and allows hosts to be discovered dynamically. 
+    To add an inventory source, select the **Sources** tab from your newly created inventory and then the blue **Add** button. Source the inventory from your project as shown below and be sure to input your oci credential. This project's inventory.oci.yml file contains details for the oci inventory plugin and allows hosts to be discovered dynamically. 
 
     ![img](./images/inventory_source.png)
 
-Update your inventory by going to your inventory sources and then selecting **Start Sync Process**. If the sync is successful, the **Hosts** tab to the left will have discovered the OCI Compute instances in the region specified by your oci credential.
+    Update your inventory by going to your inventory sources and then selecting **Start Sync Process**. If the sync is successful, the **Hosts** tab to the left will have discovered the OCI Compute instances in the region specified by your oci credential.
 
     ![img](./images/sync_inventory.png)
 
@@ -194,7 +197,9 @@ This codebase contains a set of playbooks that can be used individually or combi
 
 ## Additional Resources
 
-Using OCI with ansible tower: https://blogs.oracle.com/cloud-infrastructure/post/using-oracle-cloud-infrastructure-with-ansible-tower-and-awx
+Setting up AWX on OCI: https://github.com/oracle-quickstart/oci-ansible-awx
+
+Using OCI with Ansible Tower: https://blogs.oracle.com/cloud-infrastructure/post/using-oracle-cloud-infrastructure-with-ansible-tower-and-awx
 
 OCI Collection for ansible: 
 
