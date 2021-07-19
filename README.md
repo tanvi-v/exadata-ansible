@@ -14,6 +14,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     ![img](./images/organization.png)
 
 
+
 3. Create OCI Credential Type: Go to **Credentials Types** under the **Administration** section, and then click on the blue **Add** button on top to create the OCI Credential Type. 
 
     Add the following code to the **Input Configuration**.
@@ -63,6 +64,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     ![img](./images/oci_credential_type.png)
 
 
+
 3. Create credentials: Go to **Credentials** under the **Resources** section, and then click on the blue **Add** button on top to create the following Credentials.
 
     - Ansible Galaxy - **Ansible Galaxy/Automation Hub API Token**  Credential Type. Be sure to input the Organization created in step 2 and https://galaxy.ansible.com/ as the Galaxy Server URL.
@@ -82,6 +84,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
         ![img](./images/ssh_cred.png)
 
 
+
 4. Set-Up Project: Go to **Projects** under the **Resources** section, and then click on the blue **Add** button on top to create a new project. Add your Organization, Github Credential, and your Github URL.
 
     ![img](./images/project.png)
@@ -89,6 +92,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     Any changes you make to your project can be updated in AWX from the **Projects** tab by choosing **Sync Project**.
 
     ![img](./images/project.png)
+
 
 
 5. Set-Up Inventory: Go to **Inventories** under the **Resources** section, and then click on the blue **Add** button on top to create a new inventory. Add your Organization from step 2.
@@ -102,6 +106,7 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
     Update your inventory by going to your inventory sources and then selecting **Start Sync Process**. If the sync is successful, the **Hosts** tab to the left will have discovered the OCI Compute instances in the region specified by your oci credential.
 
     ![img](./images/sync_inventory.png)
+
 
 
 ## Using Ansible with AWX
