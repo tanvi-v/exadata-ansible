@@ -113,7 +113,10 @@ This ansible project allows for Exadata Cloud@Customer and Exadata Cloud Service
 
 ### Running a Playbook
  
-1. Create a Job Template
+1. Create a Job Template: To run a playbook, go to **Templates** under the **Resources** section, and then click on the blue **Add** button on top to create a new job. The first playbook you should run is the install_python_sdk playbook to set-up python for the oci-python modules. Fill in the fields as shown below. In this case, we do not have any variables to define at runtime but other playbooks will require certain variables.
+
+    ![img](./images/job_template.png)
+
 
 2. Define Variables
     - vars_file: File name for variables to be used for that playbook. Workload specfic. Be sure to edit these files to set variables such as workload_tag (used for naming resources) and database parameters. Path to the vars_file has already been included in the code, just have to provide the actual file name (ex: sample_exacs.yml). 
