@@ -35,5 +35,3 @@
     msg: '{{ db_creation_result }}'
 - set_fact:
     database_id: '{{ db_creation_result.database.id }}'
-
-# TO DO: Create database from backup
