@@ -209,7 +209,7 @@ Setting up AWX on OCI: https://github.com/oracle-quickstart/oci-ansible-awx
 
 Using OCI with Ansible Tower: https://blogs.oracle.com/cloud-infrastructure/post/using-oracle-cloud-infrastructure-with-ansible-tower-and-awx
 
-OCI Collection for ansible: 
+OCI Collection for ansible: https://oci-ansible-collection.readthedocs.io/en/stable/collections/oracle/oci/index.html
 
 Connecting Github with AWX: https://murrahjm.github.io/Source-Control-and-the-Tower-Project/
 
