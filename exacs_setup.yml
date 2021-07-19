@@ -8,6 +8,10 @@
 
     - include_vars: './vars/{{ vars_file }}'
 
+    - name: 'Create Networking for ExaCS'
+      include_role:
+        name: 'networking'
+
     - name: 'Create Exadata Infrastructure for ExaCS'
       include_role:
         name: 'exacs_infra'
