@@ -9,15 +9,15 @@
 
 - name: 'Create vm cluster {{ workload_tag }}{{ vm_cluster_name }}'
   oci_database_vm_cluster:
-    key_by: ['exadata_infrastructure_id', 'display_name']
-    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
     compartment_id: '{{ compartment_id }}'
-    exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
-    vm_cluster_network_id: '{{ vm_cluster_network_id }}'
     cpu_core_count: '{{ cpu_core_count }}'
-    memory_size_in_gbs: '{{ memory_size_in_gbs }}'
-    db_node_storage_size_in_gbs: '{{ db_node_storage_size_in_gbs }}'
     data_storage_size_in_tbs: '{{ data_storage_size_in_tbs }}'
+    db_node_storage_size_in_gbs: '{{ db_node_storage_size_in_gbs }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
+    exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+    key_by: ['exadata_infrastructure_id', 'display_name']
+    vm_cluster_network_id: '{{ vm_cluster_network_id }}'
+    memory_size_in_gbs: '{{ memory_size_in_gbs }}'
     ssh_public_keys: '{{ ssh_public_keys }}'
     license_model: '{{ license_model }}'
     is_sparse_diskgroup_enabled: '{{ is_sparse_diskgroup_enabled }}'

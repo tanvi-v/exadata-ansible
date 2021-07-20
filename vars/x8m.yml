@@ -6,27 +6,6 @@ workload_tag: 'ans'
 # exadata components
 vm_cluster_id: 'ocid1.cloudvmcluster.oc1.phx.abyhqljt7dxhqiwx65zrxpmjf5rhp4yqopbp2ttpef3ybguhsql3q3nytyva' 
 
-# # exadata
-# exacs_name: 'Exa1'
-# exacs_shape: 'Exadata.X8M'
-
-# # vm cluster
-# vm_cluster_name: 'tstExaVM'
-# vm_cluster_network_id: 'ocid1.vmcluster'
-# cpu_core_count: '4'
-# memory_size_in_gbs: '30'
-# db_node_storage_size_in_gbs: '60'
-# data_storage_size_in_tbs: '84'
-# license_model: 'LICENSE_INCLUDED'
-# is_sparse_diskgroup_enabled: 'false'
-# is_local_backup_enabled: 'true'
-# time_zone: 'PST'
-# gi_version: '19.1.0.0'
-# vm_cluster_cpu_count: '56'
-# vm_cluster_display_name: 'tstVMCluster'
-# vm_cluster_hostname: 'tstcluster'
-# gi_version: '19.0.0.0'
-
 # db_home
 db_home_name: 'home2'
 db_version: '19.0.0.0'

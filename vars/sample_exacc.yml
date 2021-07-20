@@ -25,7 +25,20 @@ backup_node_hostname: 'hostname2'
 backup_node_ip: '10.1.20.14'
 backup_vlan_id: '0-4094'
 
-
+# VM CLUSTER REQUIRED VARIABLES
+vm_cluster_name: 'VM1'
+vm_cluster_hostname: 'tstcluster'
+cpu_core_count: '4'
+memory_size_in_gbs: '30'
+db_node_storage_size_in_gbs: '60'
+data_storage_size_in_tbs: '84'
+license_model: 'LICENSE_INCLUDED'
+is_sparse_diskgroup_enabled: 'false'
+is_local_backup_enabled: 'true'
+time_zone: 'PST'
+gi_version: '19.1.0.0'
+vm_cluster_cpu_count: '56'
+gi_version: '19.0.0.0'
 
 # BACKUP DESTINATIONS REQUIRED VARIABLES
 backup_destination_type: 'OBJECT_STORE'             # OBJECT_STORE, LOCAL, NFS, RECOVERY_APPLIANCE
