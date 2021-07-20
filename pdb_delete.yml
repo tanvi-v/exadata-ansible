@@ -4,7 +4,9 @@
 
   tasks:
 
-    - include_vars: './vars/{{ vars_file }}'
+    - include_vars:
+        dir: './vars'
+        files_matching: '{{ vars_file }}'
 
     - name: 'Delete PDB'
       include_role:
