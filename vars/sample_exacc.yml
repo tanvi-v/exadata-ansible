@@ -1,3 +1,32 @@
+# GENERAL REQUIRED VARIABLES
+exadata_type: 'exacs'                 # exacs, exacc
+compartment_id: 'ocid...'
+workload_tag: 'tag1'
+
+# VM CLUSTER NETWORK REQUIRED VARIABLES
+vm_cluster_network_name: 'VmClusterNW'
+vm_cluster_network_hostname: 'hostname'
+vm_cluster_network_port: '1521'
+scan_ip_1: '10.0.20.20'
+scan_ip_2: '10.1.20.20'
+scan_ip_3: '10.2.20.20'
+
+client_domain_name: 'client'
+client_gateway: '10.0.20.1'
+client_netmask: '255.255.255.0'
+client_node_hostname: 'hostname1'
+client_node_ip: '10.0.20.14'
+client_vlan_id: '0-4095'
+
+backup_domain_name: 'backup'
+backup_gateway: '10.0.20.2'
+backup_netmask: '255.255.255.1'
+backup_node_hostname: 'hostname2'
+backup_node_ip: '10.1.20.14'
+backup_vlan_id: '0-4094'
+
+
+
 # BACKUP DESTINATIONS REQUIRED VARIABLES
 backup_destination_type: 'OBJECT_STORE'             # OBJECT_STORE, LOCAL, NFS, RECOVERY_APPLIANCE
 

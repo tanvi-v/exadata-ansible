@@ -6,6 +6,8 @@ workload_tag: 'tag1'
 # EXACS INFRA REQUIRED VARIABLES
 exacs_name: 'Exa1'
 
+# VM CLUSTER REQUIRED VARIABLES
+
 # DATABASE REQUIRED VARIABLES
 db_name: 'DB1'
 

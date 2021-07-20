@@ -9,9 +9,7 @@
 
     - include_vars: './vars/{{ vars_file }}'
     
-    # TO DO: Set-Up VM Cluster Network
-    
-    - name: 'Create VM Cluster for ExaCC'
+    - name: 'Create VM Cluster Network and VM Cluster for ExaCC'
       include_role:
         name: 'exacc_vm_cluster'
     

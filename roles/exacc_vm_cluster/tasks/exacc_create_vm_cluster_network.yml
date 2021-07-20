@@ -1,0 +1,40 @@
+
+- name: 'Create VM Cluster Network {{ workload_tag }}{{ vm_cluster_network_name }}'
+  oci_database_vm_cluster_network:
+    compartment_id: '{{ compartment_id }}'
+    defined_tags: '{{ defined_tags_vm_cluster_network }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_network_name }}'
+    dns: '{{ dns_vm_cluster_network }}'
+    exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+    freeform_tags: '{{ freeform_tags_vm_cluster_network }}'
+    key_by: ['exadata_infrastructure_id', 'display_name']
+    ntp: '{{ ntp_vm_cluster_network }}'
+    scans:
+    - hostname: '{{ vm_cluster_network_hostname }}'
+      port: '{{ vm_cluster_network_port }}'
+      ips: ['{{ scan_ip_1 }}', '{{ scan_ip_2 }}', '{{ scan_ip_3 }}']
+    vm_networks:
+    - domain_name: '{{ client_domain_name }}'
+      gateway: '{{ client_gateway }}'
+      netmask: '{{ client_netmask }}'
+      network_type: 'CLIENT'
+      nodes:
+      - hostname: '{{ client_node_hostname }}'
+        ip: '{{ client_node_ip }}'
+        vip: '{{ client_node_vip }}'
+        vip_hostname: '{{ client_node_vip_hostname }}'
+      vlan_id: '{{ client_vlan_id }}'
+    - domain_name: '{{ backup_domain_name }}'
+      gateway: '{{ backup_gateway }}'
+      netmask: '{{ backup_netmask }}'
+      network_type: 'BACKUP'
+      nodes:
+      - hostname: '{{ backup_node_hostname }}'
+        ip: '{{ backup_node_ip }}'
+        vip: '{{ backup_node_vip }}'
+        vip_hostname: '{{ backup_node_vip_hostname }}'
+      vlan_id: '{{ backup_vlan_id }}'
+- debug:
+    msg: '{{ vm_cluster_network_create_result }}'
+- set_fact:
+    vm_cluster_network_id: '{{ vm_cluster_network_create_result.vm_cluster_network.id }}'

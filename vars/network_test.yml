@@ -1,7 +1,7 @@
 # general
 region: 'us-ashburn-1'
 compartment_id: 'ocid1.compartment.oc1..aaaaaaaab3yw6vwv6zafelbx6zvhuszn5iaoesrwxkh6d645arl266w4aofq'
-workload_tag: 'prv1'
+workload_tag: 'net1'
 
 # networking
 prohibit_public_ip_on_vnic: 'true'      # public or private

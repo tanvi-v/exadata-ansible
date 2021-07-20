@@ -1,0 +1,8 @@
+# vm cluster network optional values
+
+defined_tags_vm_cluster_network: null
+dns_vm_cluster_network: null
+freeform_tags_vm_cluster_network: null
+ntp_vm_cluster_network: null
+node_vip: null
+node_vip_hostname: null

@@ -1,6 +1,5 @@
 
-PDB NOTES (SANTOSH)
-(always assume need to reset everything for each shell command. Always use absolute paths!)
+PDB METHOD (SANTOSH)
 
 - name: Create PDB Using DBCA Silent Mode
     shell: " dbca -silent -createPluggableDatabase -sourceDB {{db_unique_name}} -pdbName {{new_pdb_name}} -createPDBFrom {{db_pdb_prefix}} -pdbAdminUserName pdbadmin -pdbAdminPassword {{db_pdb_admin_password}} -createUserTableSpace true"

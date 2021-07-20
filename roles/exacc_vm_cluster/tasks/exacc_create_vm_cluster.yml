@@ -7,10 +7,10 @@
       - exadata_infrastructure_id is defined
     fail_msg: 'exadata_infrastructure_id value not defined.'
 
-- name: Create vm cluster
+- name: 'Create vm cluster {{ workload_tag }}{{ vm_cluster_name }}'
   oci_database_vm_cluster:
     key_by: ['exadata_infrastructure_id', 'display_name']
-    display_name: '{{ vm_cluster_name }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
     compartment_id: '{{ compartment_id }}'
     exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
     vm_cluster_network_id: '{{ vm_cluster_network_id }}'

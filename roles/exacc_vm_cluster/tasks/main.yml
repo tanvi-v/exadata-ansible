@@ -7,6 +7,9 @@
       - exadata_type is defined and exadata_type == 'exacc'
     fail_msg: 'Define variable exadata_type to be exacc.'
 
+- name: Create ExaCC VM Cluster Network
+  include_tasks: exacc_create_vm_cluster_network.yml
+
 - name: Create ExaCC VM Cluster
   include_tasks: exacc_create_vm_cluster.yml
     

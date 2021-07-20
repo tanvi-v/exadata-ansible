@@ -14,7 +14,7 @@
     backup_subnet_id: '{{ backup_subnet_id }}'
     cloud_exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
     cpu_core_count: '{{ vm_cluster_cpu_count }}'
-    display_name: '{{ vm_cluster_display_name }}'
+    display_name: '{{ workload tag }}{{ vm_cluster_display_name }}'
     hostname: '{{ vm_cluster_hostname }}'
     ssh_public_keys: '{{ ssh_public_keys }}'
     gi_version: '{{ gi_version }}'
