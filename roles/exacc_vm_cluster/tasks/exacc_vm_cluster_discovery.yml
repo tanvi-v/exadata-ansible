@@ -1,25 +1,20 @@
+- name: 'Discover ExaCC for VM Cluster {{ workload_tag }}{{ vm_cluster_name }}'
+  when: exadata_infrastructure_id is not defined
+  include_role:
+    name: 'exacc_infra'
+    tasks_from: 'exacc_discovery.yml'
+- name: 'Assert that exadata_infrastructure_id is defined'
+  assert: { that: exadata_infrastructure_id is defined }
 
-- block:
-  - name: ExaCC VM Cluster Discovery - OCID provided
-    oci_database_vm_cluster_facts:
-      vm_cluster_id: '{{ vm_cluster_id }}'
-    register: vm_cluster_discovery_result
-  - debug:
-      msg: '{{ vm_cluster_discovery_result }}'
-  - set_fact: 
-      vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.vm_clusters[0].lifecycle_state }}'
-  when: vm_cluster_id is defined
-
-- block:
-  - name: ExaCC VM Cluster Discovery - VM Cluster Name
-    oci_database_vm_cluster_facts:
-      compartment_id: '{{ compartment_id }}'
-      display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
-    register: vm_cluster_discovery_result
-  - debug:
-      msg: '{{ vm_cluster_discovery_result }}'
-  - set_fact: 
-      vm_cluster_id: '{{ vm_cluster_discovery_result.vm_clusters[0].id }}'
-      vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.vm_clusters[0].lifecycle_state }}'
-    when: vm_cluster_discovery_result.vm_clusters|length == 1
-  when: vm_cluster_id is not defined 
+- name: ExaCC VM Cluster Discovery - VM Cluster Name
+  oci_database_vm_cluster_facts:
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
+    exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+  register: vm_cluster_discovery_result
+- debug:
+    msg: '{{ vm_cluster_discovery_result }}'
+- set_fact: 
+    vm_cluster_id: '{{ vm_cluster_discovery_result.vm_clusters[0].id }}'
+    vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.vm_clusters[0].lifecycle_state }}'
+  when: vm_cluster_discovery_result.vm_clusters|length == 1

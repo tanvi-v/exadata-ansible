@@ -1,8 +1,23 @@
 # vm cluster network optional values
-
-defined_tags_vm_cluster_network: null
+vm_network_defined_tags: null
 dns_vm_cluster_network: null
 freeform_tags_vm_cluster_network: null
 ntp_vm_cluster_network: null
 node_vip: null
 node_vip_hostname: null
+
+# vm cluster optional values
+data_storage_size_in_tbs: '84'
+db_node_storage_size_in_gbs: '60'
+defined_tags: null
+freeform_tags: null
+is_local_backup_enabled: 'true'
+is_sparse_diskgroup_enabled: 'false'
+license_model: 'LICENSE_INCLUDED'
+memory_size_in_gbs: '30'
+time_zone: 'PST'
+
+
+
+
+

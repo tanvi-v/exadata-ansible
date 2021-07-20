@@ -19,8 +19,8 @@
       db_backup_config: '{{ db_backup_config }}'
       db_name: '{{ workload_tag }}{{ db_name }}'
       db_workload: '{{ db_workload }}'
-      defined_tags: '{{ defined_tags }}'
-      freeform_tags: '{{ freeform_tags }}'
+      defined_tags: '{{ db_defined_tags }}'
+      freeform_tags: '{{ db_freeform_tags }}'
       ncharacter_set: '{{ ncharacter_set }}'
       pdb_name: '{{ initial_pdb_name }}'
     db_home_id: '{{ db_home_id }}'
@@ -28,7 +28,7 @@
     key_by: ['db_home_id', 'db_name']
     kms_key_id: '{{ kms_key_id }}' 
     kms_key_version_id: '{{ kms_key_version_id }}' 
-    source: '{{ source }}'
+    source: '{{ db_source }}'
   register: 'db_creation_result'
 - name: 'DB Creation Output'
   debug:

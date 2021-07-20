@@ -1,26 +1,13 @@
 
-- block:
-  - name: ExaCS VM Cluster Discovery - OCID provided
-    oci_database_cloud_vm_cluster_facts:
-      cloud_vm_cluster_id: '{{ vm_cluster_id }}'
-    register: vm_cluster_discovery_result
-  - debug:
-      msg: '{{ vm_cluster_discovery_result }}'
-  - set_fact: 
-      vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].lifecycle_state }}'
-  when: vm_cluster_id is defined
-
-- block:
-  - name: ExaCS VM Cluster Discovery - VM Cluster Name
-    oci_database_cloud_vm_cluster_facts:
-      compartment_id: '{{ compartment_id }}'
-      display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
-    register: vm_cluster_discovery_result
-  - debug:
-      msg: '{{ vm_cluster_discovery_result }}'
-  - set_fact: 
-      vm_cluster_id: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].id }}'
-      vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].lifecycle_state }}'
-    when: vm_cluster_discovery_result.cloud_vm_clusters|length == 1
-  when: vm_cluster_id is not defined 
+- name: ExaCS VM Cluster Discovery - VM Cluster Name
+  oci_database_cloud_vm_cluster_facts:
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
+  register: vm_cluster_discovery_result
+- debug:
+    msg: '{{ vm_cluster_discovery_result }}'
+- set_fact: 
+    vm_cluster_id: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].id }}'
+    vm_cluster_lifecycle_state: '{{ vm_cluster_discovery_result.cloud_vm_clusters[0].lifecycle_state }}'
+  when: vm_cluster_discovery_result.cloud_vm_clusters|length == 1
 

@@ -1,0 +1,10 @@
+
+# Set-Up Exadata cloud Service Infrastructure
+
+- name: 'Check Exadata Type variable.'
+  assert:
+    that:
+      - exadata_type is defined and exadata_type == 'exacc'
+    fail_msg: 'Define variable exadata_type to be exacc.'
+  
+    

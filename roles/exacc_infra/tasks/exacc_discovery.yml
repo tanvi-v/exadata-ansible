@@ -1,0 +1,11 @@
+- name: 'Discover ExaCC {{ workload_tag }}{{ exacc_name }}'
+  oci_database_exadata_infrastructure_facts:
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_tag }}{{ exacc_name }}'
+  register: 'exacc_discovery_result'
+- name: 'ExaCC Discovery Output'
+  debug:
+    msg: '{{ exacc_discovery_result }}'
+- set_fact: 
+    exadata_infrastructure_id: '{{ exacc_discovery_result.exadata_infrastructures[0].id }}'
+  when: exacc_discovery_result.exadata_infrastructures|length == 1 

@@ -1,0 +1,21 @@
+
+- name: 'Discover ExaCC for VM Cluster Network {{ workload_tag }}{{ vm_cluster_network_name }}'
+  when: exadata_infrastructure_id is not defined
+  include_role:
+    name: 'exacc_infra'
+    tasks_from: 'exacc_discovery.yml'
+- name: 'Assert that exadata_infrastructure_id is defined'
+  assert: { that: exadata_infrastructure_id is defined }
+
+- name: 'Discover VM Cluster Network {{ workload_tag }}{{ vm_cluster_network_name }}'
+  oci_database_vm_cluster_network_facts:
+    compartment_id: '{{ compartment_id }}'
+    display_name: '{{ workload_tag }}{{ vm_cluster_network_name }}'
+    exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+  register: 'vm_cluster_network_discovery_result'
+- name: 'VM Cluster Network Discovery Output'
+  debug:
+    msg: '{{ vm_cluster_network_discovery_result }}'
+- set_fact: 
+    vm_cluster_network_id: '{{ vm_cluster_network_discovery_result.vm_cluster_networks[0].id }}'
+  when: vm_cluster_network_discovery_result.vm_cluster_networks|length == 1 

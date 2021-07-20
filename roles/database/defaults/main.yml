@@ -1,13 +1,13 @@
 # database creation default
-source: 'NONE'
+db_source: 'NONE'
 
 # optional variables for database creation
 character_set: 'AL32UTF8'
 database_software_image_id: null
 db_backup_config: null
 db_workload: 'OLTP'
-defined_tags: null
-freeform_tags: null
+db_defined_tags: null
+db_freeform_tags: null
 ncharacter_set: null
 initial_pdb_name: null
 # tde_wallet_password: '{{ tde_wallet_password }}'        # Specifing TDE wallet password is currently not supported for Exadata Cloud Service and Exadata Cloud@Customer instances.
