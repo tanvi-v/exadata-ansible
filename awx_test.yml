@@ -6,7 +6,8 @@
   
     - include_vars:
         dir: './vars'
-        files_matching: '{{ vars_file }}'
+        files_matching: '{{ item }}'
+      loop: '{{ vars_list }}'
 
     - name: 'Basic Tests'
       include_role:
