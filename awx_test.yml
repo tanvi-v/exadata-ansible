@@ -4,7 +4,9 @@
 
   tasks:
   
-    - include_vars: './vars/{{ vars_file }}'
+    - include_vars:
+        dir: 'vars'
+        name: '{{ vars_file }}'
 
     - name: 'Basic Tests'
       include_role:
