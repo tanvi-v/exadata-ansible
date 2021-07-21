@@ -4,27 +4,27 @@
 - name: 'Check Exadata Infrastructure variables.'
   assert:
     that:
-      - exadata_infrastructure_id is defined
-    fail_msg: 'exadata_infrastructure_id value not defined.'
+      - compartment_id is defined and exadata_infrastructure_id is defined and vm_cluster_network_id is defined
+    fail_msg: 'Required values are not defined.'
 
 - name: 'Create vm cluster {{ workload_tag }}{{ vm_cluster_name }}'
   oci_database_vm_cluster:
     compartment_id: '{{ compartment_id }}'
-    cpu_core_count: '{{ cpu_core_count }}'
-    data_storage_size_in_tbs: '{{ data_storage_size_in_tbs }}'
-    db_node_storage_size_in_gbs: '{{ db_node_storage_size_in_gbs }}'
-    defined_tags: '{{ defined_tags }}'
+    cpu_core_count: '{{ vm_cluster_cpu_core_count }}'
+    data_storage_size_in_tbs: '{{ vm_cluster_data_storage_size_in_tbs }}'
+    db_node_storage_size_in_gbs: '{{ vm_cluster_db_node_storage_size_in_gbs }}'
+    defined_tags: '{{ vm_cluster_defined_tags }}'
     display_name: '{{ workload_tag }}{{ vm_cluster_name }}'
     exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
-    freeform_tags: '{{ freeform_tags }}'
-    gi_version: '{{ gi_version }}'
+    freeform_tags: '{{ vm_cluster_freeform_tags }}'
+    gi_version: '{{ vm_cluster_gi_version }}'
     is_local_backup_enabled: '{{ is_local_backup_enabled }}'
     is_sparse_diskgroup_enabled: '{{ is_sparse_diskgroup_enabled }}'
     key_by: ['exadata_infrastructure_id', 'display_name']
     license_model: '{{ license_model }}'
-    memory_size_in_gbs: '{{ memory_size_in_gbs }}'
-    ssh_public_keys: '{{ ssh_public_keys }}'
-    time_zone: '{{ time_zone }}'
+    memory_size_in_gbs: '{{ vm_cluster_memory_size_in_gbs }}'
+    ssh_public_keys: '{{ vm_cluster_ssh_public_keys }}'
+    time_zone: '{{ vm_cluster_time_zone }}'
     vm_cluster_network_id: '{{ vm_cluster_network_id }}'
   register: vm_cluster_create_result
 - debug:

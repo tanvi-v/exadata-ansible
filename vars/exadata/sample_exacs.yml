@@ -12,20 +12,11 @@ backup_subnet_cidr_block: '10.3.1.0/24'  # for ExaCS back-up
 # EXACS INFRA REQUIRED VARIABLES
 exacs_name: 'Exa1'
 exacs_shape: 'Exadata.X8M'
-availability_domain: 'availability_domain'
+exacs_availability_domain: 'availability_domain'
 
 # VM CLUSTER REQUIRED VARIABLES
 vm_cluster_name: 'VM1'
 vm_cluster_hostname: 'tstcluster'
-cpu_core_count: '4'
-gi_version: '19.1.0.0'
-ssh_public_keys: 'ssh...'
-
-# # DATABASE REQUIRED VARIABLES
-# db_name: 'DB1'
-
-# # DATABASE HOME REQUIRED VARIABLES
-# db_home_name: 'home1'
-
-# # PDB REQUIRED VARIABLES
-# pdb_name: 'PDB2'
+vm_cluster_cpu_core_count: '4'
+vm_cluster_gi_version: '19.1.0.0'
+vm_cluster_ssh_public_keys: 'ssh...'

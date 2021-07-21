@@ -1,16 +1,16 @@
 
 - name: Create cloud exadata infrastructure
   oci_database_cloud_exadata_infrastructure:
-    availability_domain: '{{ availability_domain }}'
+    availability_domain: '{{ exacs_availability_domain }}'
     compartment_id: '{{ compartment_id }}'
-    compute_count: '{{ compute_count }}'
-    defined_tags: '{{ defined_tags }}'
+    compute_count: '{{ exacs_compute_count }}'
+    defined_tags: '{{ exacs_defined_tags }}'
     display_name: '{{ workload_tag }}{{ exacs_name }}'
-    freeform_tags: '{{ freeform_tags }}'
+    freeform_tags: '{{ exacs_freeform_tags }}'
     key_by: ['compartment_id', 'display_name']
-    maintenance_window: '{{ maintenance_window }}'
+    maintenance_window: '{{ exacs_maintenance_window }}'
     shape: '{{ exacs_shape }}'
-    storage_count: '{{ storage_count }}'
+    storage_count: '{{ exacs_storage_count }}'
   register: exacs_create_result
 - debug:
     msg: '{{ exacs_create_result }}'

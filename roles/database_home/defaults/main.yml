@@ -1,8 +1,10 @@
 # database home creation default
-source: 'VM_CLUSTER_NEW'
+db_home_source: 'VM_CLUSTER_NEW'
 
 # optional variables for database home creation
 database_software_image_id: null
+db_home_defined_tags: null
+db_home_freeform_tags: null
 db_version: null
 kms_key_id: null
 kms_key_version_id: null

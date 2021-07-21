@@ -8,12 +8,14 @@
   oci_database_db_home:
     compartment_id: '{{ compartment_id }}'
     database_software_image_id: '{{ database_software_image_id }}'
+    defined_tags: '{{ db_home_defined_tags }}'
     db_version: '{{ db_version }}'
     display_name: '{{ workload_tag }}{{ db_home_name }}'
+    freeform_tags: '{{ db_home_freeform_tags }}'
     key_by: ['vm_cluster_id', 'display_name']
     kms_key_id: '{{ kms_key_id }}'
     kms_key_version_id: '{{ kms_key_version_id }}'
-    source: '{{ source }}'
+    source: '{{ db_home_source }}'
     vm_cluster_id: '{{ vm_cluster_id }}'
   register: 'db_home_create_result'
 - debug:
