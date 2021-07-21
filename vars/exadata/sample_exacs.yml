@@ -21,11 +21,11 @@ cpu_core_count: '4'
 gi_version: '19.1.0.0'
 ssh_public_keys: 'ssh...'
 
-# DATABASE REQUIRED VARIABLES
-db_name: 'DB1'
+# # DATABASE REQUIRED VARIABLES
+# db_name: 'DB1'
 
-# DATABASE HOME REQUIRED VARIABLES
-db_home_name: 'home1'
+# # DATABASE HOME REQUIRED VARIABLES
+# db_home_name: 'home1'
 
-# PDB REQUIRED VARIABLES
-pdb_name: 'PDB2'
+# # PDB REQUIRED VARIABLES
+# pdb_name: 'PDB2'
