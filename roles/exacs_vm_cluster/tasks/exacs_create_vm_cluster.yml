@@ -1,23 +1,41 @@
 # Create ExaCS VM Cluster
 
-- name: 'Check Exadata Infrastructure variable.'
-  assert:
-    that:
-      - exadata_infrastructure_id is defined
-    fail_msg: 'exadata_infrastructure_id value not defined. Please run create_exacc.yml and pass in ExaCC OCID.'
+- name: 'Discover ExaCS for VM Cluster {{ workload_tag }}{{ vm_cluster_name }}'
+  when: exadata_infrastructure_id is not defined
+  include_role:
+    name: 'exacs_infra'
+    tasks_from: 'exacs_discovery.yml'
+- name: 'Assert that exadata_infrastructure_id is defined'
+  assert: { that: exadata_infrastructure_id is defined }
+
+- name: 'Networking is defined'
+  assert: { that: backup_subnet_id is defined and subnet_id is defined }
 
 - name: Create cloud vm cluster
   oci_database_cloud_vm_cluster:
-    key_by: ['cloud_exadata_infrastructure_id', 'display_name']
-    compartment_id: '{{ compartment_id }}'
-    subnet_id: '{{ client_subnet_id }}'
+    backup_network_nsg_ids: '{{ backup_network_nsg_ids }}'
     backup_subnet_id: '{{ backup_subnet_id }}'
     cloud_exadata_infrastructure_id: '{{ exadata_infrastructure_id }}'
+    cluster_name: '{{ cluster_name }}'
+    compartment_id: '{{ compartment_id }}'
+    compute_nodes: '{{ compute_nodes }}'
     cpu_core_count: '{{ vm_cluster_cpu_count }}'
+    data_storage_percentage: '{{ data_storage_percentage }}'
+    defined_tags: '{{ defined_tags }}'
     display_name: '{{ workload tag }}{{ vm_cluster_display_name }}'
-    hostname: '{{ vm_cluster_hostname }}'
-    ssh_public_keys: '{{ ssh_public_keys }}'
+    domain_name: '{{ domain_name }}'
+    freeform_tags: '{{ freeform_tags }}'
     gi_version: '{{ gi_version }}'
+    hostname: '{{ vm_cluster_hostname }}'
+    is_local_backup_enabled: '{{ is_local_backup_enabled }}'
+    is_sparse_diskgroup_enabled: '{{ is_sparse_diskgroup_enabled }}'
+    key_by: ['cloud_exadata_infrastructure_id', 'display_name']
+    license_model: '{{ license_model }}'
+    nsg_ids: '{{ nsg_ids }}'
+    ssh_public_keys: '{{ ssh_public_keys }}'
+    storage_size_in_gbs: '{{ storage_size_in_gbs }}'
+    time_zone: '{{ time_zone }}'
+    subnet_id: '{{ client_subnet_id }}'
   register: vm_cluster_create_result
 - debug:
     msg: '{{ vm_cluster_create_result }}'

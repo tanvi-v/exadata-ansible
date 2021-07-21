@@ -12,6 +12,7 @@ backup_subnet_cidr_block: '10.3.1.0/24'  # for ExaCS back-up
 # EXACS INFRA REQUIRED VARIABLES
 exacs_name: 'Exa1'
 exacs_shape: 'Exadata.X8M'
+availability_domain: 'availability_domain'
 
 # VM CLUSTER REQUIRED VARIABLES
 vm_cluster_name: 'VM1'

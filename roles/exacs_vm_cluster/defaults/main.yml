@@ -1,0 +1,13 @@
+backup_network_nsg_ids: null
+cluster_name: null
+compute_nodes: null
+data_storage_percentage: null
+defined_tags: null
+domain: null      # if Oracle-provided internet and VCN resolver enabled for the subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name
+freeform_tags: null
+is_local_backup_enabled: null
+is_sparse_diskgroup_enabled: null
+license_model: null
+nsg_ids: null
+storage_size_in_gbs: null
+time_zone: null

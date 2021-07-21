@@ -1,3 +1,8 @@
-
+# optional values for create infra
+compute_count: '2'
+defined_tags: null
+freeform_tags: null
+maintenance_window: null
+storage_count: '3'
 
 
