@@ -1,9 +1,4 @@
 
-- name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
-  when: db_home_id is not defined
-  include_role:
-    name: 'database_home'
-    tasks_from: 'db_home_discovery.yml'
 - name: 'Assert that db_home_id is defined'
   assert: { that: db_home_id is defined }
 

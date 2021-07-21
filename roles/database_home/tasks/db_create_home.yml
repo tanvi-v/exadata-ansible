@@ -1,10 +1,6 @@
 
-- name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
-  when: vm_cluster_id is not defined
-  include_role:
-    name: 'exacs_vm_cluster'
-    tasks_from: 'exacs_vm_cluster_discovery.yml'
-- assert: { that: vm_cluster_id is defined }
+- name: 'Assert that vm_cluster_id is defined'
+  assert: { that: vm_cluster_id is defined }
 
 # Source is VM_CLUSTER_NEW (default)
 
@@ -24,5 +20,3 @@
     msg: '{{ db_home_create_result }}'
 - set_fact:
     db_home_id: '{{ db_home_create_result.db_home.id }}'
-
-# TO DO: DIFFERENT SOURCE
