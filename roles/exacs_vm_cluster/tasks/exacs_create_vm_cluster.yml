@@ -8,8 +8,36 @@
 - name: 'Assert that exadata_infrastructure_id is defined'
   assert: { that: exadata_infrastructure_id is defined }
 
-- name: 'Networking is defined'
-  assert: { that: backup_subnet_id is defined and subnet_id is defined }
+- name: 'Discover Backup Subnet ID for VM Cluster {{ workload_tag }}{{ vm_cluster_name }}'
+  when: backup_subnet_id is not defined
+  include_role:
+    name: 'networking'
+    tasks_from: 'subnet_discovery.yml'
+  vars:
+    subnet_name: '{{ workload_tag }}BackupSubnet'
+- set_fact:
+    backup_subnet_id: subnet_id
+  when: backup_subnet_id is not defined
+
+- name: 'Discover Client Subnet ID for VM Cluster {{ workload_tag }}{{ vm_cluster_name }}'
+  when: client_subnet_id is not defined
+  include_role:
+    name: 'networking'
+    tasks_from: 'subnet_discovery.yml'
+  vars:
+    subnet_name: '{{ workload_tag }}ClientSubnet'
+- set_fact:
+    client_subnet_id: subnet_id
+  when: client_subnet_id is not defined
+
+- name: 'Check VM Cluster variables.'
+  assert:
+    that:
+      - compartment_id is defined
+      - exadata_infrastructure_id is defined
+      - backup_subnet_id is defined
+      - client_subnet_id is defined
+    fail_msg: 'Required values are not defined.'
 
 - name: Create cloud vm cluster
   oci_database_cloud_vm_cluster:

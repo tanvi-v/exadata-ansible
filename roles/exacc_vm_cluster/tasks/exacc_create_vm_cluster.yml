@@ -4,7 +4,9 @@
 - name: 'Check Exadata Infrastructure variables.'
   assert:
     that:
-      - compartment_id is defined and exadata_infrastructure_id is defined and vm_cluster_network_id is defined
+      - compartment_id is defined
+      - exadata_infrastructure_id is defined
+      - vm_cluster_network_id is defined
     fail_msg: 'Required values are not defined.'
 
 - name: 'Create vm cluster {{ workload_tag }}{{ vm_cluster_name }}'

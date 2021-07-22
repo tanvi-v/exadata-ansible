@@ -3,13 +3,13 @@
 # Create Networking
 
 - name: Create VCN
-  include_tasks: vcn.yml
+  include_tasks: create_vcn.yml
 
 - name: List Oracle Services
   include_tasks: network_service_discovery.yml
 
 - name: Add Networking for Backup Subnet
-  include_tasks: backup_subnet.yml
+  include_tasks: create_backup_subnet.yml
   
 - name: Add Networking for Client Subnet
-  include_tasks: client_subnet.yml
+  include_tasks: create_client_subnet.yml

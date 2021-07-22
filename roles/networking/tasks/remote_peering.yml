@@ -6,7 +6,7 @@
 # Create Standby Region Basic Networking
 
 - name: Create VCN (Standby)
-  include_tasks: vcn.yml
+  include_tasks: create_vcn.yml
 
 - name: Create Client Security List for Standby
   oci_network_security_list:
