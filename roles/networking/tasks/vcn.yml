@@ -7,11 +7,14 @@
 
 - name: Create VCN
   oci_network_vcn:
-    key_by: ['display_name']
-    compartment_id: '{{ compartment_id }}'
-    display_name: '{{ workload_tag }}VCN'
     cidr_block: '{{ vcn_cidr_block }}'
-    dns_label: '{{ workload_tag }}VCN'
+    compartment_id: '{{ compartment_id }}'
+    defined_tags: '{{ vcn_defined_tags }}'
+    display_name: '{{ workload_tag }}VCN'
+    dns_label: '{{ workload_tag }}vcn'
+    freeform_tags: '{{ vcn_freeform_tags }}'
+    is_ipv6_enabled: '{{ is_ipv6_enabled }}'
+    key_by: ['display_name']
   register: vcn_create_result
 - debug:
     msg: '{{ vcn_create_result }}'

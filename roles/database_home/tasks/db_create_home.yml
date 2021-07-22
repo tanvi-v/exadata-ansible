@@ -1,4 +1,10 @@
+- assert: { that: exadata_type is defined }
 
+- name: 'Discover VM Cluster for DB Home {{ workload_tag }}{{ db_home_name }}'
+  when: vm_cluster_id is not defined
+  include_role:
+    name: '{{ exadata_type }}_vm_cluster'
+    tasks_from: '{{ exadata_type }}_vm_cluster_discovery.yml'
 - name: 'Assert that vm_cluster_id is defined'
   assert: { that: vm_cluster_id is defined }
 

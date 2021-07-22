@@ -34,8 +34,8 @@
     nsg_ids: '{{ vm_cluster_nsg_ids }}'
     ssh_public_keys: '{{ vm_cluster_ssh_public_keys }}'
     storage_size_in_gbs: '{{ vm_cluster_storage_size_in_gbs }}'
-    time_zone: '{{ vm_cluster_time_zone }}'
     subnet_id: '{{ client_subnet_id }}'
+    time_zone: '{{ vm_cluster_time_zone }}'
   register: vm_cluster_create_result
 - debug:
     msg: '{{ vm_cluster_create_result }}'

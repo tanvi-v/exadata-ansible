@@ -1,6 +1,10 @@
 
 # Check for required variables.
 
+- name: VCN discovery
+  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
+  include_tasks: vcn_discovery.yml
+
 - name: 'Check VCN variables.'
   assert:
     that:
@@ -107,17 +111,23 @@
 
 - name: Create client subnet
   oci_network_subnet:
-    key_by: ['vcn_id', 'display_name']
-    compartment_id: '{{ compartment_id }}'
-    vcn_id: '{{ vcn_id }}'
+    availability_domain: '{{ client_availability_domain }}'
     cidr_block: '{{ client_subnet_cidr_block }}'
+    compartment_id: '{{ compartment_id }}'
+    defined_tags: '{{ client_defined_tags }}'
+    dhcp_options_id: '{{ client_dhcp_options_id }}'
     display_name: '{{ workload_tag }}ClientSubnet'
-    prohibit_public_ip_on_vnic: '{{ prohibit_public_ip_on_vnic }}'
     dns_label: '{{ workload_tag }}CS'
+    freeform_tags: '{{ client_freeform_tags }}'
+    ipv6_cidr_block: '{{ client_ipv6_cidr_block }}'
+    key_by: ['vcn_id', 'display_name']
+    prohibit_internet_ingress: '{{ client_prohibit_internet_ingress }}'
+    prohibit_public_ip_on_vnic: '{{ client_prohibit_public_ip_on_vnic }}'
     route_table_id: '{{ client_route_table_id }}'
     security_list_ids: 
     - '{{ client_security_list_id }}'
     - '{{ default_security_list_id }}'
+    vcn_id: '{{ vcn_id }}'
   register: client_subnet_create_result
 - debug:
     msg: '{{ client_subnet_create_result }}'

@@ -1,4 +1,8 @@
 
+- name: VCN discovery
+  when: vcn_id is not defined
+  include_tasks: vcn_discovery.yml
+
 - name: Subnet discovery
   oci_network_subnet_facts:
     compartment_id: '{{ compartment_id }}'

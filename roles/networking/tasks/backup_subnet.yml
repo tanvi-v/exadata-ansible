@@ -1,6 +1,10 @@
 
 # Check for required variables.
 
+- name: VCN discovery
+  when: vcn_id is not defined or default_route_table_id is not defined or default_security_list_id is not defined
+  include_tasks: vcn_discovery.yml
+
 - name: 'Check VCN variables.'
   assert:
     that:
@@ -74,16 +78,22 @@
 
 - name: Create backup subnet with custom route table and security list
   oci_network_subnet:
-    key_by: ['vcn_id', 'display_name']
-    compartment_id: '{{ compartment_id }}'
-    vcn_id: '{{ vcn_id }}'
+    availability_domain: '{{ backup_availability_domain }}'
     cidr_block: '{{ backup_subnet_cidr_block }}'
+    compartment_id: '{{ compartment_id }}'
+    defined_tags: '{{ backup_defined_tags }}'
+    dhcp_options_id: '{{ backup_dhcp_options_id }}'
     display_name: '{{ workload_tag }}BackupSubnet'
-    prohibit_public_ip_on_vnic: 'true'
     dns_label: '{{ workload_tag }}BU'
+    freeform_tags: '{{ backup_freeform_tags }}'
+    ipv6_cidr_block: '{{ backup_ipv6_cidr_block }}'
+    key_by: ['vcn_id', 'display_name']
+    prohibit_internet_ingress: '{{ backup_prohibit_internet_ingress }}'
+    prohibit_public_ip_on_vnic: 'true'
     route_table_id: '{{ backup_route_table_id }}'
     security_list_ids: 
     - '{{ backup_security_list_id }}'
+    vcn_id: '{{ vcn_id }}'
   register: backup_subnet_create_result
 - debug:
     msg: '{{ backup_subnet_create_result }}'

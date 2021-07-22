@@ -17,6 +17,7 @@
   - name: 'Create NFS backup_destination'
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
+      defined_tags: '{{ backup_destination_defined_tags }}'
       display_name: '{{ workload_tag }}NFS'
       freeform_tags: '{{ backup_destination_freeform_tags }}'
       key_by: ['compartment_id', display_name']
@@ -43,6 +44,7 @@
     oci_database_backup_destination:
       compartment_id: '{{ compartment_id }}'
       connection_string: '{{ connection_string }}'
+      defined_tags: '{{ backup_destination_defined_tags }}'
       display_name: '{{ workload_tag }}RA'
       freeform_tags: '{{ backup_destination_freeform_tags }}'
       key_by: ['compartment_id', display_name']

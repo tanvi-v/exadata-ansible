@@ -1,3 +1,20 @@
+# optional values for vcn creation
+vcn_defined_tags: null
+vcn_freeform_tags: null
+is_ipv6_enabled: null
 
+# optional values for client subnet creation
+client_availability_domain: null      # sets subnet to regional
+client_defined_tags: null
+client_freeform_tags: null
+client_dhcp_options_id: null
+client_ipv6_cidr_block: null
+client_prohibit_internet_ingress: null
 
-
+# optional values for backup subnet creation
+backup_availability_domain: null      # sets subnet to regional
+backup_defined_tags: null
+backup_freeform_tags: null
+backup_dhcp_options_id: null
+backup_ipv6_cidr_block: null
+backup_prohibit_internet_ingress: null

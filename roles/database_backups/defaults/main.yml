@@ -8,6 +8,7 @@ nfs_server: null
 nfs_server_export: null
 
 # optional variables for create backup destination
+backup_destination_defined_tags: null
 backup_destination_freeform_tags: null
 
 # optional variables for automatic backups
