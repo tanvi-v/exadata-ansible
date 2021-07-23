@@ -1,0 +1,14 @@
+- copy:
+    src: 'sample_script.sql'
+    dest: '/home/oracle/sample_script.sql'
+
+- name: 'Execute Script'
+  shell: echo exit |
+    $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    ORACLE_SID: '{{ oracle_sid }}'
+    ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
+  register: result
+- debug:
+    msg: "{{ result }}"
