@@ -11,8 +11,7 @@
     #     files_matching: '{{ vars_file }}'
 
     - include_vars:
-        dir: './vars'
-        file: '{{ item }}'
+        file: './vars/{{ item }}'
       loop: '{{ vars_file }}'
 
     - name: 'Create Networking for ExaCS'
