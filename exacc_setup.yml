@@ -8,8 +8,8 @@
   tasks:
 
     - include_vars:
-        dir: './vars'
-        files_matching: '{{ vars_file }}'
+        file: './vars/{{ item }}'
+      loop: '{{ vars_list }}'
     
     - name: 'Create VM Cluster Network and VM Cluster for ExaCC'
       include_role:
