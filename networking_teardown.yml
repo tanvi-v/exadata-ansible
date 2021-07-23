@@ -8,8 +8,8 @@
   tasks:
 
     - include_vars:
-        dir: './vars'
-        files_matching: '{{ vars_file }}'
+        file: './vars/{{ item }}'
+      loop: '{{ vars_file }}'
 
     - name: 'Delete Networking Components'
       include_role:
