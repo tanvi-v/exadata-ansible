@@ -6,9 +6,14 @@
     
   tasks:
 
+    # - include_vars:
+    #     dir: './vars'
+    #     files_matching: '{{ vars_file }}'
+
     - include_vars:
         dir: './vars'
-        files_matching: '{{ vars_file }}'
+        file: '{{ item }}'
+      loop: '{{ vars_file }}'
 
     - name: 'Create Networking for ExaCS'
       include_role:
