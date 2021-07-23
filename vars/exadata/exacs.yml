@@ -3,12 +3,6 @@ exadata_type: 'exacs'                 # exacs, exacc
 compartment_id: 'ocid...'
 workload_tag: 'tag1'
 
-# NETWORK REQUIRED VARIABLES
-prohibit_public_ip_on_vnic: 'true'      # public or private
-vcn_cidr_block: '10.3.0.0/16'
-client_subnet_cidr_block: '10.3.0.0/24'   # to host ExaCS VM Cluster
-backup_subnet_cidr_block: '10.3.1.0/24'  # for ExaCS back-up
-
 # EXACS INFRA REQUIRED VARIABLES
 exacs_name: 'Exa1'
 exacs_shape: 'Exadata.X8M'

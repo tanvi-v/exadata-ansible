@@ -48,7 +48,7 @@
   - set_fact:
       client_route_table_id: '{{ client_rt_create_result.route_table.id }}'  
   
-  when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'true'
+  when: client_prohibit_public_ip_on_vnic is defined and client_prohibit_public_ip_on_vnic == 'true'
 
 # Create Networking for Public Client Subnet
 
@@ -83,7 +83,7 @@
   - set_fact:
       client_route_table_id: '{{ client_rt_create_result.route_table.id }}'
   
-  when: prohibit_public_ip_on_vnic is defined and prohibit_public_ip_on_vnic == 'false'
+  when: client_prohibit_public_ip_on_vnic is defined and client_prohibit_public_ip_on_vnic == 'false'
 
 # Create Remaining Networking for Client Subnet
 
