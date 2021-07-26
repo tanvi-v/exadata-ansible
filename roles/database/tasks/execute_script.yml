@@ -1,10 +1,20 @@
 - copy:
-    src: 'sample_script.sql'
-    dest: '/home/oracle/sample_script.sql'
+    src: 'sample_script'
+    dest: '/home/oracle/sample_script'
+
+# - name: 'Execute Script'
+#   shell: echo exit |
+#     $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
+#   environment:
+#     ORACLE_HOME: '{{ oracle_home }}'
+#     ORACLE_SID: '{{ oracle_sid }}'
+#     ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
+#   register: result
+# - debug:
+#     msg: "{{ result }}"
 
 - name: 'Execute Script'
-  shell: echo exit |
-    $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
+  shell: ./home/oracle/sample_script
   environment:
     ORACLE_HOME: '{{ oracle_home }}'
     ORACLE_SID: '{{ oracle_sid }}'
