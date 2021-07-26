@@ -1,12 +1,12 @@
 # db_home
-db_home_name: 'home2'
+db_home_name: 'home1'
 db_version: '19.0.0.0'
 
 # database
-db_name: 'DB2'
+db_name: 'DB1'
 auto_backup_enabled: 'true'
 auto_backup_window: 'SLOT_TWO'
 recovery_window_in_days: '30'
 
 # pdb
-pdb_name: 'PDB2'
+pdb_name: 'TstPDB'
