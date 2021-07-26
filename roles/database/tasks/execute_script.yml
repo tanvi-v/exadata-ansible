@@ -2,6 +2,19 @@
     src: 'sample_script'
     dest: '/home/oracle/sample_script'
 
+- name: 'Discovery DB'
+  when: oracle_unique_name is not defined
+  include_tasks: 'db_discovery.yml'  
+
+- name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
+  when: oracle_home is not defined
+  include_role:
+    name: 'database_home'
+    tasks_from: 'db_home_discovery.yml'
+
+- name: 'Assert that oracle_unique_name and oracle_home are defined'
+  assert: { that: oracle_unique_name is defined and oracle_home is defined }
+
 # - name: 'Execute Script'
 #   shell: echo exit |
 #     $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
@@ -17,7 +30,7 @@
   shell: ./home/oracle/sample_script
   environment:
     ORACLE_HOME: '{{ oracle_home }}'
-    ORACLE_SID: '{{ oracle_sid }}'
+    # ORACLE_SID: '{{ oracle_sid }}'
     ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
   register: result
 - debug:
