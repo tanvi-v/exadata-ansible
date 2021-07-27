@@ -20,13 +20,6 @@
 - name: 'Create new backup'
   when: exadata_type == 'exacs'
   include_tasks: 'db_backup_standalone.yml'
-
-
-# Automatic Backups
-
-- name: Enable automatic backups
-  when: auto_backup_enabled is defined and auto_backup_enabled == 'true'
-  include_tasks: 'db_enable_automatic_backup.yml'
   
 
 
