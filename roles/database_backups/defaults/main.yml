@@ -12,7 +12,7 @@ backup_destination_defined_tags: null
 backup_destination_freeform_tags: null
 
 # optional variables for automatic backups
-auto_backup_window: null
+auto_backup_window: 'SLOT_TWO'
 recovery_window_in_days: null
 
 

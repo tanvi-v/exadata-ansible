@@ -11,14 +11,16 @@
     tasks_from: 'db_discovery.yml'
 - assert: { that: database_id is defined }
 
-- name: 'Set automatic database backups'
+- name: 'Enable automatic database backups'
+  when: auto_backup_enabled == 'true'
   oci_database_database:
     database_id: '{{ database_id }}'
     db_backup_config:
       auto_backup_enabled: '{{ auto_backup_enabled }}'
-      # auto_backup_window: '{{ auto_backup_window }}'
+      auto_backup_window: '{{ auto_backup_window }}'
       recovery_window_in_days: '{{ recovery_window_in_days }}'
-  register: 'auto_backup_result'
+  register: 'enable_auto_backup_result'
 - debug:
-    msg: '{{ auto_backup_result }}'
+    when: enable_auto_backup_result is defined
+    msg: '{{ enable_auto_backup_result }}'
 
