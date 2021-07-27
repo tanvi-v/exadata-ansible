@@ -16,23 +16,9 @@
   copy:
     src: 'sample_script'
     dest: '/home/oracle/'
-  register: 'copy_result'
-- name: 'Copy Output'
-  debug:
-    msg: '{{ copy_result }}'
-
-
-- name: 'Execute Script'
-  shell: ls
-  args:
-    chdir: /home/oracle/ 
-  environment:
-    ORACLE_HOME: '{{ oracle_home }}'
-    # # ORACLE_SID: '{{ oracle_sid }}'
-    ORACLE_UNIQUE_NAME: '{{ db_unique_name }}'
-  register: result
+  register: 'copy_script_result'
 - debug:
-    msg: "{{ result }}"
+    msg: '{{ copy_script_result }}'
 
 - name: Change file ownership, group and permissions
   ansible.builtin.file:
@@ -41,12 +27,13 @@
 
 - name: 'Execute Script'
   shell: |
-    ./home/oracle/sample_script
-  # args:
-  #   chdir: /home/oracle/
-  register: result
+    ./sample_script
+  args:
+    chdir: /home/oracle/
+  register: script_execution_result
 - debug:
-    msg: "{{ result }}"
+    msg: "{{ script_execution_result }}"
+
 
 # - name: 'Execute SQL Script'
 #   shell: echo exit |
