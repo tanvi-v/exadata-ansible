@@ -1,6 +1,11 @@
-- copy:
+- name: 'Copy Script to Host'
+  copy:
     src: 'sample_script'
     dest: '/home/oracle/'
+  register: 'copy_result'
+- name: 'Copy Output'
+  debug:
+    msg: '{{ copy_result }}'
 
 - name: 'Discovery DB'
   when: db_unique_name is not defined
