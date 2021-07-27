@@ -32,6 +32,18 @@
 #     msg: "{{ result }}"
 
 - name: 'Execute Script'
+  shell: ls
+  args:
+    chdir: /home/oracle/ 
+  environment:
+    ORACLE_HOME: '{{ oracle_home }}'
+    # # ORACLE_SID: '{{ oracle_sid }}'
+    ORACLE_UNIQUE_NAME: '{{ db_unique_name }}'
+  register: result
+- debug:
+    msg: "{{ result }}"
+
+- name: 'Execute Script'
   shell: ./sample_script
   args:
     chdir: /home/oracle/ 
