@@ -1,5 +1,5 @@
 
-- name: 'Database Set-Up'
+- name: 'Database Backup'
   hosts: 'localhost'
     
   tasks:

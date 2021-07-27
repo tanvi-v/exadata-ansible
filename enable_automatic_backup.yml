@@ -1,0 +1,13 @@
+- name: 'Database Set Automatic Backup'
+  hosts: 'localhost'
+    
+  tasks:
+
+    - include_vars:
+        file: './vars/{{ item }}'
+      loop: '{{ vars_list }}'
+
+    - name: 'Set Database Automatic Backup'
+      include_role:
+        name: 'database_backups'
+        tasks_from: 'db_enable_automatic_backup.yml'
