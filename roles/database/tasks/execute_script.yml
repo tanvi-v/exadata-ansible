@@ -3,7 +3,7 @@
     dest: '/home/oracle/'
 
 - name: 'Discovery DB'
-  when: oracle_unique_name is not defined
+  when: db_unique_name is not defined
   include_tasks: 'db_discovery.yml'  
 
 - name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
@@ -13,7 +13,7 @@
     tasks_from: 'db_home_discovery.yml'
 
 - name: 'Assert that oracle_unique_name and oracle_home are defined'
-  assert: { that: oracle_unique_name is defined and oracle_home is defined }
+  assert: { that: db_unique_name is defined and oracle_home is defined }
 
 # - name: 'Execute Script'
 #   shell: echo exit |
