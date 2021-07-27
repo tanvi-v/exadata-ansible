@@ -32,7 +32,9 @@
 #     msg: "{{ result }}"
 
 - name: 'Execute Script'
-  shell: ./home/oracle/sample_script
+  shell: ./sample_script
+  args:
+    chdir: /home/oracle/ 
   environment:
     ORACLE_HOME: '{{ oracle_home }}'
     # # ORACLE_SID: '{{ oracle_sid }}'
