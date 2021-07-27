@@ -30,8 +30,8 @@
   shell: ./home/oracle/sample_script
   environment:
     ORACLE_HOME: '{{ oracle_home }}'
-    # ORACLE_SID: '{{ oracle_sid }}'
-    ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
+    # # ORACLE_SID: '{{ oracle_sid }}'
+    ORACLE_UNIQUE_NAME: '{{ db_unique_name }}'
   register: result
 - debug:
     msg: "{{ result }}"
