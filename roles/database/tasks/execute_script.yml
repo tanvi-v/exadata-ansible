@@ -1,11 +1,3 @@
-- name: 'Copy Script to Host'
-  copy:
-    src: 'sample_script'
-    dest: '/home/oracle/'
-  register: 'copy_result'
-- name: 'Copy Output'
-  debug:
-    msg: '{{ copy_result }}'
 
 - name: 'Discovery DB'
   when: db_unique_name is not defined
@@ -20,16 +12,15 @@
 - name: 'Assert that oracle_unique_name and oracle_home are defined'
   assert: { that: db_unique_name is defined and oracle_home is defined }
 
-# - name: 'Execute Script'
-#   shell: echo exit |
-#     $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
-#   environment:
-#     ORACLE_HOME: '{{ oracle_home }}'
-#     ORACLE_SID: '{{ oracle_sid }}'
-#     ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
-#   register: result
-# - debug:
-#     msg: "{{ result }}"
+- name: 'Copy Script to Host'
+  copy:
+    src: 'sample_script'
+    dest: '/home/oracle/'
+  register: 'copy_result'
+- name: 'Copy Output'
+  debug:
+    msg: '{{ copy_result }}'
+
 
 - name: 'Execute Script'
   shell: ls
@@ -50,13 +41,20 @@
 
 - name: 'Execute Script'
   shell: |
-    ./sample_script
-  args:
-    chdir: /home/oracle/ 
-  environment:
-    ORACLE_HOME: '{{ oracle_home }}'
-    # # ORACLE_SID: '{{ oracle_sid }}'
-    ORACLE_UNIQUE_NAME: '{{ db_unique_name }}'
+    ./home/oracle/sample_script
+  # args:
+  #   chdir: /home/oracle/
   register: result
 - debug:
     msg: "{{ result }}"
+
+# - name: 'Execute SQL Script'
+#   shell: echo exit |
+#     $ORACLE_HOME/bin/sqlplus -s / as sysdba @/home/oracle/sample_script.sql
+#   environment:
+#     ORACLE_HOME: '{{ oracle_home }}'
+#     ORACLE_SID: '{{ oracle_sid }}'
+#     ORACLE_UNIQUE_NAME: '{{ oracle_unique_name }}'
+#   register: result
+# - debug:
+#     msg: "{{ result }}"
