@@ -43,9 +43,13 @@
 - debug:
     msg: "{{ result }}"
 
+- name: Change file ownership, group and permissions
+  ansible.builtin.file:
+    path: /home/oracle/sample_script
+    mode: '0770'
+
 - name: 'Execute Script'
   shell: |
-    chmod +x sample_script
     ./sample_script
   args:
     chdir: /home/oracle/ 
