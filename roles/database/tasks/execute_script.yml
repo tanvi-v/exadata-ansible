@@ -1,6 +1,6 @@
 - copy:
     src: 'sample_script'
-    dest: '/home/oracle/sample_script'
+    dest: '/home/oracle/'
 
 - name: 'Discovery DB'
   when: oracle_unique_name is not defined
