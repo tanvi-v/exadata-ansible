@@ -44,7 +44,9 @@
     msg: "{{ result }}"
 
 - name: 'Execute Script'
-  shell: ./sample_script
+  shell: |
+    chmod +x sample_script
+    ./sample_script
   args:
     chdir: /home/oracle/ 
   environment:
