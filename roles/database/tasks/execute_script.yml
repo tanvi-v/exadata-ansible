@@ -55,6 +55,9 @@
     dest: /home/oracle/
     owner: oracle
     mode: u=rwx,g=rwx,o=rx
+  register: unarchive_result
+- debug:
+    msg: "{{ unarchive_result }}"
 
 
 # - name: 'Execute SQL Script'
