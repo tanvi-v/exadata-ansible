@@ -1,0 +1,14 @@
+
+- name: 'Execute Script'
+  hosts: '{{ hostgroup }}'
+  
+  tasks:
+    
+    - include_vars:
+        file: './vars/{{ item }}'
+      loop: '{{ vars_list }}'
+    
+    - name: 'Execute Script'
+      include_role:
+        name: 'database'
+        tasks_from: 'execute_script.yml'
