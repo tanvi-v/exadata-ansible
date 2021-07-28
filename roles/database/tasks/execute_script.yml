@@ -46,6 +46,16 @@
 - debug:
     msg: "{{ script_execution_result }}"
 
+- name: unarchive sample_script2.zip from source to remote
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
+  unarchive:
+    src: sample_script2.zip
+    dest: /home/oracle/
+    owner: oracle
+    mode: u=rwx,g=rwx,o=rx
+
 
 # - name: 'Execute SQL Script'
 #   shell: echo exit |
