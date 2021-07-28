@@ -16,6 +16,9 @@
 - assert: { that: oracle_home is defined }
 
 - name: 'Copy Script to Host'
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
   copy:
     src: 'sample_script'
     dest: '/home/oracle/'
@@ -24,11 +27,17 @@
     msg: '{{ copy_script_result }}'
 
 - name: Change file ownership, group and permissions
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
   ansible.builtin.file:
     path: /home/oracle/sample_script
     mode: '0770'
 
 - name: 'Execute Script'
+  become: 'true'
+  become_user: 'oracle'
+  become_method: 'sudo'
   shell: |
     ./sample_script
   args:
