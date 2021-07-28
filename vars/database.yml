@@ -1,9 +1,9 @@
 # db_home
-db_home_name: 'home1'
+db_home_name: 'home2'
 db_version: '19.0.0.0'
 
 # database
-db_name: 'DB1'
+db_name: 'DB2'
 auto_backup_enabled: 'false'      # true or false
 auto_backup_window: 'SLOT_TWO'
 recovery_window_in_days: '30'
