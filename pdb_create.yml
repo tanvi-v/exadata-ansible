@@ -1,6 +1,7 @@
 
 - name: 'PDB Create'
   hosts: '{{ hostgroup }}'
+  gather_facts: 'no'
   
   tasks:
     
