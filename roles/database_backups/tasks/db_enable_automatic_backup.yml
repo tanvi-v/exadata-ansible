@@ -4,7 +4,7 @@
       - auto_backup_enabled is defined
     fail_msg: 'Check to make sure variable auto_backup_enabled is defined.'
 
-- name: 'Get OCID for {{ workload_tag }}{{ db_name }} DB'
+- name: 'Get OCID for {{ workload_tag }}{{ CDBname }} DB'
   when: database_id is not defined
   include_role:
     name: 'database'

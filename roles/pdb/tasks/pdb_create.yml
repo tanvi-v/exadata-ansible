@@ -17,7 +17,7 @@
 
 - name: 'Create PDB Using DBCA Silent Mode'
   shell:  |
-    dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }} -pdbAdminUserName pdbadmin -pdbAdminPassword {{ pdb_admin_password }} -createUserTableSpace true
+    dbca -silent -createPluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ PDBname }} -pdbAdminUserName pdbadmin -pdbAdminPassword {{ pdb_admin_password }} -createUserTableSpace true -pdbStorageMAXSizeInMB 100000
   become: 'true'
   become_user: 'oracle'
   become_method: 'sudo'
@@ -33,7 +33,7 @@
   copy:
     dest: '/tmp/SetTDEforPDB.sql'
     content: |
-      ALTER SESSION SET CONTAINER = {{ pdb_name }};
+      ALTER SESSION SET CONTAINER = {{ PDBname }};
       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
       QUIT;
   become: 'true'
@@ -73,7 +73,7 @@
 #   copy:
 #     dest: '{{ sqltemp_path }}'
 #     content: |
-#       ALTER SESSION SET CONTAINER = {{ pdb_name }};
+#       ALTER SESSION SET CONTAINER = {{ PDBname }};
 #       ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{ pdb_admin_password }}" WITH BACKUP;
 #       QUIT;
 #   become: 'true'
@@ -101,7 +101,7 @@
 
 # - name: 'create pdb'
 #   expect:
-#     command: 'dbaascli pdb create --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}'
+#     command: 'dbaascli pdb create --pdbname {{ PDBname }} --dbname {{ workload_tag }}{{ CDBname }}'
 #     responses:
 #       \bpassword\b: '{{ pdb_admin_password }}'
 #     echo: 'yes'

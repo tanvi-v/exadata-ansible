@@ -15,9 +15,9 @@ vm_cluster_defined_tags: null
 vm_cluster_freeform_tags: null
 is_local_backup_enabled: 'true'
 is_sparse_diskgroup_enabled: 'false'
-license_model: 'LICENSE_INCLUDED'
+license_model: 'BYOL'
 vm_cluster_memory_size_in_gbs: '30'
-vm_cluster_time_zone: 'PST'
+vm_cluster_time_zone: 'UTC'
 
 
 

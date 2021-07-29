@@ -2,7 +2,7 @@
 PDB METHOD (SANTOSH)
 
 - name: Create PDB Using DBCA Silent Mode
-    shell: " dbca -silent -createPluggableDatabase -sourceDB {{db_unique_name}} -pdbName {{new_pdb_name}} -createPDBFrom {{db_pdb_prefix}} -pdbAdminUserName pdbadmin -pdbAdminPassword {{db_pdb_admin_password}} -createUserTableSpace true"
+    shell: " dbca -silent -createPluggableDatabase -sourceDB {{db_unique_name}} -pdbName {{new_PDBname}} -createPDBFrom {{db_pdb_prefix}} -pdbAdminUserName pdbadmin -pdbAdminPassword {{db_pdb_admin_password}} -createUserTableSpace true"
     become: yes
     become_user: oracle
     become_method: sudo
@@ -22,7 +22,7 @@ PDB METHOD (SANTOSH)
     become_user: oracle
     become_method: sudo
 
-ALTER SESSION SET CONTAINER = {{new_pdb_name}};
+ALTER SESSION SET CONTAINER = {{new_PDBname}};
 ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{db_pdb_admin_password}}" WITH BACKUP;
 QUIT;
 
@@ -31,7 +31,7 @@ Creating this file every time run the pdb command! Want to make sure it always h
     copy:
       dest: "{{ ansible_workdir }}/SetTDEforPDB.sql"
       content: |
-        ALTER SESSION SET CONTAINER = {{new_pdb_name}};
+        ALTER SESSION SET CONTAINER = {{new_PDBname}};
         ADMINISTER KEY MANAGEMENT SET KEY FORCE KEYSTORE IDENTIFIED BY "{{db_pdb_admin_password}}" WITH BACKUP;
         QUIT;
     become: yes

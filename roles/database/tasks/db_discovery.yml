@@ -1,7 +1,7 @@
 
 # Discover DB Home for Database
 
-- name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
+- name: 'Discover DB Home for Database {{ workload_tag }}{{ CDBname }}'
   when: db_home_id is not defined
   include_role:
     name: 'database_home'
@@ -11,11 +11,11 @@
 
 # Discover Database 
 
-- name: 'Discover Database {{ workload_tag }}{{ db_name }}'
+- name: 'Discover Database {{ workload_tag }}{{ CDBname }}'
   oci_database_database_facts:
     compartment_id: '{{ compartment_id }}'
     db_home_id: '{{ db_home_id }}'
-    db_name: '{{ workload_tag }}{{ db_name }}'
+    CDBname: '{{ workload_tag }}{{ CDBname }}'
   register: 'db_discovery_result'
 - name: 'Database Discovery Output'
   debug:

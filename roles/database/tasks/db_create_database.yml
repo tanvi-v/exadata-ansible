@@ -4,7 +4,7 @@
 
 # Source is NONE (default)
 
-- name: 'Create {{ workload_tag }}{{ db_name }} database'
+- name: 'Create {{ workload_tag }}{{ CDBname }} database'
   oci_database_database:
     compartment_id: '{{ compartment_id }}'
     database:
@@ -12,15 +12,15 @@
       character_set: '{{ character_set }}'
       database_software_image_id: '{{ database_software_image_id }}'
       db_backup_config: '{{ db_backup_config }}'
-      db_name: '{{ workload_tag }}{{ db_name }}'
+      CDBname: '{{ workload_tag }}{{ CDBname }}'
       db_workload: '{{ db_workload }}'
       defined_tags: '{{ db_defined_tags }}'
       freeform_tags: '{{ db_freeform_tags }}'
       ncharacter_set: '{{ ncharacter_set }}'
-      pdb_name: '{{ initial_pdb_name }}'
+      PDBname: '{{ PDBname }}'
     db_home_id: '{{ db_home_id }}'
     db_version: '{{ db_version }}' 
-    key_by: ['db_home_id', 'db_name']
+    key_by: ['db_home_id', 'CDBname']
     kms_key_id: '{{ kms_key_id }}' 
     kms_key_version_id: '{{ kms_key_version_id }}' 
     source: '{{ db_source }}'

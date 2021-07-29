@@ -7,7 +7,7 @@
     transport_type: 'ASYNC'
     creation_type: 'NewDbSystem'
     availability_domain: '{{ standby_availability_domain }}'
-    display_name: '{{ workload_tag }}{{ db_name }}'
+    display_name: '{{ workload_tag }}{{ CDBname }}'
     hostname: '{{ standby_hostname }}'
     subnet_id: '{{ standby_subnet_id }}'
     shape: '{{ shape }}'

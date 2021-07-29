@@ -1,5 +1,5 @@
 
-- name: 'Discover DB Home for Database {{ workload_tag }}{{ db_name }}'
+- name: 'Discover DB Home for Database {{ workload_tag }}{{ CDBname }}'
   when: db_home_id is not defined
   include_role:
     name: 'database_home'

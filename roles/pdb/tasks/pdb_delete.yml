@@ -16,7 +16,7 @@
 
 - name: 'Delete PDB Using DBCA Silent Mode'
   shell:  |
-    dbca -silent -deletePluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ pdb_name }}
+    dbca -silent -deletePluggableDatabase -sourceDB {{ db_unique_name }} -pdbName {{ PDBname }}
   become: 'true'
   become_user: 'oracle'
   become_method: 'sudo'
@@ -33,7 +33,7 @@
 
 # - name: 'delete pdb'
 #   shell:  |
-#     dbaascli pdb delete --pdbname {{ pdb_name }} --dbname {{ workload_tag }}{{ db_name }}
+#     dbaascli pdb delete --pdbname {{ PDBname }} --dbname {{ workload_tag }}{{ CDBname }}
 #   become: 'true'
 #   become_user: 'oracle'
 #   register: pdb_delete_result

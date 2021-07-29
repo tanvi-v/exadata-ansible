@@ -9,7 +9,7 @@ db_workload: 'OLTP'
 db_defined_tags: null
 db_freeform_tags: null
 ncharacter_set: null
-initial_pdb_name: null
+PDBname: null
 db_version: null
 kms_key_id: null
 kms_key_version_id: null
