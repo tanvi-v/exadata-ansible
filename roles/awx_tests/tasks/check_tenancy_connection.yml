@@ -1,4 +1,9 @@
-- name: 'Check Tenancy Connection'
-  include_role:
-    name: 'networking'
-    tasks_from: 'network_service_discovery.yml'
+- name: 'Get a specific compartment'
+  oci_identity_compartment_facts:
+    tenancy_id: '{{ tenancy_id }}'
+    auth_type: 'instance_principal'
+    region: '{{ region }}'
+    tenancy: '{{ tenancy_id }}'
+  register: compartment_id_result
+- debug:
+    msg: '{{ compartment_id_result }}'

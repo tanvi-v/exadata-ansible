@@ -1,9 +1,9 @@
 - name: 'Get a specific compartment'
   oci_identity_compartment_facts:
     compartment_id: '{{ compartment_id }}'
-    # auth_type: 'instance_principal'
-    # region: '{{ region }}'
-    # tenancy: '{{ tenancy_id }}'
+    auth_type: 'instance_principal'
+    region: '{{ region }}'
+    tenancy: '{{ tenancy_id }}'
   register: compartment_id_result
 - debug:
     msg: '{{ compartment_id_result }}'
